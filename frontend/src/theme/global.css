@@ -1,0 +1,3 @@
+:root { --color-bg: #FFF8F0; --color-text: #3D3D3D; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: system-ui, -apple-system, "Microsoft YaHei", sans-serif; color: var(--color-text); background: var(--color-bg); }
