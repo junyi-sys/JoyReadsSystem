@@ -1,0 +1,307 @@
+"""LangGraph state machine for curiosity series mode."""
+import logging
+from typing import TypedDict, Literal
+from datetime import date
+
+from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.memory import MemorySaver
+
+logger = logging.getLogger(__name__)
+
+
+class CuriosityState(TypedDict, total=False):
+    event_id: int | None
+    student_id: int
+    raw_text: str
+    tags: list[str]
+    mode: str
+    base_cognition: int
+    effective_cognition: int
+    series_id: int | None
+    chapter_titles: list[dict]
+    current_chapter: int
+    article_id: int | None
+    article_content: str
+    paragraphs: list
+    error: str
+    done: bool
+
+
+def _make_db():
+    from ...database import SessionLocal
+    return SessionLocal()
+
+
+def node_load_event(state: CuriosityState, _db_factory) -> CuriosityState:
+    from ...models import CuriosityEvent, Student
+    db = _db_factory()
+    try:
+        e = db.query(CuriosityEvent).filter(
+            CuriosityEvent.id == state.get("event_id"),
+        ).first()
+        if not e:
+            return {"error": "事件不存在", "done": True}
+
+        student = db.query(Student).filter(Student.id == state.get("student_id", 1)).first()
+        base_cog = student.cognition_level if student else 1
+        raw = e.raw_text or ""
+        tags = e.tags_json or []
+
+        from ...config import settings as cfg
+        effective_cog = base_cog
+        if any(kw in raw for kw in cfg.ADVANCED_KEYWORDS):
+            effective_cog = min(base_cog + 1, cfg.COGNITION_MAX_LEVEL)
+
+        return {
+            "event_id": e.id,
+            "raw_text": raw,
+            "tags": tags,
+            "base_cognition": base_cog,
+            "effective_cognition": effective_cog,
+            "student_id": state.get("student_id", 1),
+            "current_chapter": state.get("current_chapter", 0),
+            "chapter_titles": state.get("chapter_titles", []),
+            "series_id": state.get("series_id"),
+        }
+    finally:
+        db.close()
+
+
+def node_generate_one_shot(state: CuriosityState, _db_factory) -> CuriosityState:
+    from ...models import DailyArticle, DailyCharacter, CuriosityEvent
+    from ...domains.articles.generator import extract_characters_from_text
+
+    db = _db_factory()
+    try:
+        topic = state["raw_text"]
+        student_id = state["student_id"]
+        chars = extract_characters_from_text(topic)
+
+        from ...ai.factory import create_llm_provider
+        from ...config import settings as cfg
+        llm = create_llm_provider(cfg)
+
+        cog_guide = cfg.COGNITION_PROMPTS.get(
+            min(state["effective_cognition"], cfg.COGNITION_MAX_LEVEL),
+            cfg.COGNITION_PROMPTS[1],
+        )
+        import asyncio
+        result = asyncio.run(llm.generate(
+            f"写一篇回答文章。\n问题：{topic}\n要求：{cog_guide}\n250-350字，有趣易懂。只输出正文。",
+            system="你是儿童科普老师。回答简洁有趣。",
+            temperature=0.7, max_tokens=1500,
+        ))
+
+        content = result.content
+        today = date.today()
+        a = DailyArticle(student_id=student_id, record_date=today, topic=topic,
+                         content=content, character_count=len(content),
+                         source="ai", category="answer")
+        db.add(a)
+        db.commit()
+        db.refresh(a)
+
+        event = db.query(CuriosityEvent).filter(CuriosityEvent.id == state["event_id"]).first()
+        if event:
+            event.is_answered = True
+            event.linked_article_id = a.id
+            db.commit()
+
+        today_chars = set(r[0] for r in db.query(DailyCharacter.character)
+            .filter(DailyCharacter.record_date == today, DailyCharacter.student_id == student_id).all())
+        for ch in chars:
+            if ch not in today_chars:
+                db.add(DailyCharacter(student_id=student_id, record_date=today, character=ch, category="chinese"))
+        db.commit()
+
+        from ...shared.pinyin import annotate_text
+        return {"article_id": a.id, "article_content": content,
+                "paragraphs": annotate_text(content).get("paragraphs", []), "done": True}
+    except Exception as e:
+        logger.error(f"node_generate_one_shot: {e}")
+        return {"error": str(e), "done": True}
+    finally:
+        db.close()
+
+
+def node_decompose_topic(state: CuriosityState, _db_factory) -> CuriosityState:
+    topic = state["raw_text"]
+    try:
+        import httpx
+        from openai import OpenAI
+        from ...config import settings as cfg
+        import json, asyncio
+
+        client = OpenAI(api_key=cfg.DEEPSEEK_API_KEY, base_url=cfg.DEEPSEEK_BASE_URL,
+                        http_client=httpx.Client(timeout=30.0))
+        resp = asyncio.run(asyncio.to_thread(
+            lambda: client.chat.completions.create(
+                model=cfg.DEEPSEEK_MODEL,
+                messages=[{"role": "user", "content": f"把「{topic}」拆解成3-5个小章节，适合7岁孩子分次阅读。每章250-300字。用JSON返回：[{{\"ch\":1,\"title\":\"标题\",\"summary\":\"一句话概括\"}}]"}],
+                temperature=0.7, max_tokens=500,
+            )
+        ))
+        raw = resp.choices[0].message.content.strip()
+        raw = raw.replace("```json", "").replace("```", "").strip()
+        chapters = json.loads(raw)
+
+        if not isinstance(chapters, list) or len(chapters) == 0:
+            raise ValueError("Empty chapter list")
+
+        for ch in chapters:
+            if not isinstance(ch, dict) or "title" not in ch:
+                raise ValueError(f"Invalid chapter format: {ch}")
+
+        return {"chapter_titles": chapters, "current_chapter": 0}
+    except Exception as e:
+        logger.error(f"node_decompose_topic: {e}, raw response: {raw if 'raw' in dir() else 'N/A'}")
+        return {
+            "chapter_titles": [
+                {"ch": 1, "title": f"什么是{topic[:10]}？", "summary": "基本概念"},
+                {"ch": 2, "title": f"{topic[:10]}是怎么形成的？", "summary": "深入原理"},
+                {"ch": 3, "title": f"我们能看见{topic[:10]}吗？", "summary": "观察方法"},
+            ],
+            "current_chapter": 0,
+        }
+
+
+def node_generate_chapter(state: CuriosityState, _db_factory) -> CuriosityState:
+    from ...models import ArticleSeries, DailyArticle, CuriosityEvent
+    from ...config import settings as cfg
+
+    db = _db_factory()
+    try:
+        series_id = state.get("series_id")
+        chapter_idx = state.get("current_chapter", 0)
+        chapters = state.get("chapter_titles", [])
+
+        if chapter_idx >= len(chapters):
+            return {"done": True}
+
+        ch = chapters[chapter_idx]
+        ch_title = ch.get("title", "")
+        ch_summary = ch.get("summary", "")
+
+        import httpx
+        from openai import OpenAI
+        import asyncio
+
+        client = OpenAI(api_key=cfg.DEEPSEEK_API_KEY, base_url=cfg.DEEPSEEK_BASE_URL,
+                        http_client=httpx.Client(timeout=60.0))
+
+        cog_guide = cfg.COGNITION_PROMPTS.get(
+            min(state.get("effective_cognition", 1), cfg.COGNITION_MAX_LEVEL),
+            cfg.COGNITION_PROMPTS[1],
+        )
+
+        prompt = f"""写一章科普文章。
+主题系列：{state.get('raw_text', '')}
+本章标题：{ch_title}
+本章概要：{ch_summary}
+
+要求：1. 250-300字 2. {cog_guide} 3. 语言生动 4. 结尾留悬念 5. 只输出本章内容"""
+
+        resp = asyncio.run(asyncio.to_thread(
+            lambda: client.chat.completions.create(
+                model=cfg.DEEPSEEK_MODEL,
+                messages=[{"role": "system", "content": "你是儿童科普作家。每章250-300字。结尾有悬念。"},
+                          {"role": "user", "content": prompt}],
+                temperature=0.7, max_tokens=800,
+            )
+        ))
+        content = resp.choices[0].message.content.strip()
+
+        today = date.today()
+        article = DailyArticle(
+            student_id=state.get("student_id", 1), record_date=today,
+            topic=ch_title, content=content, character_count=len(content),
+            source="ai", category="answer",
+            series_id=series_id, chapter_number=chapter_idx + 1,
+        )
+        db.add(article)
+        db.commit()
+        db.refresh(article)
+
+        if chapter_idx == 0 and state.get("event_id"):
+            event = db.query(CuriosityEvent).filter(CuriosityEvent.id == state["event_id"]).first()
+            if event:
+                event.is_answered = True
+                event.linked_article_id = article.id
+
+        series = db.query(ArticleSeries).filter(ArticleSeries.id == series_id).first()
+        if series:
+            series.current_chapter = chapter_idx + 1
+        db.commit()
+
+        from ...shared.pinyin import annotate_text
+        return {
+            "article_id": article.id,
+            "article_content": content,
+            "paragraphs": annotate_text(content).get("paragraphs", []),
+            "current_chapter": chapter_idx + 1,
+            "done": True,
+        }
+    except Exception as e:
+        logger.error(f"node_generate_chapter: {e}")
+        return {"error": str(e), "done": True}
+    finally:
+        db.close()
+
+
+def node_complete_series(state: CuriosityState, _db_factory) -> CuriosityState:
+    from ...models import ArticleSeries as AS
+    db = _db_factory()
+    try:
+        series_id = state.get("series_id")
+        series = db.query(AS).filter(AS.id == series_id).first()
+        if series:
+            series.status = "completed"
+            db.commit()
+        return {"done": True}
+    finally:
+        db.close()
+
+
+def route_by_mode(state: CuriosityState) -> Literal["node_generate_one_shot", "node_decompose_topic", "node_generate_chapter"]:
+    mode = state.get("mode", "one_shot")
+    if mode == "series":
+        titles = state.get("chapter_titles", [])
+        if titles and len(titles) > 0:
+            return "node_generate_chapter"
+        return "node_decompose_topic"
+    return "node_generate_one_shot"
+
+
+def route_after_chapter(state: CuriosityState) -> Literal["node_complete_series", "__end__"]:
+    chapters = state.get("chapter_titles", [])
+    current = state.get("current_chapter", 0)
+    if current >= len(chapters):
+        return "node_complete_series"
+    return "__end__"
+
+
+_curiosity_graph = None
+
+
+def get_curiosity_graph():
+    global _curiosity_graph
+    if _curiosity_graph is not None:
+        return _curiosity_graph
+
+    builder = StateGraph(CuriosityState)
+    builder.add_node("node_load_event", lambda s: node_load_event(s, _make_db))
+    builder.add_node("node_generate_one_shot", lambda s: node_generate_one_shot(s, _make_db))
+    builder.add_node("node_decompose_topic", lambda s: node_decompose_topic(s, _make_db))
+    builder.add_node("node_generate_chapter", lambda s: node_generate_chapter(s, _make_db))
+    builder.add_node("node_complete_series", lambda s: node_complete_series(s, _make_db))
+
+    builder.add_edge(START, "node_load_event")
+    builder.add_conditional_edges("node_load_event", route_by_mode)
+    builder.add_edge("node_generate_one_shot", END)
+    builder.add_edge("node_decompose_topic", "node_generate_chapter")
+    builder.add_conditional_edges("node_generate_chapter", route_after_chapter)
+    builder.add_edge("node_complete_series", END)
+
+    checkpointer = MemorySaver()
+    _curiosity_graph = builder.compile(checkpointer=checkpointer)
+    return _curiosity_graph

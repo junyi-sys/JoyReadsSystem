@@ -28,3 +28,5 @@ from .domains.articles.router import router as articles_router
 app.include_router(articles_router)
 from .domains.characters.router import router as characters_router
 app.include_router(characters_router)
+from .domains.curiosity.router import router as curiosity_router
+app.include_router(curiosity_router)
