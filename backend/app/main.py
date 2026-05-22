@@ -26,3 +26,5 @@ def health():
 # Register domain routers
 from .domains.articles.router import router as articles_router
 app.include_router(articles_router)
+from .domains.characters.router import router as characters_router
+app.include_router(characters_router)
