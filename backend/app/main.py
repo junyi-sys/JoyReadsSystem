@@ -30,3 +30,7 @@ from .domains.characters.router import router as characters_router
 app.include_router(characters_router)
 from .domains.curiosity.router import router as curiosity_router
 app.include_router(curiosity_router)
+from .domains.tts.router import router as tts_router
+app.include_router(tts_router)
+from .domains.characters.stats_router import router as stats_router
+app.include_router(stats_router)
