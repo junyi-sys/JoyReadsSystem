@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from ...models import DailyArticle
 from ...ai.base import LLMProvider
 from ...shared.pinyin import annotate_text
+from ..characters.service import CharacterService
 from .repository import ArticleRepository
 from .generator import generate_article_with_pinyin
 
@@ -38,8 +39,14 @@ class ArticleService:
     async def generate(self, student_id: int, topic: str, characters: list[str],
                        min_chars: int = 100, max_chars: int = 350,
                        category: str = "daily") -> dict:
+        # Build zone context for article generation
+        char_svc = CharacterService(self.db)
+        zone_ctx = char_svc.get_zone_context(student_id)
+        zone_context = self._format_zone_context(zone_ctx)
+
         result = await generate_article_with_pinyin(
             self.llm, topic, characters, min_chars, max_chars, category,
+            zone_context=zone_context,
         )
         content = result["content"]
         today = date.today()
@@ -110,6 +117,27 @@ class ArticleService:
             "character_count": chapter.character_count,
             "paragraphs": annotated["paragraphs"],
         }
+
+    def _format_zone_context(self, ctx: dict) -> str:
+        """Format zone context for the AI prompt."""
+        parts = []
+        if ctx["ally_chars"]:
+            parts.append(f"已掌握的字（可放心使用，接近80%比例）：{'、'.join(ctx['ally_chars'])}")
+            parts.append("请用这些字作为文章的主体词汇")
+        if ctx["target_chars"]:
+            parts.append(f"正在学的字（请多次重复，每个至少出现2次）：{'、'.join(ctx['target_chars'])}")
+        if ctx["lost_chars"]:
+            parts.append(f"遇到困难的字（请反复出现帮助复习）：{'、'.join(ctx['lost_chars'])}")
+            parts.append("请在文章中多次重复这些字，每次用在稍有不同的上下文中")
+        return "\n".join(parts)
+
+    def on_article_read(self, article_id: int, student_id: int):
+        """Trigger character auto-promotion engine when article is marked read."""
+        article = self.repo.get_by_id(article_id, student_id)
+        if not article:
+            return
+        char_svc = CharacterService(self.db)
+        return char_svc.on_article_read(article.content, student_id, article_id)
 
     def _to_response(self, article: DailyArticle) -> dict:
         annotated = annotate_text(article.content)

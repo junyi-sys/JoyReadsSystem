@@ -1,16 +1,32 @@
+import { useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { fadeInUp, staggerContainer } from '../../theme/animations'
 import type { ArticleWithPinyin } from '../../types'
 import PinyinWord from './PinyinWord'
 import { Card, Tag, Typography } from 'antd'
 import { BookOutlined } from '@ant-design/icons'
+import { prewarmChars } from './audioCache'
 
 interface Props {
   article: ArticleWithPinyin
   onParagraphRead?: (index: number) => void
 }
 
+function uniqueChars(article: ArticleWithPinyin): string[] {
+  const seen = new Set<string>()
+  for (const para of article.paragraphs) {
+    for (const tok of para.tokens) {
+      if (/^[一-鿿]$/.test(tok.char)) seen.add(tok.char)
+    }
+  }
+  return Array.from(seen)
+}
+
 export default function ArticleReader({ article }: Props) {
+  useEffect(() => {
+    prewarmChars(uniqueChars(article))
+  }, [article])
+
   return (
     <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
       {article.image_url && (
@@ -42,7 +58,7 @@ export default function ArticleReader({ article }: Props) {
           }}
         >
           {para.tokens.map((token, j) => (
-            <PinyinWord key={j} char={token.char} pinyin={token.pinyin} />
+            <PinyinWord key={j} char={token.char} pinyin={token.pinyin} articleId={article.id} />
           ))}
         </motion.div>
       ))}

@@ -38,7 +38,7 @@ export default function ZoneBoard({ zone, title, icon, characters, count }: Prop
         ) : (
           characters.map((c) => (
             <motion.div key={c.id || c.character} variants={fadeInUp}>
-              <CharacterCard character={c.character} pinyin={c.pinyin} zone={zone} />
+              <CharacterCard character={c.character} pinyin={c.pinyin} zone={zone} tapCount={c.tap_count} />
             </motion.div>
           ))
         )}

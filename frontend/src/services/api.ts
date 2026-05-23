@@ -54,6 +54,8 @@ export const charactersApi = {
   add: (character: string, zone: string) => api.post('/characters/add', { character, zone }),
   move: (character: string, fromZone: string, toZone: string) =>
     api.post('/characters/move', { character, from_zone: fromZone, to_zone: toZone }),
+  reportInteraction: (character: string, articleId?: number) =>
+    api.post('/characters/interaction', { character, article_id: articleId || null }),
 }
 
 // ===== TTS =====

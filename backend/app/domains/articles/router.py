@@ -105,6 +105,7 @@ def update_read_status(article_id: int, body: ReadStatusRequest, student_id: int
     if not record:
         record = ArticleReadStatus(article_id=article_id, student_id=student_id)
         db.add(record)
+    is_newly_read = (record.status != "read" and body.status == "read")
     record.status = body.status
     record.read_paragraph_count = body.read_count
     if body.total_count:
@@ -115,6 +116,12 @@ def update_read_status(article_id: int, body: ReadStatusRequest, student_id: int
         record.finished_at = datetime.now()
     db.commit()
     db.refresh(record)
+
+    # Trigger auto-promotion engine on first read
+    if is_newly_read:
+        svc = ArticleService(db, Container.llm())
+        svc.on_article_read(article_id, student_id)
+
     return {"id": record.id, "status": record.status}
 
 

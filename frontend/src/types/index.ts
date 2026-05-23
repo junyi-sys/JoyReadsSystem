@@ -82,9 +82,9 @@ export interface CharacterItem {
   id: number
   character: string
   pinyin?: string
-  added_date?: string
-  mastered_date?: string
-  lost_date?: string
+  tap_count?: number
+  appeared_in_articles?: number
+  source?: string
 }
 
 export interface StatsOverview {

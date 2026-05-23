@@ -73,7 +73,7 @@ export default function CharacterZonesPage() {
           boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
         }}>
           <span style={{ fontSize: 18, fontFamily: '"ZCOOL KuaiLe",cursive' }}>
-            总计: <strong style={{ color: '#FF6B6B' }}>{stats.total}</strong> 字
+            总计: <strong style={{ color: '#6DBF6E' }}>{stats.total}</strong> 字
           </span>
           {ZONES.map((z) => (
             <span key={z.key} style={{ fontSize: 14 }}>
