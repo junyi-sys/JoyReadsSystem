@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">俊宜识字</string>
+    <string name="title_activity_main">俊宜识字</string>
+    <string name="package_name">com.junuyiwo.v2</string>
+    <string name="custom_url_scheme">com.junuyiwo.v2</string>
+</resources>
