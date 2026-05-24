@@ -1,27 +1,21 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { popIn } from '../../theme/animations'
-import { getCached } from './audioCache'
-import { charactersApi } from '../../services/api'
-
-const voiceReady = new Promise<SpeechSynthesisVoice[]>((resolve) => {
-  const voices = speechSynthesis.getVoices()
-  if (voices.length > 0) { resolve(voices); return }
-  speechSynthesis.onvoiceschanged = () => resolve(speechSynthesis.getVoices())
-})
-
-function pickVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | null {
-  const zh = voices.filter(v => v.lang === 'zh-CN')
-  return zh.find(v => v.name.includes('Yaoyao'))
-    || zh.find(v => v.name.includes('Huihui'))
-    || zh[0]
-    || null
-}
+import { getCached, setCached } from './audioCache'
+import { ttsApi, charactersApi } from '../../services/api'
 
 interface Props {
   char: string
   pinyin: string
   articleId?: number
+}
+
+function speakChar(char: string) {
+  const utter = new SpeechSynthesisUtterance(char)
+  utter.lang = 'zh-CN'
+  utter.rate = 0.85
+  utter.volume = 1
+  speechSynthesis.speak(utter)
 }
 
 export default function PinyinWord({ char, pinyin, articleId }: Props) {
@@ -31,10 +25,9 @@ export default function PinyinWord({ char, pinyin, articleId }: Props) {
     speechSynthesis.cancel()
     setIsSpeaking(false)
 
-    // Report tap asynchronously (fire-and-forget)
     charactersApi.reportInteraction(char, articleId).catch(() => {})
 
-    // Prefer cached Edge-TTS audio
+    // 1. Prewarmed Edge-TTS cache hit
     const cachedUrl = getCached(char)
     if (cachedUrl) {
       const audio = new Audio(cachedUrl)
@@ -45,20 +38,22 @@ export default function PinyinWord({ char, pinyin, articleId }: Props) {
       return
     }
 
-    // Fallback: browser speech synthesis
-    const voices = await voiceReady
-    const voice = pickVoice(voices)
-    if (!voice) return
-    const u = new SpeechSynthesisUtterance(char)
-    u.voice = voice
-    u.rate = 0.7
-    u.pitch = 0.95
-    u.volume = 1
-    u.onstart = () => setIsSpeaking(true)
-    u.onend = () => setIsSpeaking(false)
-    u.onerror = () => setIsSpeaking(false)
-    setIsSpeaking(true)
-    speechSynthesis.speak(u)
+    // 2. Fetch Edge-TTS on demand
+    try {
+      const { data } = await ttsApi.synthesize(char, 0.7)
+      const url = URL.createObjectURL(data as Blob)
+      setCached(char, url)
+      const audio = new Audio(url)
+      audio.onended = () => setIsSpeaking(false)
+      audio.onerror = () => setIsSpeaking(false)
+      setIsSpeaking(true)
+      audio.play().catch(() => setIsSpeaking(false))
+    } catch {
+      // 3. Final fallback: browser speech synthesis
+      setIsSpeaking(true)
+      speakChar(char)
+      setTimeout(() => setIsSpeaking(false), 1000)
+    }
   }
 
   return (

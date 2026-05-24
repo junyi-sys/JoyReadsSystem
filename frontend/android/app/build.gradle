@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace = "com.junuyiwo.v2"
+    namespace = "com.junyi.reading"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.junuyiwo.v2"
+        applicationId "com.junyi.reading"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

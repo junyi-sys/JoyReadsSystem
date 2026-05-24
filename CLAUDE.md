@@ -4,32 +4,64 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目简介
 
-俊宜识字 v2 — AI 驱动的儿童中文识字应用。生成适配认知水平的短文，拼音标注、语音朗读、生字分区管理和好奇心问答引擎。
+俊宜阅读 — AI 驱动的儿童中文阅读应用。生成适配认知水平的短文，拼音标注、语音朗读、生字分区管理和好奇心问答引擎。
 
 ## 常用命令
+
+### 一键启动
+
+```bash
+bash scripts/start-dev.sh           # 开发环境（前端 :3002, 后端 :8002, DB=junyi_reading_dev）
+bash scripts/start-prod.sh          # 正式环境（前端 :3001, 后端 :8001, DB=junyi_reading）
+```
+
+### 手动启动
 
 ```bash
 # 后端（Python 3.12）
 cd backend
-source .venv/Scripts/activate     # 激活虚拟环境
-pip install -r requirements.txt   # 安装依赖（首次）
-uvicorn app.main:app --host 0.0.0.0 --port 8002 --reload   # 启动后端
+source .venv/Scripts/activate
+pip install -r requirements.txt     # 安装依赖（首次）
+APP_ENV=development python run.py   # 开发环境 :8002
+APP_ENV=production python run.py    # 正式环境 :8001
 
 # 前端
 cd frontend
-npm install                       # 安装依赖（首次）
-npm run dev                       # Vite 开发服务器 :3001
-npm run build                     # 生产构建 (tsc && vite build)
+npm install                         # 安装依赖（首次）
+npm run dev                         # 开发环境 :3002 (proxy → :8002)
+npm run dev:prod                    # 正式环境 :3001 (proxy → :8001)
+npm run build                       # 生产构建 (tsc && vite build, 用于 APK)
+npm run preview                     # 预览构建产物
 ```
 
-Vite 代理配置：`/api` 和 `/audio` 转发到 `http://127.0.0.1:8002`。开发时前后端同时运行即可。
+### Android (Capacitor)
 
-**首次设置**：创建 MySQL 数据库 → 复制 `backend/.env.example` 为 `backend/.env` 并填写密钥 → 创建并激活虚拟环境 → `pip install -r requirements.txt` → `npm install`。
+```bash
+cd frontend
+npx cap sync android               # 同步前端代码到 Android 项目
+npx cap open android               # 在 Android Studio 中打开
+# 正式 APK: npm run build && npx cap sync android (用 .env.production)
+```
+
+### 环境隔离说明
+
+| | 开发 (feature-dev) | 正式 (master) |
+|---|---|---|
+| 前端端口 | 3002 | 3001 |
+| 后端端口 | 8002 | 8001 |
+| 数据库 | junyi_reading_dev | junyi_reading |
+| 启动命令 | `bash scripts/start-dev.sh` | `bash scripts/start-prod.sh` |
+| APP_ENV 值 | development | production |
+
+环境由 `APP_ENV` 环境变量控制。后端 `config.py` 先加载 `.env.{APP_ENV}` 再加载 `.env`（后者覆盖前者，存放密钥）。前端 Vite 按 mode 自动加载 `.env.development` 或 `.env.production`。
+
+**首次设置**：创建 MySQL 数据库 `junyi_reading_dev`（开发）和 `junyi_reading`（正式）→ 复制 `backend/.env.example` 为 `backend/.env` 并填写密钥 → 创建并激活虚拟环境 → `pip install -r requirements.txt` → `npm install`。
 
 ## 技术栈
 
 - **后端**: FastAPI + SQLAlchemy ORM + MySQL (PyMySQL)
 - **前端**: React 18 + TypeScript + Vite + Ant Design 5 + Zustand + Framer Motion
+- **移动端**: Capacitor 8 (Android 打包)
 - **AI**: DeepSeek (LLM), Edge-TTS (语音), CogView/GLM (图片)
 - **编排**: LangGraph StateGraph（好奇心系列模式的多步任务）
 
@@ -38,19 +70,23 @@ Vite 代理配置：`/api` 和 `/audio` 转发到 `http://127.0.0.1:8002`。开�
 ```
 backend/app/
 ├── main.py          FastAPI 入口, CORS, router 注册, startup 建表+默认学生
-├── config.py        pydantic-settings, 所有环境变量集中定义
-├── database.py      SQLAlchemy engine/session/get_db/init_db
+├── config.py        pydantic-settings, 环境变量 + 认知系统配置 (COGNITION_PROMPTS, ADVANCED_KEYWORDS)
+├── database.py      SQLAlchemy engine/session/get_db/init_db (pool_size=10)
 ├── di.py            线程安全懒加载单例容器 (LLM/TTS/Image provider)
-├── models/          ORM 模型 (Base → 各表模型, TimestampMixin)
+├── models/          ORM 模型 (Base → Student, DailyArticle, ArticleSeries,
+│                       Character, CharacterInteraction, CharacterZoneLog,
+│                       CuriosityEvent, ArticleReadStatus)
 ├── domains/         领域模块 (router → service → repository 模式)
 │   ├── articles/    文章生成/历史/系列/已读状态
-│   ├── characters/  生字四区 + 统计 + 交互追踪 + 自动晋升引擎
-│   ├── curiosity/   好奇心问答 (含 LangGraph 状态图)
-│   ├── students/    学生列表（只读）
-│   └── tts/         语音合成
+│   │   └── generator.py  提取汉字 + 构建 LLM prompt（注入字库上下文）
+│   ├── characters/  生字四区 + 统计(stats_router.py) + 交互追踪 + 自动晋升引擎
+│   ├── curiosity/   好奇心问答 (含 LangGraph 状态图 graph.py)
+│   ├── students/    学生列表（只读，仅 router）
+│   └── tts/         语音合成 (仅 router + service，无 repository)
 ├── ai/              AI 抽象接口 (LLMProvider/TTSProvider/ImageProvider) 及实现
 ├── schemas/         跨域共享 Pydantic 模型 (PaginatedRequest, MessageResponse)
-└── shared/          拼音标注、异常类、中间件、ensure_student
+└── shared/          拼音标注、异常类、middleware(get_current_student_id)、
+                     ensure_student（自动创建缺失学生）
 ```
 
 ### 关键模式
@@ -69,7 +105,7 @@ backend/app/
 
 ### 其他模式
 
-- **认知分级**: `config.py` 中 `COGNITION_MAX_LEVEL`(1-3) 控制文章难度，`ADVANCED_KEYWORDS` 包含高级关键词（因为/所以/原子/基因等），触发时临时提升认知等级。
+- **认知分级**: `config.py` 中 `COGNITION_MAX_LEVEL`(1-3) 控制文章难度，每个等级有对应的 `COGNITION_PROMPTS` 指导 LLM 生成。`ADVANCED_KEYWORDS` 包含高级关键词（因为/所以/原理/原子/基因/宇宙等），当文章主题或生字触发这些词时临时提升认知等级，确保高级话题给出更深度的解释。
 - **AI Provider 抽象**: `ai/base.py` 定义接口，`factory.py` 根据 `LLM_PROVIDER` / `IMAGE_PROVIDER` / `TTS_PROVIDER` 配置创建实例。`di.py` 提供线程安全的双检锁单例。
 - **异常处理**: `shared/exceptions.py` 定义 `AppError`（基类）、`NotFoundError`(404)、`AIError`(502)，`main.py` 注册全局异常处理器统一返回 JSON。
 - **LangGraph 好奇心引擎**: `curiosity/graph.py` — one_shot 模式直接生成回答；series 模式先分解话题为章节 (`node_decompose_topic`)，再逐章生成 (`node_generate_chapter`)，用 MemorySaver 做内存检查点。注意：LangGraph 节点中调用 `asyncio.run()` 包装异步 LLM 调用，不能在已运行的事件循环中执行 graph。
@@ -102,35 +138,172 @@ frontend/src/
 - **点读发音**: 混合方案。文章加载时后台预加载 Edge-TTS 音频（3字一批，存入 `audioCache` Map）。点击时优先播缓存的高音质 Edge-TTS，未缓存则用浏览器 SpeechSynthesis（Yaoyao 童声优先，0.7 倍速）即时兜底。
 - **学生上下文**: `useStudentStore` 管理当前学生和全部学生列表，切换时更新 localStorage。API 拦截器读取 localStorage 设置 `X-Student-ID` 头。
 - **API 封装**: 每个领域一个对象 (articlesApi, curiosityApi, charactersApi 等)，调用 `api.get/post`。超时 120s（AI 生成耗时较长）。
+- **Capacitor Android**: `capacitor.config.ts` 配置 `appId: com.junyi.reading`，`androidScheme: http`（开发时允许明文 HTTP 访问 dev server）。`npx cap sync android` 同步前端 build 产物到 `android/`。
 
 ## 数据库
 
-- **数据库**: MySQL `junyi_word_v2` (生产) / `junyi_word_dev` (开发)
-- **建表**: 启动时 `init_db()` 调用 `Base.metadata.create_all()`
-- **迁移脚本**: `sql/migration_character_unify.sql` — 四区表合并到单表的迁移
+- **数据库**: MySQL，开发用 `junyi_reading_dev`，正式用 `junyi_reading`（由 `.env.{APP_ENV}` 的 DB_NAME 决定）
+- **建表**: 启动时 `init_db()` 调用 `Base.metadata.create_all()`，不依赖独立迁移脚本
+- **schema 变更**: 直接修改 ORM 模型后重启即可，新增列会自动添加
+- **迁移脚本**: `scripts/migrate_characters.py` — 从旧库 (4表) 迁移到统一 character 表。`sql/` 目录有对应的 DDL SQL
 
 ## 环境变量
 
-后端 `.env` 配置项（模板见 `backend/.env.example`）:
+配置分层（按加载优先级）：
+1. `.env.{APP_ENV}` — 环境默认值（`.env.dev` 或 `.env.prod`，可提交 git）
+2. `.env` — 用户实际密钥（gitignored，从 `.env.example` 复制）
 
-| 变量 | 说明 | 默认值 |
-|------|------|--------|
-| `DB_HOST/PORT/USER/PASSWORD/NAME` | MySQL 连接 | localhost:3306 |
-| `LLM_PROVIDER` | 大模型提供方 | deepseek |
-| `IMAGE_PROVIDER` | 图片生成提供方 | cogview |
-| `TTS_PROVIDER` | 语音合成提供方 | edgetts |
-| `DEEPSEEK_API_KEY/BASE_URL/MODEL` | DeepSeek 配置 | deepseek-chat |
-| `GLM_API_KEY` | 智谱 API Key | — |
-| `GLM_IMAGE_MODEL` | 智谱图片模型 | cogview-3-plus |
-| `COGNITION_MAX_LEVEL` | 认知等级上限 (1-3) | 3 |
+| 变量 | 说明 | 开发默认值 | 正式默认值 |
+|------|------|-----------|-----------|
+| `APP_ENV` | 环境标识 | development | production |
+| `APP_PORT` | 后端端口 | 8002 | 8001 |
+| `DB_NAME` | 数据库名 | junyi_reading_dev | junyi_reading |
+| `DB_HOST/PORT/USER/PASSWORD` | MySQL 连接 | localhost:3306/root/(空) | 同 |
+| `LLM_PROVIDER` | 大模型提供方 | deepseek | deepseek |
+| `IMAGE_PROVIDER` | 图片生成提供方 | cogview | cogview |
+| `TTS_PROVIDER` | 语音合成提供方 | edgetts | edgetts |
+| `DEEPSEEK_API_KEY/BASE_URL/MODEL` | DeepSeek 配置 | — | — |
+| `GLM_API_KEY` | 智谱 API Key | — | — |
+| `GLM_IMAGE_MODEL` | 智谱图片模型 | cogview-3-plus | cogview-3-plus |
+| `COGNITION_MAX_LEVEL` | 认知等级上限 (1-3) | 3 | 3 |
+
+### 认知分级系统
+
+`config.py` 中定义了三个认知等级的 prompt 策略：
+- **Level 1** (幼儿园): 简单语言，比喻，日常例子，每个概念一句话
+- **Level 2** (小学生): 简单因果关系，熟悉场景举例
+- **Level 3** (小学高年级): 清晰准确，引入基础科学概念，鼓励思考
+
+`ADVANCED_KEYWORDS` 列表（因为/所以/原理/分子/原子/基因/宇宙/进化/黑洞/量子等）会在文章生成时被检测：触发关键词时临时提升认知等级，确保高级话题用更深度的解释。
+
+## 系统使用范例
+
+以下 `curl` 示例演示核心 API 使用流程。所有请求需带 `X-Student-ID` 头（默认 `1`）。
+
+### 文章生成与阅读
+
+```bash
+# 生成一篇指定主题的文章
+curl -s -X POST http://localhost:8002/api/articles/generate \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"topic": "春天", "characters": ["花","草","风"], "min_chars": 100, "max_chars": 300}'
+
+# 获取今日文章
+curl -s http://localhost:8002/api/articles/today -H "X-Student-ID: 1"
+
+# 获取一篇具体文章
+curl -s http://localhost:8002/api/articles/1 -H "X-Student-ID: 1"
+
+# 标记文章已读（触发自然习得晋升引擎）
+curl -s -X POST http://localhost:8002/api/articles/1/read-status \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"status": "read", "read_count": 5, "total_count": 5}'
+
+# 获取文章历史
+curl -s "http://localhost:8002/api/articles/history?limit=20&offset=0" -H "X-Student-ID: 1"
+
+# 查看文章系列
+curl -s http://localhost:8002/api/articles/series/1 -H "X-Student-ID: 1"
+```
+
+### 生字四区管理
+
+```bash
+# 查看字库统计
+curl -s http://localhost:8002/api/characters/stats -H "X-Student-ID: 1"
+
+# 获取某一区的字（zone: target | scout | ally | lost）
+curl -s http://localhost:8002/api/characters/zone/scout -H "X-Student-ID: 1"
+
+# 添加生字到目标区
+curl -s -X POST http://localhost:8002/api/characters/add \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"character": "叶", "zone": "target"}'
+
+# 手动移动生字区域
+curl -s -X POST http://localhost:8002/api/characters/move \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"character": "叶", "from_zone": "target", "to_zone": "scout"}'
+
+# 点读交互上报（累计3次 ally 自动退回 target）
+curl -s -X POST http://localhost:8002/api/characters/interaction \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"character": "花", "article_id": 1}'
+```
+
+### 好奇心问答
+
+```bash
+# 一次性问答
+curl -s -X POST http://localhost:8002/api/curiosity/ask \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"raw_text": "为什么天空是蓝色的？", "mode": "one_shot"}'
+
+# 开启系列问答（LangGraph 分解话题+逐章生成）
+curl -s -X POST http://localhost:8002/api/curiosity/ask-series \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"raw_text": "太阳系有哪些行星？"}'
+
+# 系列问答 — 继续下一章
+curl -s -X POST http://localhost:8002/api/curiosity/series-next \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"event_id": 1, "want_next": true}'
+
+# 获取问答事件列表
+curl -s "http://localhost:8002/api/curiosity/events?limit=20" -H "X-Student-ID: 1"
+```
+
+### 语音合成
+
+```bash
+# 合成语音（返回 WAV）
+curl -s -X POST http://localhost:8002/api/tts/synthesize \
+  -H "Content-Type: application/json" \
+  -d '{"text": "你好世界", "speed": 0.7}' \
+  -o output.wav
+```
+
+### 其他
+
+```bash
+# 健康检查
+curl -s http://localhost:8002/api/health
+
+# 学生列表
+curl -s http://localhost:8002/api/students/ -H "X-Student-ID: 1"
+
+# 统计总览
+curl -s http://localhost:8002/api/stats/overview -H "X-Student-ID: 1"
+```
+
+### 前端路由
+
+| 路径 | 页面 | 说明 |
+|------|------|------|
+| `/` | HomePage | 首页仪表盘 |
+| `/articles` | ArticleHistoryPage | 文章历史列表 |
+| `/curiosity` | CuriosityPage | 好奇心问答 |
+| `/characters` | CharacterZonesPage | 生字四区看板 |
+| `/stats` | StatsPage | 学习统计 |
+| `/series/:seriesId` | SeriesReaderPage | 系列文章阅读 |
 
 ## 注意事项
 
 - LLM 生成 API 超时 120 秒（前端），LangGraph 内部节点超时 30-60 秒，AI 响应可能较慢
-- 后端端口 8002；如改端口需同步修改 `frontend/vite.config.ts` 代理目标
+- 环境通过 `APP_ENV` 控制：开发 (development) 前端 :3002 + 后端 :8002；正式 (production) 前端 :3001 + 后端 :8001
+- 端口由 `.env.dev` / `.env.prod` 和 `frontend/.env.development` / `frontend/.env.production` 统一管理，`vite.config.ts` 和 `run.py` 自动读取，不同步会请求失败
 - 生字拼音标注仅处理 CJK 统一汉字区间 `[一-鿿]`
 - `get_current_student_id` 自己打开数据库会话（非 FastAPI 依赖注入），注意调用链中不要额外开启事务
 - 没有测试框架和 lint 工具 —— 建议从 `pytest` + `ruff`（后端）和 `eslint` + `prettier`（前端）开始
 - 新增领域模块：创建 `router.py` / `service.py` / `repository.py` → `main.py` 中 `include_router` → 前端在 `services/api.ts` 添加 API 对象
+- `students/` 和 `tts/` 领域较薄——只有 router（tts 有 service），没有 repository
 - 好奇心模块 (curiosity/) 和 TTS 模块 (tts/) 与字库系统独立，改动字库不影响它们
 - edge-tts 需 ≥7.2.8 版本（旧版令牌过期导致 403）

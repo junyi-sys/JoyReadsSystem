@@ -1,6 +1,7 @@
 from datetime import date
 from sqlalchemy.orm import Session
 from ...models import DailyArticle, ArticleSeries
+from ...shared.ensure_student import ensure_student
 
 
 class ArticleRepository:
@@ -25,6 +26,7 @@ class ArticleRepository:
         ).order_by(DailyArticle.record_date.desc()).offset(offset).limit(limit).all()
 
     def save_article(self, article: DailyArticle) -> DailyArticle:
+        ensure_student(self.db, article.student_id)
         self.db.add(article)
         self.db.commit()
         self.db.refresh(article)

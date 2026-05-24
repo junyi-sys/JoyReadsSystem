@@ -1,4 +1,4 @@
-package com.junuyiwo.v2;
+package com.junyi.reading;
 
 import com.getcapacitor.BridgeActivity;
 

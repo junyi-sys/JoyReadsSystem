@@ -129,7 +129,7 @@ export default function CuriosityPage() {
               {event.mode === 'series' && seriesState[event.id] && (
                 <SeriesProgress
                   series={seriesState[event.id]}
-                  onContinue={() => navigate(`/series/${seriesState[event.id].series_id}`)}
+                  onContinue={() => navigate(`/series/${seriesState[event.id].id}`)}
                 />
               )}
               {event.mode === 'series' && seriesState[event.id] && seriesState[event.id].status === 'in_progress' && (

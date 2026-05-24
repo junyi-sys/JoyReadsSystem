@@ -1,10 +1,11 @@
 {
-  "name": "junuyiwo-v2",
+  "name": "junyi-reading",
   "private": true,
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3001",
+    "dev": "vite",
+    "dev:prod": "vite --mode production",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },

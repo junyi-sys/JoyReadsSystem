@@ -1,5 +1,6 @@
 from sqlalchemy.orm import Session
 from ...models import CuriosityEvent
+from ...shared.ensure_student import ensure_student
 
 
 class CuriosityRepository:
@@ -21,6 +22,7 @@ class CuriosityRepository:
         ).first()
 
     def create_event(self, student_id: int, raw_text: str, mode: str = "one_shot") -> CuriosityEvent:
+        ensure_student(self.db, student_id)
         event = CuriosityEvent(
             student_id=student_id, raw_text=raw_text, mode=mode,
         )

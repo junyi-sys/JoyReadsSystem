@@ -19,7 +19,7 @@ export default function Sidebar({ collapsed }: { collapsed: boolean }) {
       {!collapsed && (
         <div style={{ padding: '16px', textAlign: 'center', borderBottom: '1px solid #f0f0f0' }}>
           <Typography.Text style={{ fontSize: 20, fontFamily: '"ZCOOL KuaiLe",cursive', color: '#FF6B6B' }}>
-            俊宜识字
+            俊宜阅读
           </Typography.Text>
         </div>
       )}

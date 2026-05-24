@@ -1,13 +1,20 @@
 import os
 from pydantic_settings import BaseSettings
 
+_APP_ENV = os.getenv("APP_ENV", "development")
+
+
 class Settings(BaseSettings):
+    # Environment
+    APP_ENV: str = "development"
+    APP_PORT: int = 8002
+
     # Database
     DB_HOST: str = "localhost"
     DB_PORT: int = 3306
     DB_USER: str = "root"
     DB_PASSWORD: str = ""
-    DB_NAME: str = "junyi_word_v2"
+    DB_NAME: str = "junyi_reading_dev"
 
     @property
     def DATABASE_URL(self) -> str:
@@ -39,7 +46,10 @@ class Settings(BaseSettings):
         3: "用清晰准确的语言解释，可以引入基础科学概念，鼓励思考和提问。",
     }
 
-    model_config = {"env_file": ".env", "env_file_encoding": "utf-8"}
+    model_config = {
+        "env_file": (f".env.{_APP_ENV}", ".env"),
+        "env_file_encoding": "utf-8",
+    }
 
 
 settings = Settings()

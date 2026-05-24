@@ -21,8 +21,12 @@ export const useStudentStore = create<StudentState>((set, get) => ({
       const { data } = await studentsApi.list()
       set({ students: data, loading: false })
       const currentId = Number(localStorage.getItem('currentStudentId') || '1')
-      const current = data.find((s: Student) => s.id === currentId) || data[0] || null
-      if (current) set({ currentStudent: current })
+      const matched = data.find((s: Student) => s.id === currentId)
+      const current = matched || data[0] || null
+      if (current) {
+        if (!matched) localStorage.setItem('currentStudentId', String(current.id))
+        set({ currentStudent: current })
+      }
     } catch {
       set({ loading: false })
     }
