@@ -10,7 +10,7 @@ router = APIRouter(prefix="/api/characters", tags=["字库"])
 
 
 class AddCharacterRequest(BaseModel):
-    character: str
+    characters: str  # 支持单个或多个汉字，如 "春天" 或 "花草木"
     zone: str  # target | scout | ally | lost
 
 
@@ -50,14 +50,14 @@ def get_zone(
 
 
 @router.post("/add")
-def add_character(
+def add_characters(
     body: AddCharacterRequest,
     student_id: int = Depends(get_current_student_id),
     svc: CharacterService = Depends(_get_service),
 ):
     try:
-        svc.add_character(body.zone, student_id, body.character)
-        return {"ok": True}
+        result = svc.add_characters(body.zone, student_id, body.characters)
+        return {"ok": True, **result}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 

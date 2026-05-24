@@ -53,7 +53,7 @@ export const curiosityApi = {
 export const charactersApi = {
   stats: () => api.get('/characters/stats'),
   zone: (zone: string) => api.get(`/characters/zone/${zone}`),
-  add: (character: string, zone: string) => api.post('/characters/add', { character, zone }),
+  add: (characters: string, zone: string) => api.post('/characters/add', { characters, zone }),
   move: (character: string, fromZone: string, toZone: string) =>
     api.post('/characters/move', { character, from_zone: fromZone, to_zone: toZone }),
   reportInteraction: (character: string, articleId?: number) =>

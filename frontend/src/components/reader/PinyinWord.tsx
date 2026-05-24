@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { popIn } from '../../theme/animations'
-import { getCached, setCached } from './audioCache'
-import { ttsApi, charactersApi } from '../../services/api'
+import { getCached, fetchInBackground, unlockAudio } from './audioCache'
+import { charactersApi } from '../../services/api'
 
 interface Props {
   char: string
@@ -10,50 +10,85 @@ interface Props {
   articleId?: number
 }
 
-function speakChar(char: string) {
-  const utter = new SpeechSynthesisUtterance(char)
-  utter.lang = 'zh-CN'
-  utter.rate = 0.85
-  utter.volume = 1
-  speechSynthesis.speak(utter)
+let voicesLoaded = false
+let zhVoice: SpeechSynthesisVoice | null = null
+
+function loadVoices() {
+  const voices = speechSynthesis.getVoices()
+  if (voices.length === 0) return
+  voicesLoaded = true
+  zhVoice =
+    voices.find(v => v.lang === 'zh-CN' && v.localService) ||
+    voices.find(v => v.lang.startsWith('zh')) ||
+    voices.find(v => v.lang === 'zh-CN') ||
+    null
+}
+
+function ensureVoices(): SpeechSynthesisVoice | null {
+  if (!voicesLoaded) loadVoices()
+  return zhVoice
+}
+
+// Preload voices when they become available (critical for mobile)
+if (typeof speechSynthesis !== 'undefined') {
+  speechSynthesis.addEventListener('voiceschanged', loadVoices)
+  loadVoices() // Chrome may return voices synchronously
+}
+
+function speakViaSynthesis(char: string): boolean {
+  try {
+    if (!('speechSynthesis' in window)) return false
+    speechSynthesis.cancel()
+    const utter = new SpeechSynthesisUtterance(char)
+    utter.lang = 'zh-CN'
+    utter.rate = 0.7
+    utter.volume = 1
+    const voice = ensureVoices()
+    if (voice) utter.voice = voice
+    speechSynthesis.speak(utter)
+    return true
+  } catch {
+    return false
+  }
+}
+
+function playCached(char: string): boolean {
+  const url = getCached(char)
+  if (!url) return false
+  const audio = new Audio(url)
+  audio.play().catch(() => {})
+  return true
 }
 
 export default function PinyinWord({ char, pinyin, articleId }: Props) {
   const [isSpeaking, setIsSpeaking] = useState(false)
+  const timerRef = useRef<ReturnType<typeof setTimeout>>()
 
-  const speak = async () => {
+  const speak = () => {
+    unlockAudio()
     speechSynthesis.cancel()
-    setIsSpeaking(false)
+    if (timerRef.current) clearTimeout(timerRef.current)
 
+    // Always report interaction (sync, within gesture)
     charactersApi.reportInteraction(char, articleId).catch(() => {})
 
-    // 1. Prewarmed Edge-TTS cache hit
-    const cachedUrl = getCached(char)
-    if (cachedUrl) {
-      const audio = new Audio(cachedUrl)
-      audio.onended = () => setIsSpeaking(false)
-      audio.onerror = () => setIsSpeaking(false)
-      setIsSpeaking(true)
-      audio.play().catch(() => setIsSpeaking(false))
-      return
+    let played = false
+
+    // 1. Try cached Edge-TTS (sync — no await, gesture context preserved)
+    played = playCached(char)
+
+    // 2. Fallback to SpeechSynthesis immediately (sync, within gesture)
+    if (!played) {
+      played = speakViaSynthesis(char)
     }
 
-    // 2. Fetch Edge-TTS on demand
-    try {
-      const { data } = await ttsApi.synthesize(char, 0.7)
-      const url = URL.createObjectURL(data as Blob)
-      setCached(char, url)
-      const audio = new Audio(url)
-      audio.onended = () => setIsSpeaking(false)
-      audio.onerror = () => setIsSpeaking(false)
+    if (played) {
       setIsSpeaking(true)
-      audio.play().catch(() => setIsSpeaking(false))
-    } catch {
-      // 3. Final fallback: browser speech synthesis
-      setIsSpeaking(true)
-      speakChar(char)
-      setTimeout(() => setIsSpeaking(false), 1000)
+      timerRef.current = setTimeout(() => setIsSpeaking(false), 800)
     }
+
+    // 3. Fetch Edge-TTS in background for next tap (async, non-blocking)
+    fetchInBackground(char)
   }
 
   return (

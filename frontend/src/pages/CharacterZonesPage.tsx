@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Col, Row, Spin, Modal, Input, Select, Button, message } from 'antd'
+import { Col, Row, Spin, Modal, Input, Select, Button, message, Space, Tag } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { motion } from 'framer-motion'
 import { charactersApi } from '../services/api'
@@ -21,7 +21,7 @@ export default function CharacterZonesPage() {
   const [zoneChars, setZoneChars] = useState<Record<string, CharacterItem[]>>({})
   const [loading, setLoading] = useState(true)
   const [addOpen, setAddOpen] = useState(false)
-  const [newChar, setNewChar] = useState('')
+  const [newChars, setNewChars] = useState('')
   const [newZone, setNewZone] = useState('target')
   const [adding, setAdding] = useState(false)
 
@@ -42,12 +42,30 @@ export default function CharacterZonesPage() {
   useEffect(() => { loadData() }, [currentStudent])
 
   const handleAdd = async () => {
-    if (!newChar.trim()) return
+    if (!newChars.trim()) return
     setAdding(true)
     try {
-      await charactersApi.add(newChar.trim(), newZone)
-      message.success(`"${newChar}" 已添加！`)
-      setNewChar('')
+      const res = await charactersApi.add(newChars.trim(), newZone)
+      const { added, skipped } = res.data
+      if (added?.length) {
+        message.success(
+          <span>
+            已添加 {added.length} 个字：
+            {added.slice(0, 20).map((c: string) => (
+              <Tag key={c} color="green" style={{ marginLeft: 4 }}>{c}</Tag>
+            ))}
+            {added.length > 20 && <Tag style={{ marginLeft: 4 }}>…等</Tag>}
+          </span>,
+          4,
+        )
+      }
+      if (skipped?.length) {
+        message.warning(`跳过了 ${skipped.length} 个已存在的字`)
+      }
+      if (!added?.length && !skipped?.length) {
+        message.info('未识别到有效汉字')
+      }
+      setNewChars('')
       setAddOpen(false)
       loadData()
     } catch (err: any) { message.error(err?.message || '添加失败') }
@@ -98,13 +116,13 @@ export default function CharacterZonesPage() {
       </Row>
 
       <Modal title="添加汉字" open={addOpen} onCancel={() => setAddOpen(false)} onOk={handleAdd}
-        confirmLoading={adding} okText="添加" cancelText="取消">
-        <Input
-          placeholder="输入一个汉字"
-          value={newChar}
-          onChange={(e) => setNewChar(e.target.value.slice(-1))}
-          maxLength={1}
-          style={{ borderRadius: 12, fontSize: 24, textAlign: 'center', marginBottom: 12 }}
+        confirmLoading={adding} okText="添加" cancelText="取消" width={420}>
+        <Input.TextArea
+          placeholder="输入一个或多个汉字，如：春天花草木"
+          value={newChars}
+          onChange={(e) => setNewChars(e.target.value)}
+          autoSize={{ minRows: 2, maxRows: 4 }}
+          style={{ borderRadius: 12, fontSize: 20, marginBottom: 12 }}
         />
         <Select value={newZone} onChange={setNewZone} style={{ width: '100%', borderRadius: 12 }}>
           {ZONES.map((z) => (

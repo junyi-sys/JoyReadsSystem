@@ -21,9 +21,38 @@ export async function prewarmChars(chars: string[]) {
         cache.set(ch, URL.createObjectURL(data as Blob))
       })
     )
-    // Small delay between batches to avoid rate-limiting
     if (i + CONCURRENCY < chars.length) {
       await new Promise(r => setTimeout(r, 500))
     }
   }
+}
+
+/** Fetch Edge-TTS for a single char in background — caches for next tap. */
+export async function fetchInBackground(char: string) {
+  if (cache.has(char)) return
+  try {
+    const { data } = await ttsApi.synthesize(char, 0.7)
+    cache.set(char, URL.createObjectURL(data as Blob))
+  } catch { /* silent */ }
+}
+
+// ---- AudioContext warmup (required by mobile browsers) ----
+
+let audioCtx: AudioContext | null = null
+
+export function unlockAudio() {
+  if (audioCtx) return
+  try {
+    audioCtx = new AudioContext()
+    if (audioCtx.state === 'suspended') {
+      audioCtx.resume()
+    }
+  } catch { /* WebView may not support AudioContext */ }
+
+  // Also unlock HTML5 Audio by playing a silent sound
+  try {
+    const silent = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAAB')
+    silent.volume = 0.01
+    silent.play().then(() => { silent.pause(); silent.currentTime = 0 }).catch(() => {})
+  } catch { /* ignore */ }
 }

@@ -29,12 +29,25 @@ class CharacterService:
             )
         return chars
 
-    def add_character(self, zone: str, student_id: int, character: str):
-        if len(character) != 1:
-            raise ValueError("只能添加单个汉字")
-        if not ("一" <= character <= "鿿"):
-            raise ValueError("请输入有效汉字")
-        self.repo.add_character(zone, student_id, character)
+    def add_characters(self, zone: str, student_id: int, raw: str) -> dict:
+        """Extract Chinese characters from raw string and batch add them to the zone."""
+        chars = [c for c in raw if "一" <= c <= "鿿"]
+        if not chars:
+            raise ValueError("未识别到有效汉字")
+
+        added, skipped = [], []
+        for ch in chars:
+            try:
+                self.repo.add_character(zone, student_id, ch)
+                added.append(ch)
+            except ValueError:
+                skipped.append(ch)
+
+        return {
+            "added": added,
+            "skipped": skipped,
+            "total_input": len(chars),
+        }
 
     def move_character(self, character: str, from_zone: str, to_zone: str, student_id: int):
         valid_zones = {"target", "scout", "ally", "lost"}

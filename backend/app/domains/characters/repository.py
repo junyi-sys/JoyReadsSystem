@@ -45,9 +45,9 @@ class CharacterRepository:
             .first()
         )
         if existing:
-            # Move to new zone if different
-            if existing.zone.value != zone:
-                self.move_character(character, existing.zone.value, zone, sid)
+            if existing.zone.value == zone:
+                raise ValueError(f"'{character}' 已在 {zone} 区")
+            self.move_character(character, existing.zone.value, zone, sid)
             return existing
 
         record = Character(
