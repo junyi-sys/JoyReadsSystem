@@ -38,10 +38,40 @@ npm run preview                     # 预览构建产物
 
 ```bash
 cd frontend
-npx cap sync android               # 同步前端代码到 Android 项目
-npx cap open android               # 在 Android Studio 中打开
-# 正式 APK: npm run build && npx cap sync android (用 .env.production)
+
+# 打开 Android Studio
+npx cap open android
+
+# APK 构建（使用后端地址，不经过 Vite proxy）
+npm run build:apk                  # tsc && vite build --mode apk
+npx cap sync android               # 同步构建产物到 Android 项目
+# 然后在 Android Studio 中生成 APK/AAB
+
+# 或一步完成（构建 + 同步）
+npm run build:apk:sync
+
+# 浏览器预览构建（使用 Vite proxy /api）
+npm run build                      # tsc && vite build（默认 mode=production）
+npm run preview                    # 本地预览构建产物
 ```
+
+#### 环境文件选择逻辑
+
+| 命令 | 加载的 .env 文件 | VITE_API_BASE | 适用场景 |
+|------|------------------|---------------|----------|
+| `npm run dev:prod` | `.env.production` | `/api` (走 Vite proxy) | 浏览器正式环境预览 |
+| `npm run build` | `.env.production` | `/api` (走 Vite proxy) | 浏览器预览构建产物 |
+| `npm run build:apk` | `.env.apk` (+ `.env.apk.local`) | `http://IP:8001/api` | APK 构建 |
+
+> **注意：** APK 构建时 `VITE_API_BASE` 必须指向 Android 设备可达的地址。
+>
+> 默认值为 `http://192.168.1.4:8001/api`。如需修改，创建
+> `frontend/.env.apk.local` 文件（已 gitignored）：
+> ```env
+> VITE_API_BASE=http://你的局域网IP:8001/api
+> ```
+>
+> 不要编辑 `.env.production`——那是给浏览器预览用的，改了会影响本地工作。
 
 ### 环境隔离说明
 

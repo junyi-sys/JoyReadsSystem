@@ -7,6 +7,8 @@
     "dev": "vite",
     "dev:prod": "vite --mode production",
     "build": "tsc && vite build",
+    "build:apk": "tsc && vite build --mode apk",
+    "build:apk:sync": "tsc && vite build --mode apk && npx cap sync android",
     "preview": "vite preview"
   },
   "dependencies": {
