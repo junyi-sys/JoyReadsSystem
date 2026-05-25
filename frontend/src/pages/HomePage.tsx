@@ -14,6 +14,8 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true)
   const [genOpen, setGenOpen] = useState(false)
   const [topic, setTopic] = useState('')
+  const [summary, setSummary] = useState('')
+  const [characters, setCharacters] = useState('')
   const [generating, setGenerating] = useState(false)
 
   const loadToday = async () => {
@@ -31,10 +33,18 @@ export default function HomePage() {
     if (!topic.trim()) return
     setGenerating(true)
     try {
-      const { data } = await articlesApi.generate({ topic: topic.trim(), characters: [], category: 'daily' })
+      const charList = characters.trim() ? characters.trim().split(/[,，、\s]+/) : []
+      const { data } = await articlesApi.generate({
+        topic: topic.trim(),
+        summary: summary.trim(),
+        characters: charList,
+        category: 'daily',
+      })
       setArticle(data)
       setGenOpen(false)
       setTopic('')
+      setSummary('')
+      setCharacters('')
       message.success('文章生成成功！🎉')
     } catch (err: any) { message.error(err?.message || '生成失败') }
     finally { setGenerating(false) }
@@ -80,16 +90,37 @@ export default function HomePage() {
         </motion.div>
       )}
 
-      <Modal title="AI 生成文章" open={genOpen} onCancel={() => setGenOpen(false)} onOk={handleGenerate}
+      <Modal title="AI 生成文章" open={genOpen} onCancel={() => { setGenOpen(false); setTopic(''); setSummary(''); setCharacters('') }} onOk={handleGenerate}
         confirmLoading={generating} okText="开始生成" cancelText="取消"
         okButtonProps={{ style: { borderRadius: 16 } }}>
-        <Input.TextArea
-          placeholder="输入文章主题，例如：'为什么天空是蓝色的？' 或 '春天来了'"
-          value={topic}
-          onChange={(e) => setTopic(e.target.value)}
-          rows={3}
-          style={{ borderRadius: 12, marginTop: 8 }}
-        />
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ marginBottom: 4, fontWeight: 500 }}>文章主题 <span style={{ color: '#ff4d4f' }}>*</span></div>
+          <Input
+            placeholder="例如：春天来了"
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            style={{ borderRadius: 12 }}
+          />
+        </div>
+        <div style={{ marginBottom: 12 }}>
+          <div style={{ marginBottom: 4, fontWeight: 500 }}>生字（选填）</div>
+          <Input
+            placeholder="输入生字，用逗号或空格分隔，例如：花,草,风"
+            value={characters}
+            onChange={(e) => setCharacters(e.target.value)}
+            style={{ borderRadius: 12 }}
+          />
+        </div>
+        <div style={{ marginBottom: 8 }}>
+          <div style={{ marginBottom: 4, fontWeight: 500 }}>主题摘要（选填）</div>
+          <Input.TextArea
+            placeholder="描述文章要包含的内容，例如：'描写春天的变化，花草开始生长，小动物从冬眠中苏醒，孩子们在公园里玩耍'"
+            value={summary}
+            onChange={(e) => setSummary(e.target.value)}
+            rows={3}
+            style={{ borderRadius: 12 }}
+          />
+        </div>
       </Modal>
     </motion.div>
   )

@@ -14,6 +14,7 @@ router = APIRouter(prefix="/api/articles", tags=["文章"])
 
 class GenerateRequest(BaseModel):
     topic: str
+    summary: str = ""
     characters: list[str] = []
     min_chars: int = 100
     max_chars: int = 350
@@ -52,7 +53,7 @@ def get_history(limit: int = 50, offset: int = 0, student_id: int = Depends(get_
 @router.post("/generate")
 async def generate_article(body: GenerateRequest, student_id: int = Depends(get_current_student_id), svc: ArticleService = Depends(_get_service)):
     try:
-        return await svc.generate(student_id, body.topic, body.characters, body.min_chars, body.max_chars, body.category)
+        return await svc.generate(student_id, body.topic, body.summary, body.characters, body.min_chars, body.max_chars, body.category)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"AI生成失败: {str(e)}")
 

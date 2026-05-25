@@ -36,7 +36,8 @@ class ArticleService:
             "image_url": a.image_url, "series_id": a.series_id,
         } for a in articles]
 
-    async def generate(self, student_id: int, topic: str, characters: list[str],
+    async def generate(self, student_id: int, topic: str, summary: str = "",
+                       characters: list[str] = [],
                        min_chars: int = 100, max_chars: int = 350,
                        category: str = "daily") -> dict:
         # Build zone context for article generation
@@ -46,7 +47,7 @@ class ArticleService:
 
         result = await generate_article_with_pinyin(
             self.llm, topic, characters, min_chars, max_chars, category,
-            zone_context=zone_context,
+            zone_context=zone_context, summary=summary,
         )
         content = result["content"]
         today = date.today()
