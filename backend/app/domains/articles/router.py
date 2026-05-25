@@ -121,9 +121,14 @@ def update_read_status(article_id: int, body: ReadStatusRequest, student_id: int
     # Trigger auto-promotion engine on first read
     if is_newly_read:
         svc = ArticleService(db, Container.llm())
-        svc.on_article_read(article_id, student_id)
+        result = svc.on_article_read(article_id, student_id)
+    else:
+        result = None
 
-    return {"id": record.id, "status": record.status}
+    resp = {"id": record.id, "status": record.status}
+    if result and result.get("level_up"):
+        resp["level_up"] = result["level_up"]
+    return resp
 
 
 # ===== Series Endpoints =====

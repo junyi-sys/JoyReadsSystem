@@ -1,15 +1,17 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { fadeInUp, staggerContainer } from '../../theme/animations'
 import type { ArticleWithPinyin } from '../../types'
 import PinyinWord from './PinyinWord'
-import { Card, Tag, Typography } from 'antd'
-import { BookOutlined } from '@ant-design/icons'
+import { Card, Tag, Typography, Button, message } from 'antd'
+import { BookOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import { prewarmChars } from './audioCache'
 
 interface Props {
   article: ArticleWithPinyin
   onParagraphRead?: (index: number) => void
+  onReadComplete?: () => Promise<{ level_up?: { old_label: string; new_label: string } } | void>
+  isRead?: boolean
 }
 
 function uniqueChars(article: ArticleWithPinyin): string[] {
@@ -22,7 +24,9 @@ function uniqueChars(article: ArticleWithPinyin): string[] {
   return Array.from(seen)
 }
 
-export default function ArticleReader({ article }: Props) {
+export default function ArticleReader({ article, onReadComplete, isRead }: Props) {
+  const [completing, setCompleting] = useState(false)
+
   useEffect(() => {
     prewarmChars(uniqueChars(article))
   }, [article])
@@ -51,7 +55,7 @@ export default function ArticleReader({ article }: Props) {
           key={i}
           variants={fadeInUp}
           style={{
-            fontSize: 20, lineHeight: 2.0, padding: '16px 24px',
+            fontSize: 20, lineHeight: 2.0, padding: '16px 24px', textIndent: '2em',
             background: i % 2 === 0 ? '#fafae8' : '#f0fdf4',
             borderRadius: 12, marginBottom: 12,
             fontFamily: '"KaiTi", "楷体", serif',
@@ -68,6 +72,39 @@ export default function ArticleReader({ article }: Props) {
           <Typography.Text type="secondary">
             系列第 {article.chapter_number} 章 / 共 {article.total_chapters} 章
           </Typography.Text>
+        </motion.div>
+      )}
+
+      {onReadComplete && (
+        <motion.div variants={fadeInUp} style={{ textAlign: 'center', marginTop: 24 }}>
+          <Button
+            type="primary"
+            size="large"
+            icon={<CheckCircleOutlined />}
+            loading={completing}
+            disabled={isRead}
+            onClick={async () => {
+              setCompleting(true)
+              try {
+                const result = await onReadComplete()
+                if (result?.level_up) {
+                  message.success(
+                    `太棒了！升级啦：${result.level_up.old_label} → ${result.level_up.new_label}！`,
+                    5,
+                  )
+                } else {
+                  message.success('阅读完成！')
+                }
+              } catch {
+                message.error('标记失败')
+              } finally {
+                setCompleting(false)
+              }
+            }}
+            style={{ borderRadius: 20, paddingInline: 32, fontWeight: 600 }}
+          >
+            {isRead ? '已读完' : '完成阅读'}
+          </Button>
         </motion.div>
       )}
     </motion.div>

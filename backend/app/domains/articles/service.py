@@ -45,8 +45,15 @@ class ArticleService:
         zone_ctx = char_svc.get_zone_context(student_id)
         zone_context = self._format_zone_context(zone_ctx)
 
+        # Read student's actual cognition level
+        from ..students.service import StudentService
+        student_svc = StudentService(self.db)
+        student = student_svc.get_student(student_id)
+        cognition_level = student.cognition_level if student else 0
+
         result = await generate_article_with_pinyin(
             self.llm, topic, characters, min_chars, max_chars, category,
+            cognition_level=cognition_level,
             zone_context=zone_context, summary=summary,
         )
         content = result["content"]
@@ -133,12 +140,19 @@ class ArticleService:
         return "\n".join(parts)
 
     def on_article_read(self, article_id: int, student_id: int):
-        """Trigger character auto-promotion engine when article is marked read."""
+        """Trigger character auto-promotion and student level-up when article is marked read."""
         article = self.repo.get_by_id(article_id, student_id)
         if not article:
-            return
+            return None
         char_svc = CharacterService(self.db)
-        return char_svc.on_article_read(article.content, student_id, article_id)
+        char_result = char_svc.on_article_read(article.content, student_id, article_id)
+
+        # Check for student level-up
+        from ..students.service import StudentService
+        student_svc = StudentService(self.db)
+        level_up = student_svc.check_and_level_up(student_id)
+
+        return {"characters": char_result, "level_up": level_up}
 
     def _to_response(self, article: DailyArticle) -> dict:
         annotated = annotate_text(article.content)

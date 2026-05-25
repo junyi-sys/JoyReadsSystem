@@ -9,6 +9,6 @@ class Student(Base, TimestampMixin):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False, comment="学生姓名")
     age: Mapped[int] = mapped_column(Integer, default=7, comment="年龄")
-    cognition_level: Mapped[int] = mapped_column(Integer, default=1, comment="认知等级 1-3")
+    cognition_level: Mapped[int] = mapped_column(Integer, default=0, comment="认知等级 0-6")
     avatar_url: Mapped[str | None] = mapped_column(Text, nullable=True, comment="头像URL")
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, comment="是否启用")

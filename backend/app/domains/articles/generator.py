@@ -17,8 +17,12 @@ def build_article_prompt(
     """Build system and user prompts for article generation."""
     cog_guide = cfg.COGNITION_PROMPTS.get(
         min(cognition_level, cfg.COGNITION_MAX_LEVEL),
-        cfg.COGNITION_PROMPTS[1],
+        cfg.COGNITION_PROMPTS[0],
     )
+
+    label = cfg.COGNITION_LEVEL_LABELS.get(cognition_level, f"{cognition_level}级")
+    level_to_age = {0: 4, 1: 6, 2: 7, 3: 8, 4: 9, 5: 10, 6: 11}
+    age = level_to_age.get(cognition_level, 7)
 
     char_str = "、".join(characters[:8]) if characters else "自动选择合适的生字"
     zone_str = f"\n\n【已知字库参考】\n{zone_context}" if zone_context else ""
@@ -27,7 +31,7 @@ def build_article_prompt(
 
     system = f"你是儿童教育作家。{cog_guide} 写250-350字的短文，段落清晰，语言生动。"
 
-    prompt = f"""写一篇短文给7岁孩子阅读。
+    prompt = f"""写一篇短文给{age}岁孩子阅读。
 
 标题：{topic}
 类型：{category}
@@ -39,7 +43,7 @@ def build_article_prompt(
 1. 内容有趣，像讲故事一样
 2. 每个自然段2-4句话
 3. 把生字自然地融入文章
-4. 用词适合{cognition_level}级认知水平
+4. 用词适合{label}认知水平
 5. 只输出文章正文，不需要标题"""
 
     return system, prompt

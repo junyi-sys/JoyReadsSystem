@@ -17,6 +17,21 @@ export default function HomePage() {
   const [summary, setSummary] = useState('')
   const [characters, setCharacters] = useState('')
   const [generating, setGenerating] = useState(false)
+  const [isRead, setIsRead] = useState(false)
+
+  useEffect(() => { setIsRead(false) }, [article])
+
+  const handleReadComplete = async () => {
+    if (!article) return
+    const total = article.character_count
+    const { data } = await articlesApi.updateReadStatus(article.id, {
+      status: 'read',
+      read_count: total,
+      total_count: total,
+    })
+    setIsRead(true)
+    return data
+  }
 
   const loadToday = async () => {
     setLoading(true)
@@ -72,7 +87,7 @@ export default function HomePage() {
       {article ? (
         <Card style={{ borderRadius: 16, boxShadow: '0 4px 16px rgba(255,107,107,0.12)', border: 'none' }}
           title={<span style={{ fontSize: 18, fontFamily: '"ZCOOL KuaiLe",cursive' }}>{article.topic}</span>}>
-          <ArticleReader article={article} />
+          <ArticleReader article={article} isRead={isRead} onReadComplete={handleReadComplete} />
         </Card>
       ) : (
         <motion.div variants={fadeInUp}>

@@ -76,4 +76,5 @@ export const statsApi = {
 export const studentsApi = {
   list: () => api.get('/students/'),
   switch: (id: number) => api.post(`/students/switch/${id}`),
+  levelProgress: (studentId: number) => api.get(`/students/${studentId}/level-progress`),
 }

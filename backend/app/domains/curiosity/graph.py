@@ -83,7 +83,7 @@ def node_generate_one_shot(state: CuriosityState, _db_factory) -> CuriosityState
 
         cog_guide = cfg.COGNITION_PROMPTS.get(
             min(state["effective_cognition"], cfg.COGNITION_MAX_LEVEL),
-            cfg.COGNITION_PROMPTS[1],
+            cfg.COGNITION_PROMPTS[0],
         )
         import asyncio
         result = asyncio.run(llm.generate(
@@ -137,7 +137,7 @@ def node_decompose_topic(state: CuriosityState, _db_factory) -> CuriosityState:
         resp = asyncio.run(asyncio.to_thread(
             lambda: client.chat.completions.create(
                 model=cfg.DEEPSEEK_MODEL,
-                messages=[{"role": "user", "content": f"把「{topic}」拆解成3-5个小章节，适合7岁孩子分次阅读。每章250-300字。用JSON返回：[{{\"ch\":1,\"title\":\"标题\",\"summary\":\"一句话概括\"}}]"}],
+                messages=[{"role": "user", "content": f"把「{topic}」拆解成3-5个小章节，适合{cfg.COGNITION_LEVEL_LABELS.get(state.get('effective_cognition', 0), '儿童')}孩子分次阅读。每章250-300字。用JSON返回：[{{\"ch\":1,\"title\":\"标题\",\"summary\":\"一句话概括\"}}]"}],
                 temperature=0.7, max_tokens=500,
             )
         ))
@@ -190,8 +190,8 @@ def node_generate_chapter(state: CuriosityState, _db_factory) -> CuriosityState:
                         http_client=httpx.Client(timeout=60.0))
 
         cog_guide = cfg.COGNITION_PROMPTS.get(
-            min(state.get("effective_cognition", 1), cfg.COGNITION_MAX_LEVEL),
-            cfg.COGNITION_PROMPTS[1],
+            min(state.get("effective_cognition", 0), cfg.COGNITION_MAX_LEVEL),
+            cfg.COGNITION_PROMPTS[0],
         )
 
         prompt = f"""写一章科普文章。

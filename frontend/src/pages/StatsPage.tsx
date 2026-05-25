@@ -1,23 +1,28 @@
 import { useEffect, useState } from 'react'
 import { Card, Col, Row, Spin, Statistic, Progress, Typography } from 'antd'
-import { ReadOutlined, TrophyOutlined, FireOutlined, BookOutlined } from '@ant-design/icons'
+import { ReadOutlined, TrophyOutlined, FireOutlined, BookOutlined, RiseOutlined } from '@ant-design/icons'
 import { motion } from 'framer-motion'
-import { statsApi } from '../services/api'
-import type { StatsOverview } from '../types'
+import { statsApi, studentsApi } from '../services/api'
+import type { StatsOverview, LevelProgress } from '../types'
+import { COGNITION_LABELS } from '../types'
 import { colors } from '../theme/tokens'
 import { pageTransition, fadeInUp, staggerContainer } from '../theme/animations'
+import { useStudentStore } from '../store/useStudentStore'
 
 export default function StatsPage() {
   const [stats, setStats] = useState<StatsOverview | null>(null)
+  const [levelProgress, setLevelProgress] = useState<LevelProgress | null>(null)
   const [loading, setLoading] = useState(true)
+  const currentStudent = useStudentStore((s) => s.currentStudent)
 
   useEffect(() => {
     setLoading(true)
-    statsApi.overview()
-      .then(({ data }) => setStats(data))
-      .catch(() => {})
-      .finally(() => setLoading(false))
-  }, [])
+    const studentId = currentStudent?.id || 1
+    Promise.all([
+      statsApi.overview().then(({ data }) => setStats(data)),
+      studentsApi.levelProgress(studentId).then(({ data }) => setLevelProgress(data)),
+    ]).catch(() => {}).finally(() => setLoading(false))
+  }, [currentStudent])
 
   if (loading || !stats) return <Spin spinning style={{ display: 'flex', justifyContent: 'center', marginTop: 100 }} />
 
@@ -29,6 +34,65 @@ export default function StatsPage() {
       <h1 style={{ fontSize: 28, fontFamily: '"ZCOOL KuaiLe",cursive', marginBottom: 24 }}>学习统计</h1>
 
       <motion.div variants={staggerContainer} initial="hidden" animate="visible">
+        {levelProgress && (
+          <motion.div variants={fadeInUp} style={{ marginBottom: 24 }}>
+            <Card
+              style={{ borderRadius: 16, background: 'linear-gradient(135deg, #e8f5e9 0%, #e3f2fd 100%)' }}
+              styles={{ body: { padding: '20px 24px' } }}
+            >
+              <Row align="middle" gutter={[16, 16]}>
+                <Col xs={24} sm={6} style={{ textAlign: 'center' }}>
+                  <RiseOutlined style={{ fontSize: 36, color: colors.primary }} />
+                  <div style={{ marginTop: 8 }}>
+                    <Typography.Text type="secondary" style={{ fontSize: 12 }}>当前等级</Typography.Text>
+                    <div style={{ fontSize: 24, fontWeight: 700, fontFamily: '"ZCOOL KuaiLe",cursive', color: colors.primary }}>
+                      {levelProgress.current_label}
+                    </div>
+                  </div>
+                </Col>
+                <Col xs={24} sm={14}>
+                  {levelProgress.next_label ? (
+                    <>
+                      <Typography.Text style={{ fontSize: 13 }}>
+                        距离升级到 <strong>{levelProgress.next_label}</strong>
+                      </Typography.Text>
+                      <Row gutter={[16, 4]} style={{ marginTop: 8 }}>
+                        <Col span={12}>
+                          <Typography.Text type="secondary" style={{ fontSize: 11 }}>阅读文章</Typography.Text>
+                          <Progress
+                            percent={Math.min(100, Math.round((levelProgress.articles_read / levelProgress.articles_needed) * 100))}
+                            size="small"
+                            strokeColor="#4ECDC4"
+                            format={() => `${levelProgress.articles_read}/${levelProgress.articles_needed}`}
+                          />
+                        </Col>
+                        <Col span={12}>
+                          <Typography.Text type="secondary" style={{ fontSize: 11 }}>已掌握字</Typography.Text>
+                          <Progress
+                            percent={Math.min(100, Math.round((levelProgress.ally_chars / levelProgress.chars_needed) * 100))}
+                            size="small"
+                            strokeColor="#FF6B6B"
+                            format={() => `${levelProgress.ally_chars}/${levelProgress.chars_needed}`}
+                          />
+                        </Col>
+                      </Row>
+                    </>
+                  ) : (
+                    <Typography.Text style={{ fontSize: 15, fontFamily: '"ZCOOL KuaiLe",cursive' }}>
+                      已达到最高等级！
+                    </Typography.Text>
+                  )}
+                </Col>
+                <Col xs={24} sm={4} style={{ textAlign: 'center' }}>
+                  <Typography.Text type="secondary" style={{ fontSize: 11 }}>
+                    {levelProgress.can_level_up ? '满足升级条件！' : '继续加油'}
+                  </Typography.Text>
+                </Col>
+              </Row>
+            </Card>
+          </motion.div>
+        )}
+
         <Row gutter={[16, 16]} style={{ marginBottom: 24 }}>
           {[
             { key: 'chars', title: '已学汉字', value: stats.total_characters_learned, icon: <ReadOutlined />, color: '#FF6B6B' },

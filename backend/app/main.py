@@ -21,7 +21,7 @@ def on_startup():
     db = SessionLocal()
     try:
         if db.query(Student).count() == 0:
-            db.add(Student(id=1, name="默认学生", age=7, cognition_level=1))
+            db.add(Student(id=1, name="默认学生", age=5, cognition_level=0))
             db.commit()
     finally:
         db.close()

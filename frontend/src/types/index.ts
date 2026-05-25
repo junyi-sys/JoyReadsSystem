@@ -95,3 +95,25 @@ export interface StatsOverview {
   zone_distribution: ZoneStats
   recent_activity: { date: string; count: number }[]
 }
+
+export const COGNITION_LABELS: Record<number, string> = {
+  0: '学前',
+  1: '一年级',
+  2: '二年级',
+  3: '三年级',
+  4: '四年级',
+  5: '五年级',
+  6: '六年级',
+}
+
+export interface LevelProgress {
+  current_level: number
+  current_label: string
+  next_level: number | null
+  next_label: string | null
+  articles_read: number
+  articles_needed: number
+  ally_chars: number
+  chars_needed: number
+  can_level_up: boolean
+}
