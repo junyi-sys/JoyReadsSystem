@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { popIn } from '../../theme/animations'
 import { getCached, fetchInBackground, unlockAudio, playAudioUrl } from './audioCache'
@@ -10,18 +10,22 @@ interface Props {
   articleId?: number
 }
 
+// ---- SpeechSynthesis voice preloading ----
+
 let voicesLoaded = false
 let zhVoice: SpeechSynthesisVoice | null = null
 
 function loadVoices() {
-  const voices = speechSynthesis.getVoices()
-  if (voices.length === 0) return
-  voicesLoaded = true
-  zhVoice =
-    voices.find(v => v.lang === 'zh-CN' && v.localService) ||
-    voices.find(v => v.lang.startsWith('zh')) ||
-    voices.find(v => v.lang === 'zh-CN') ||
-    null
+  try {
+    const voices = speechSynthesis.getVoices()
+    if (voices.length === 0) return
+    voicesLoaded = true
+    zhVoice =
+      voices.find(v => v.lang === 'zh-CN' && v.localService) ||
+      voices.find(v => v.lang.startsWith('zh')) ||
+      voices.find(v => v.lang === 'zh-CN') ||
+      null
+  } catch { /* WebView may throw */ }
 }
 
 function ensureVoices(): SpeechSynthesisVoice | null {
@@ -29,34 +33,15 @@ function ensureVoices(): SpeechSynthesisVoice | null {
   return zhVoice
 }
 
-// Preload voices when they become available
-if (typeof speechSynthesis !== 'undefined') {
-  speechSynthesis.addEventListener('voiceschanged', loadVoices)
-  loadVoices()
-}
-
-function speakViaSynthesis(char: string): boolean {
+if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
   try {
-    if (!('speechSynthesis' in window)) return false
-    speechSynthesis.cancel()
-    const utter = new SpeechSynthesisUtterance(char)
-    utter.lang = 'zh-CN'
-    utter.rate = 0.7
-    utter.volume = 1
-    const voice = ensureVoices()
-    if (voice) utter.voice = voice
-    // Track whether speech actually starts (Android WebView may silently fail)
-    let started = false
-    utter.onstart = () => { started = true }
-    speechSynthesis.speak(utter)
-    // On some Android WebViews, speak() returns but never fires onstart
-    return started || speechSynthesis.speaking
-  } catch {
-    return false
-  }
+    speechSynthesis.addEventListener('voiceschanged', loadVoices)
+    loadVoices()
+  } catch { /* ignore */ }
 }
 
-// Unlock audio on first user interaction anywhere on the page
+// ---- Unlock audio on first user interaction anywhere on the page ----
+
 if (typeof document !== 'undefined') {
   const unlockOnFirstTouch = () => {
     unlockAudio()
@@ -67,42 +52,74 @@ if (typeof document !== 'undefined') {
   document.addEventListener('click', unlockOnFirstTouch, { once: false })
 }
 
-function playCached(char: string): boolean {
+// ---- Audio playback helpers ----
+
+let synFailed = false
+
+function speakViaSynthesis(char: string): boolean {
+  if (synFailed) return false // don't retry if it keeps failing
+  try {
+    const synth = window.speechSynthesis
+    if (!synth) return false
+    synth.cancel()
+    const utter = new SpeechSynthesisUtterance(char)
+    utter.lang = 'zh-CN'
+    utter.rate = 0.7
+    utter.volume = 1
+    const voice = ensureVoices()
+    if (voice) utter.voice = voice
+    utter.onerror = () => { synFailed = true }
+    synth.speak(utter)
+    return true
+  } catch {
+    synFailed = true
+    return false
+  }
+}
+
+function tryCached(char: string): boolean {
   const url = getCached(char)
   if (!url) return false
   return playAudioUrl(url)
 }
 
+// ---- Component ----
+
 export default function PinyinWord({ char, pinyin, articleId }: Props) {
   const [isSpeaking, setIsSpeaking] = useState(false)
   const timerRef = useRef<ReturnType<typeof setTimeout>>()
+  const touchedRef = useRef(false)
 
-  const speak = () => {
-    unlockAudio()
-    speechSynthesis.cancel()
+  const speak = useCallback(() => {
+    // Prevent double-fire (touchstart + click on same gesture)
+    if (touchedRef.current) return
+    touchedRef.current = true
+    setTimeout(() => { touchedRef.current = false }, 300)
+
     if (timerRef.current) clearTimeout(timerRef.current)
 
-    // Always report interaction (sync, within gesture)
+    // Report interaction (fire-and-forget)
     charactersApi.reportInteraction(char, articleId).catch(() => {})
 
     let played = false
 
-    // 1. Try cached Edge-TTS (sync — no await, gesture context preserved)
-    played = playCached(char)
+    // 1. Try cached Edge-TTS blob URL
+    try { played = tryCached(char) } catch {}
 
-    // 2. Fallback to SpeechSynthesis immediately (sync, within gesture)
+    // 2. Fallback to SpeechSynthesis
     if (!played) {
-      played = speakViaSynthesis(char)
+      try { played = speakViaSynthesis(char) } catch {}
     }
 
+    // Visual feedback
     if (played) {
       setIsSpeaking(true)
       timerRef.current = setTimeout(() => setIsSpeaking(false), 800)
     }
 
-    // 3. Fetch Edge-TTS in background for next tap (async, non-blocking)
+    // 3. Prefetch Edge-TTS for next tap (async, fire-and-forget)
     fetchInBackground(char)
-  }
+  }, [char, pinyin, articleId])
 
   return (
     <motion.span
@@ -111,6 +128,7 @@ export default function PinyinWord({ char, pinyin, articleId }: Props) {
       whileTap={{ scale: 0.9 }}
       animate={isSpeaking ? { scale: 1.08 } : { scale: 1 }}
       onClick={speak}
+      onTouchEnd={(e) => { e.preventDefault(); speak() }}
       style={{
         display: 'inline-flex', flexDirection: 'column', alignItems: 'center',
         cursor: 'pointer', padding: '2px 4px', borderRadius: 8,
