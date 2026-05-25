@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { popIn } from '../../theme/animations'
-import { getCached, fetchInBackground, unlockAudio } from './audioCache'
+import { getCached, fetchInBackground, unlockAudio, playAudioUrl } from './audioCache'
 import { charactersApi } from '../../services/api'
 
 interface Props {
@@ -29,10 +29,10 @@ function ensureVoices(): SpeechSynthesisVoice | null {
   return zhVoice
 }
 
-// Preload voices when they become available (critical for mobile)
+// Preload voices when they become available
 if (typeof speechSynthesis !== 'undefined') {
   speechSynthesis.addEventListener('voiceschanged', loadVoices)
-  loadVoices() // Chrome may return voices synchronously
+  loadVoices()
 }
 
 function speakViaSynthesis(char: string): boolean {
@@ -45,19 +45,32 @@ function speakViaSynthesis(char: string): boolean {
     utter.volume = 1
     const voice = ensureVoices()
     if (voice) utter.voice = voice
+    // Track whether speech actually starts (Android WebView may silently fail)
+    let started = false
+    utter.onstart = () => { started = true }
     speechSynthesis.speak(utter)
-    return true
+    // On some Android WebViews, speak() returns but never fires onstart
+    return started || speechSynthesis.speaking
   } catch {
     return false
   }
 }
 
+// Unlock audio on first user interaction anywhere on the page
+if (typeof document !== 'undefined') {
+  const unlockOnFirstTouch = () => {
+    unlockAudio()
+    document.removeEventListener('touchstart', unlockOnFirstTouch)
+    document.removeEventListener('click', unlockOnFirstTouch)
+  }
+  document.addEventListener('touchstart', unlockOnFirstTouch, { once: false })
+  document.addEventListener('click', unlockOnFirstTouch, { once: false })
+}
+
 function playCached(char: string): boolean {
   const url = getCached(char)
   if (!url) return false
-  const audio = new Audio(url)
-  audio.play().catch(() => {})
-  return true
+  return playAudioUrl(url)
 }
 
 export default function PinyinWord({ char, pinyin, articleId }: Props) {

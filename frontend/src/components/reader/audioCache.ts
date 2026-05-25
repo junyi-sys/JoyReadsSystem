@@ -36,23 +36,52 @@ export async function fetchInBackground(char: string) {
   } catch { /* silent */ }
 }
 
-// ---- AudioContext warmup (required by mobile browsers) ----
+// ---- Audio unlock / GC-safe Audio playback (required by mobile) ----
 
 let audioCtx: AudioContext | null = null
+let unlocked = false
 
+/** Must be called inside a user-gesture event handler (click/touchstart) */
 export function unlockAudio() {
-  if (audioCtx) return
-  try {
-    audioCtx = new AudioContext()
-    if (audioCtx.state === 'suspended') {
-      audioCtx.resume()
-    }
-  } catch { /* WebView may not support AudioContext */ }
+  if (audioCtx) {
+    // resume suspended context (happens after backgrounding on mobile)
+    if (audioCtx.state === 'suspended') audioCtx.resume()
+  } else {
+    try {
+      audioCtx = new AudioContext()
+      if (audioCtx.state === 'suspended') audioCtx.resume()
+    } catch { /* WebView may not support AudioContext */ }
+  }
 
-  // Also unlock HTML5 Audio by playing a silent sound
+  // Unlock HTML5 Audio on iOS/Android by playing silent sound within gesture.
+  // This MUST complete before any real audio play in the same gesture thread.
+  if (!unlocked) {
+    unlocked = true
+    try {
+      const silent = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAAB')
+      silent.volume = 0.01
+      silent.play().then(() => { silent.pause(); silent.currentTime = 0 }).catch(() => {})
+    } catch { /* ignore */ }
+  }
+}
+
+/** Playing audio element — kept in scope to prevent GC on mobile */
+let currentAudio: HTMLAudioElement | null = null
+
+export function playAudioUrl(url: string): boolean {
   try {
-    const silent = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAAAB')
-    silent.volume = 0.01
-    silent.play().then(() => { silent.pause(); silent.currentTime = 0 }).catch(() => {})
-  } catch { /* ignore */ }
+    if (currentAudio) {
+      currentAudio.pause()
+      currentAudio.currentTime = 0
+      currentAudio = null
+    }
+    const audio = new Audio(url)
+    currentAudio = audio // prevent GC
+    audio.onended = () => { if (currentAudio === audio) currentAudio = null }
+    audio.onerror = () => { if (currentAudio === audio) currentAudio = null }
+    audio.play().catch(() => { if (currentAudio === audio) currentAudio = null })
+    return true
+  } catch {
+    return false
+  }
 }
