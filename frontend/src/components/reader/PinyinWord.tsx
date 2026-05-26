@@ -130,19 +130,19 @@ export default function PinyinWord({ char, pinyin, articleId }: Props) {
       onClick={speak}
       onTouchEnd={(e) => { e.preventDefault(); speak() }}
       style={{
-        display: 'inline-flex', flexDirection: 'column', alignItems: 'center',
-        cursor: 'pointer', padding: '2px 4px', borderRadius: 8,
-        background: isSpeaking ? '#E8F5E9' : '#FFF8E1',
-        margin: '0 1px', userSelect: 'none',
+        display: 'inline-block', position: 'relative', textAlign: 'center',
+        cursor: 'pointer', padding: '11px 8px 5px 8px', margin: '0', textIndent: 0, borderRadius: 4,
+        background: isSpeaking ? '#E8F5E9' : 'transparent',
+        userSelect: 'none', verticalAlign: 'top',
         boxShadow: isSpeaking ? '0 0 0 2px #6DBF6E' : 'none',
         transition: 'background 0.2s, box-shadow 0.2s',
       }}
     >
-      <span style={{ fontSize: 11, color: '#888', lineHeight: 1.2, minHeight: 14 }}>
+      <span style={{ fontSize: 10, color: '#888', lineHeight: 1.1, letterSpacing: '0.5px', fontFamily: 'system-ui, -apple-system, sans-serif', position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', whiteSpace: 'nowrap' }}>
         {pinyin || ' '}
       </span>
       <span style={{
-        fontSize: 22, fontWeight: 600, color: '#3D3D3D',
+        fontSize: 25, fontWeight: 600, color: '#3D3D3D', lineHeight: 1.1,
         fontFamily: '"KaiTi", "楷体", serif',
       }}>
         {char}

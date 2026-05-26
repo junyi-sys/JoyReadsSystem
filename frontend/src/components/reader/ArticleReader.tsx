@@ -55,7 +55,7 @@ export default function ArticleReader({ article, onReadComplete, isRead }: Props
           key={i}
           variants={fadeInUp}
           style={{
-            fontSize: 20, lineHeight: 2.0, padding: '16px 24px', textIndent: '2em',
+            fontSize: 20, lineHeight: 'normal', padding: '12px 24px', textIndent: '2em',
             background: i % 2 === 0 ? '#fafae8' : '#f0fdf4',
             borderRadius: 12, marginBottom: 12,
             fontFamily: '"KaiTi", "楷体", serif',
