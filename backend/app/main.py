@@ -45,3 +45,5 @@ from .domains.characters.stats_router import router as stats_router
 app.include_router(stats_router)
 from .domains.students.router import router as students_router
 app.include_router(students_router)
+from .domains.stt.router import router as stt_router
+app.include_router(stt_router)

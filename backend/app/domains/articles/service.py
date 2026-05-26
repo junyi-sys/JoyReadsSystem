@@ -101,6 +101,7 @@ class ArticleService:
             "current_chapter": series.current_chapter,
             "chapter_titles": series.chapter_titles_json or [],
             "chapters": chapter_list,
+            "curiosity_event_id": series.curiosity_event_id,
         }
 
     def get_series_chapter(self, series_id: int, chapter_number: int, student_id: int) -> dict:

@@ -45,8 +45,8 @@ export const curiosityApi = {
   ask: (text: string, mode: string = 'one_shot', tags?: string[]) =>
     api.post('/curiosity/ask', { raw_text: text, mode, tags }),
   askSeries: (text: string) => api.post('/curiosity/ask-series', { raw_text: text }),
-  seriesNext: (eventId: number, wantNext: boolean) =>
-    api.post('/curiosity/series-next', { event_id: eventId, want_next: wantNext }),
+  seriesNext: (eventId: number, wantNext: boolean, userQuestion?: string) =>
+    api.post('/curiosity/series-next', { event_id: eventId, want_next: wantNext, user_question: userQuestion }),
 }
 
 // ===== Characters =====
@@ -70,6 +70,15 @@ export const ttsApi = {
 export const statsApi = {
   overview: () => api.get('/stats/overview'),
   trend: (days?: number) => api.get('/stats/trend', { params: { days } }),
+}
+
+// ===== STT (Speech to Text) =====
+export const sttApi = {
+  transcribe: (audioBlob: Blob) => {
+    const fd = new FormData()
+    fd.append('file', audioBlob, 'recording.webm')
+    return api.post('/stt/transcribe', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+  },
 }
 
 // ===== Students =====

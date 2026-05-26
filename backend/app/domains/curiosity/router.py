@@ -23,6 +23,7 @@ class AskSeriesRequest(BaseModel):
 class SeriesNextRequest(BaseModel):
     event_id: int
     want_next: bool
+    user_question: str | None = None
 
 
 def _get_service(db: Session = Depends(get_db)) -> CuriosityService:
@@ -58,6 +59,6 @@ def ask_series(body: AskSeriesRequest, student_id: int = Depends(get_current_stu
 def series_next(body: SeriesNextRequest, student_id: int = Depends(get_current_student_id),
                 svc: CuriosityService = Depends(_get_service)):
     try:
-        return svc.series_next(body.event_id, student_id, body.want_next)
+        return svc.series_next(body.event_id, student_id, body.want_next, body.user_question)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"操作失败: {str(e)}")

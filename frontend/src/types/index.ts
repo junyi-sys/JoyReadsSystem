@@ -42,6 +42,7 @@ export interface SeriesInfo {
   current_chapter: number
   chapter_titles: ChapterTitle[]
   chapters: ChapterItem[]
+  curiosity_event_id: number
 }
 
 export interface ChapterTitle {
@@ -104,6 +105,16 @@ export const COGNITION_LABELS: Record<number, string> = {
   4: '四年级',
   5: '五年级',
   6: '六年级',
+}
+
+export const COGNITION_SHORT_LABELS: Record<number, string> = {
+  0: 'L0',
+  1: 'L1',
+  2: 'L2',
+  3: 'L3',
+  4: 'L4',
+  5: 'L5',
+  6: 'L6',
 }
 
 export interface LevelProgress {

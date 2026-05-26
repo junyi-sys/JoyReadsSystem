@@ -49,8 +49,13 @@ export default function CuriosityPage() {
     setAsking(true)
     try {
       if (mode === 'one_shot') {
-        await curiosityApi.ask(question.trim(), 'one_shot')
+        const { data } = await curiosityApi.ask(question.trim(), 'one_shot')
         message.success('回答已生成！🎉')
+        // Mark curiosity article as read so it counts in reading stats
+        if (data.article_id) {
+          const paraCount = data.paragraphs?.length || 1
+          articlesApi.updateReadStatus(data.article_id, { status: 'read', read_count: paraCount, total_count: paraCount }).catch(() => {})
+        }
         loadEvents()
       } else {
         const { data } = await curiosityApi.askSeries(question.trim())

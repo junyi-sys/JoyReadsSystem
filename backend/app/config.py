@@ -32,6 +32,9 @@ class Settings(BaseSettings):
     GLM_API_KEY: str = ""
     GLM_IMAGE_MODEL: str = "cogview-3-plus"
 
+    # STT (Speech to Text) — 本地 faster-whisper，可选 tiny/base/small/medium
+    STT_MODEL: str = "base"
+
     # Education
     COGNITION_MAX_LEVEL: int = 6
 

@@ -2,7 +2,7 @@ import { Layout } from 'antd'
 import { Outlet } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import Sidebar from './Sidebar'
-import StudentSwitcher from './StudentSwitcher'
+import StudentCard from './StudentCard'
 import { useAppStore } from '../../store/useAppStore'
 import { pageTransition } from '../../theme/animations'
 
@@ -24,11 +24,11 @@ export default function AppShell() {
       </Sider>
       <Layout>
         <Header style={{
-          background: 'white', padding: '0 24px', display: 'flex',
+          background: 'var(--color-bg, #FFF8F0)', padding: '12px 24px', display: 'flex',
           justifyContent: 'flex-end', alignItems: 'center',
-          borderBottom: '1px solid #f0f0f0', height: 56,
+          borderBottom: '1px solid #f0f0f0', height: 'auto', lineHeight: 1.5,
         }}>
-          <StudentSwitcher />
+          <StudentCard />
         </Header>
         <Content style={{ background: 'var(--color-bg, #FFF8F0)', overflow: 'auto' }}>
           <motion.div variants={pageTransition} initial="hidden" animate="visible">

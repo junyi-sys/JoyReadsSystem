@@ -20,6 +20,7 @@ class CuriosityState(TypedDict, total=False):
     series_id: int | None
     chapter_titles: list[dict]
     current_chapter: int
+    user_question: str
     article_id: int | None
     article_content: str
     paragraphs: list
@@ -194,10 +195,13 @@ def node_generate_chapter(state: CuriosityState, _db_factory) -> CuriosityState:
             cfg.COGNITION_PROMPTS[0],
         )
 
+        user_q = state.get('user_question', '')
+        q_hint = f'\n孩子阅读后提出了疑问："{user_q}"\n请在写作中自然地回答或关联这个问题，让其融入本章内容。' if user_q else ''
+
         prompt = f"""写一章科普文章。
 主题系列：{state.get('raw_text', '')}
 本章标题：{ch_title}
-本章概要：{ch_summary}
+本章概要：{ch_summary}{q_hint}
 
 要求：1. 250-300字 2. {cog_guide} 3. 语言生动 4. 结尾留悬念 5. 只输出本章内容"""
 

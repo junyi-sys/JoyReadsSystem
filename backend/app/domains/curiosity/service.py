@@ -96,7 +96,7 @@ class CuriosityService:
             "paragraphs": result.get("paragraphs", []),
         }
 
-    def series_next(self, event_id: int, student_id: int, want_next: bool) -> dict:
+    def series_next(self, event_id: int, student_id: int, want_next: bool, user_question: str | None = None) -> dict:
         from ...models import ArticleSeries as AS
         from ...database import SessionLocal
 
@@ -140,13 +140,17 @@ class CuriosityService:
         # Generate next chapter
         graph = get_curiosity_graph()
         config = {"configurable": {"thread_id": f"series_ch_{series_id}_{db_chapter}_{uuid.uuid4().hex[:6]}"}}
-        result = graph.invoke({
+        invoke_state = {
             "event_id": event_id, "student_id": student_id,
             "mode": "series", "series_id": series_id,
             "raw_text": db_topic,
             "current_chapter": db_chapter,
             "chapter_titles": db_titles,
-        }, config)
+        }
+        if user_question:
+            invoke_state["user_question"] = user_question
+
+        result = graph.invoke(invoke_state, config)
 
         if result.get("error"):
             return {"error": result["error"]}
