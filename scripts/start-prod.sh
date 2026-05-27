@@ -5,6 +5,9 @@ echo "=== 正式环境启动 ==="
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 ROOT_DIR="$(dirname "$SCRIPT_DIR")"
 
+# 确保 Node.js 在 PATH 中（Windows Git Bash 可能找不到）
+export PATH="/d/Program Files/nodejs:$PATH"
+
 # 启动后端
 (cd "$ROOT_DIR/backend" && source .venv/Scripts/activate && APP_ENV=production python run.py) &
 
