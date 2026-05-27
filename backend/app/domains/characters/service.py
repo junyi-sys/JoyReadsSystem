@@ -105,3 +105,7 @@ class CharacterService:
     def get_zone_context(self, student_id: int) -> dict:
         """Get zone context for article generation."""
         return self.repo.get_zone_context(student_id)
+
+    def get_today_new_characters(self, student_id: int) -> list[str]:
+        """Get characters first seen today."""
+        return self.repo.get_today_new_characters(student_id)

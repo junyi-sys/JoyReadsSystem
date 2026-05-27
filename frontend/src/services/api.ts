@@ -27,8 +27,10 @@ export default api
 export const articlesApi = {
   today: () => api.get('/articles/today'),
   history: (limit = 50, offset = 0) => api.get('/articles/history', { params: { limit, offset } }),
-  generate: (body: { topic: string; summary?: string; characters?: string[]; min_chars?: number; max_chars?: number; category?: string }) =>
+  generate: (body: { topic: string; summary?: string; characters?: string[]; min_chars?: number; max_chars?: number; category?: string; density?: number; reinforce?: number }) =>
     api.post('/articles/generate', body),
+  computeParams: (override?: Record<string, number>) =>
+    api.post('/articles/compute-params', { override: override || {} }),
   get: (id: number) => api.get(`/articles/${id}`),
   revise: (id: number, suggestions: string) => api.post(`/articles/${id}/revise`, { suggestions }),
   delete: (id: number) => api.delete(`/articles/${id}`),

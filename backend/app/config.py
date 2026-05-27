@@ -57,6 +57,17 @@ class Settings(BaseSettings):
         6: {"articles": 350, "chars": 800},
     }
 
+    ARTICLE_DENSITY_TIERS: list[dict] = [
+        # (已知字上限, min_chars, max_chars, density_每百字新字数, reinforce_每百字复习数)
+        {"max_known": 30, "min_chars": 50, "max_chars": 100, "density": 2, "reinforce": 0},
+        {"max_known": 80, "min_chars": 100, "max_chars": 200, "density": 3, "reinforce": 1},
+        {"max_known": 200, "min_chars": 200, "max_chars": 350, "density": 5, "reinforce": 1},
+        {"max_known": 500, "min_chars": 300, "max_chars": 500, "density": 7, "reinforce": 2},
+        {"max_known": 1000, "min_chars": 450, "max_chars": 700, "density": 10, "reinforce": 2},
+        {"max_known": 2000, "min_chars": 600, "max_chars": 900, "density": 12, "reinforce": 3},
+        {"max_known": 99999, "min_chars": 800, "max_chars": 1200, "density": 15, "reinforce": 3},
+    ]
+
     ADVANCED_KEYWORDS: list[str] = [
         "因为", "所以", "但是", "虽然", "如果", "如何", "为什么",
         "怎么", "原理", "分子", "原子", "细胞", "基因", "宇宙",

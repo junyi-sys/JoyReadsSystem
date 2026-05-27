@@ -237,6 +237,19 @@ class CharacterRepository:
         if record.tap_count >= 3 and record.zone.value == "ally":
             self.degrade_ally_to_target(character, student_id, article_id)
 
+    def get_today_new_characters(self, student_id: int) -> list[str]:
+        """Get characters first seen today."""
+        rows = (
+            self.db.query(Character.character)
+            .filter(
+                Character.student_id == student_id,
+                Character.first_seen_at == date.today(),
+            )
+            .order_by(Character.created_at.desc())
+            .all()
+        )
+        return [r[0] for r in rows]
+
     # ===== Zone context for article generation =====
 
     def get_zone_context(self, student_id: int) -> dict:

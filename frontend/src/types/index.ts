@@ -17,6 +17,24 @@ export interface Paragraph {
   tokens: PinyinToken[]
 }
 
+export interface CharStats {
+  total: number
+  target: string[]
+  scout: string[]
+  ally: string[]
+  lost: string[]
+  unknown: string[]
+  today_new: string[]
+  zone_counts: {
+    target: number
+    scout: number
+    ally: number
+    lost: number
+    unknown: number
+    today_new: number
+  }
+}
+
 export interface ArticleWithPinyin {
   id: number
   record_date: string
@@ -32,6 +50,16 @@ export interface ArticleWithPinyin {
   chapter_number?: number
   total_chapters?: number
   created_at?: string
+  char_stats?: CharStats
+}
+
+export interface ArticleParams {
+  recommended: { min_chars: number; max_chars: number; density: number; reinforce: number }
+  current: { min_chars: number; max_chars: number; density: number; reinforce: number }
+  zone_stats: { known_count: number; target_count: number; scout_count: number; ally_count: number; lost_count: number; total: number }
+  today_new_chars: string[]
+  tier_index: number
+  total_tiers: number
 }
 
 export interface SeriesInfo {

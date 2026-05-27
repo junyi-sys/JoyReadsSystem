@@ -19,6 +19,13 @@ class GenerateRequest(BaseModel):
     min_chars: int = 100
     max_chars: int = 350
     category: str = "daily"
+    density: int | None = None       # 每百字新字数，None=系统自动
+    reinforce: int | None = None     # 每百字复习字数，None=系统自动
+
+
+class ArticleParamsRequest(BaseModel):
+    """Request to compute recommended article parameters from zone stats."""
+    override: dict = {}  # optional: {"min_chars", "max_chars", "density", "reinforce"}
 
 
 class ReviseRequest(BaseModel):
@@ -53,9 +60,19 @@ def get_history(limit: int = 50, offset: int = 0, student_id: int = Depends(get_
 @router.post("/generate")
 async def generate_article(body: GenerateRequest, student_id: int = Depends(get_current_student_id), svc: ArticleService = Depends(_get_service)):
     try:
-        return await svc.generate(student_id, body.topic, body.summary, body.characters, body.min_chars, body.max_chars, body.category)
+        return await svc.generate(
+            student_id, body.topic, body.summary, body.characters,
+            body.min_chars, body.max_chars, body.category,
+            density=body.density, reinforce=body.reinforce,
+        )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"AI生成失败: {str(e)}")
+
+
+@router.post("/compute-params")
+def compute_article_params(body: ArticleParamsRequest, student_id: int = Depends(get_current_student_id), svc: ArticleService = Depends(_get_service)):
+    """Compute recommended article parameters based on student's zone stats."""
+    return svc.calculate_article_params(student_id, body.override or {})
 
 
 @router.get("/{article_id}")

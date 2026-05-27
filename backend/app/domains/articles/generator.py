@@ -13,6 +13,7 @@ def build_article_prompt(
     topic: str, characters: list[str], min_chars: int, max_chars: int,
     category: str, cognition_level: int, zone_context: str = "",
     memory_context: str = "", summary: str = "",
+    density: int | None = None, reinforce: int | None = None,
 ) -> tuple[str, str]:
     """Build system and user prompts for article generation."""
     cog_guide = cfg.COGNITION_PROMPTS.get(
@@ -29,7 +30,18 @@ def build_article_prompt(
     mem_str = f"\n\n【学习记忆参考】\n{memory_context}" if memory_context else ""
     summary_str = f"\n\n【主题摘要 - 请围绕以下内容展开文章】\n{summary}" if summary else ""
 
-    system = f"你是儿童教育作家。{cog_guide} 写250-350字的短文，段落清晰，语言生动。"
+    # Density hint for the system prompt
+    density_hint = ""
+    if density is not None or reinforce is not None:
+        parts = []
+        if density is not None:
+            parts.append(f"每100字约嵌入{density}个正在学的生字")
+        if reinforce is not None and reinforce > 0:
+            parts.append(f"每100字约嵌入{reinforce}个复习字")
+        if parts:
+            density_hint = "。" + "，".join(parts) + "。请精确控制比例。"
+
+    system = f"你是儿童教育作家。{cog_guide}{density_hint} 写{min_chars}-{max_chars}字的短文，段落清晰，语言生动。"
 
     prompt = f"""写一篇短文给{age}岁孩子阅读。
 
@@ -55,11 +67,14 @@ async def generate_article_with_pinyin(
     category: str = "daily", cognition_level: int = 1,
     zone_context: str = "", memory_context: str = "",
     summary: str = "",
+    density: int | None = None,
+    reinforce: int | None = None,
 ) -> dict:
     """Generate an article with AI. Returns dict with 'content' key."""
     system, prompt = build_article_prompt(
         topic, characters, min_chars, max_chars, category,
         cognition_level, zone_context, memory_context, summary,
+        density=density, reinforce=reinforce,
     )
     result = await llm.generate(prompt, system=system, temperature=0.7, max_tokens=1500)
     content = result.content.strip()
