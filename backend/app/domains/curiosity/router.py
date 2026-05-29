@@ -26,6 +26,11 @@ class SeriesNextRequest(BaseModel):
     user_question: str | None = None
 
 
+class SocraticRespondRequest(BaseModel):
+    event_id: int
+    child_response: str
+
+
 def _get_service(db: Session = Depends(get_db)) -> CuriosityService:
     return CuriosityService(db, Container.llm())
 
@@ -53,6 +58,27 @@ def ask_series(body: AskSeriesRequest, student_id: int = Depends(get_current_stu
         return svc.start_series(student_id, body.raw_text)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"系列启动失败: {str(e)}")
+
+
+@router.post("/ask-socratic")
+def ask_socratic(body: AskRequest, student_id: int = Depends(get_current_student_id),
+                 svc: CuriosityService = Depends(_get_service)):
+    """苏格拉底模式：AI不直接回答，而是反问一个引导性问题"""
+    try:
+        return svc.ask_socratic(student_id, body.raw_text, body.tags)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"追问生成失败: {str(e)}")
+
+
+@router.post("/socratic-respond")
+def socratic_respond(body: SocraticRespondRequest,
+                     student_id: int = Depends(get_current_student_id),
+                     svc: CuriosityService = Depends(_get_service)):
+    """孩子回答了AI的反问后，AI生成融入孩子想法的回答"""
+    try:
+        return svc.socratic_respond(body.event_id, student_id, body.child_response)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"回答生成失败: {str(e)}")
 
 
 @router.post("/series-next")

@@ -18,6 +18,7 @@ class DailyArticle(Base, TimestampMixin):
     character_count: Mapped[int] = mapped_column(Integer, default=0, comment="总字数")
     source: Mapped[str] = mapped_column(String(20), default="ai", comment="ai|manual")
     category: Mapped[str] = mapped_column(String(20), default="daily", comment="daily|answer|series")
+    topic_category: Mapped[str | None] = mapped_column(String(20), nullable=True, comment="天文|科学|生命|历史|地理|文学|数学|工程|社会|其他")
     image_url: Mapped[str | None] = mapped_column(Text, nullable=True, comment="封面图URL")
     images_json: Mapped[list | None] = mapped_column(JSON, nullable=True, comment="段落配图列表")
     series_id: Mapped[int | None] = mapped_column(Integer, ForeignKey("article_series.id"), nullable=True, index=True)

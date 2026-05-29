@@ -96,6 +96,20 @@ export interface CuriosityEvent {
   is_answered: boolean
   linked_article_id: number | null
   intensity_score: number
+  socratic_mode?: boolean
+  follow_up_question?: string | null
+  child_response?: string | null
+  theory_id?: number | null
+  created_at: string
+}
+
+export interface Theory {
+  id: number
+  title: string
+  content: string
+  audio_url: string | null
+  linked_curiosity_event_id: number | null
+  linked_article_id: number | null
   created_at: string
 }
 
@@ -143,6 +157,26 @@ export const COGNITION_SHORT_LABELS: Record<number, string> = {
   4: 'L4',
   5: 'L5',
   6: 'L6',
+}
+
+export interface AdvancedConcept {
+  id: number
+  concept: string
+  source: string
+  created_at: string
+}
+
+export interface CategoryStat {
+  category: string
+  count: number
+  icon: string
+  color: string
+  percent: number
+}
+
+export interface CategoryStats {
+  items: CategoryStat[]
+  total: number
 }
 
 export interface LevelProgress {

@@ -47,3 +47,7 @@ from .domains.students.router import router as students_router
 app.include_router(students_router)
 from .domains.stt.router import router as stt_router
 app.include_router(stt_router)
+from .domains.theory.router import router as theory_router
+app.include_router(theory_router)
+from .domains.concepts.router import router as concepts_router
+app.include_router(concepts_router)

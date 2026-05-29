@@ -60,10 +60,12 @@ class ArticleService:
         )
         content = result["content"]
         today_date = date.today()
+        from .categories import detect_category
         article = DailyArticle(
             student_id=student_id, record_date=today_date, topic=topic,
             content=content, character_count=len(content),
             source="ai", category=category,
+            topic_category=detect_category(topic, content),
         )
         self.repo.save_article(article)
         return self._to_response(article, student_id)

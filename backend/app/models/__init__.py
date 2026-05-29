@@ -4,6 +4,8 @@ from .article import DailyArticle, ArticleSeries
 from .character import Character, CharacterInteraction, CharacterZoneLog, DailyCharacter
 from .curiosity import CuriosityEvent
 from .reading import ArticleReadStatus
+from .theory import Theory
+from .advanced_concept import AdvancedConcept
 
 __all__ = [
     "Base", "TimestampMixin",
@@ -12,4 +14,6 @@ __all__ = [
     "Character", "CharacterInteraction", "CharacterZoneLog", "DailyCharacter",
     "CuriosityEvent",
     "ArticleReadStatus",
+    "Theory",
+    "AdvancedConcept",
 ]
