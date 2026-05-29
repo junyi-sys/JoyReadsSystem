@@ -1,10 +1,12 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
+from sqlalchemy import func
 from datetime import date, timedelta
 
 from ...database import get_db
 from ...shared.middleware import get_current_student_id
 from ...models import DailyArticle, ArticleReadStatus, Character
+from ...domains.articles.categories import TOPIC_CATEGORIES, CATEGORY_ICONS, CATEGORY_COLORS
 
 router = APIRouter(prefix="/api/stats", tags=["统计"])
 
@@ -74,3 +76,43 @@ def get_stats_overview(
         "zone_distribution": zone_stats,
         "recent_activity": [],
     }
+
+
+@router.get("/categories")
+def get_category_stats(
+    student_id: int = Depends(get_current_student_id),
+    db: Session = Depends(get_db),
+):
+    """Return article count per topic category."""
+    rows = (
+        db.query(DailyArticle.topic_category, func.count(DailyArticle.id))
+        .filter(
+            DailyArticle.student_id == student_id,
+            DailyArticle.topic_category.isnot(None),
+        )
+        .group_by(DailyArticle.topic_category)
+        .all()
+    )
+
+    category_counts = {cat: 0 for cat in TOPIC_CATEGORIES}
+    for cat, cnt in rows:
+        if cat in category_counts:
+            category_counts[cat] = cnt
+        else:
+            category_counts["其他"] += cnt
+
+    total = sum(category_counts.values())
+
+    items = []
+    for cat in TOPIC_CATEGORIES:
+        cnt = category_counts.get(cat, 0)
+        if cnt > 0 or cat == "其他":
+            items.append({
+                "category": cat,
+                "count": cnt,
+                "icon": CATEGORY_ICONS.get(cat, "📌"),
+                "color": CATEGORY_COLORS.get(cat, "#8c8c8c"),
+                "percent": round(cnt / total * 100, 1) if total > 0 else 0,
+            })
+
+    return {"items": items, "total": total}

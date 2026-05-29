@@ -337,3 +337,10 @@ curl -s http://localhost:8002/api/stats/overview -H "X-Student-ID: 1"
 - `students/` 和 `tts/` 领域较薄——只有 router（tts 有 service），没有 repository
 - 好奇心模块 (curiosity/) 和 TTS 模块 (tts/) 与字库系统独立，改动字库不影响它们
 - edge-tts 需 ≥7.2.8 版本（旧版令牌过期导致 403）
+
+## Git 工作流
+
+- **禁止在 master/main 分支上直接修改代码或提交**
+- 新功能/修复必须先创建 feature 分支：`git checkout -b feature/xxx`
+- 如果发现自己在 master 上，立即停止并提醒用户切分支
+- 例外：用户明确说"这是紧急修复，直接在 master 上改"（需用户主动声明）

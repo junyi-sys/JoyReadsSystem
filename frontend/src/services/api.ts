@@ -46,9 +46,21 @@ export const curiosityApi = {
   events: () => api.get('/curiosity/events'),
   ask: (text: string, mode: string = 'one_shot', tags?: string[]) =>
     api.post('/curiosity/ask', { raw_text: text, mode, tags }),
+  askSocratic: (text: string) =>
+    api.post('/curiosity/ask-socratic', { raw_text: text, mode: 'one_shot' }),
+  socraticRespond: (eventId: number, childResponse: string) =>
+    api.post('/curiosity/socratic-respond', { event_id: eventId, child_response: childResponse }),
   askSeries: (text: string) => api.post('/curiosity/ask-series', { raw_text: text }),
   seriesNext: (eventId: number, wantNext: boolean, userQuestion?: string) =>
     api.post('/curiosity/series-next', { event_id: eventId, want_next: wantNext, user_question: userQuestion }),
+}
+
+// ===== Theory =====
+export const theoryApi = {
+  list: (limit = 20, offset = 0) => api.get('/theory', { params: { limit, offset } }),
+  get: (id: number) => api.get(`/theory/${id}`),
+  create: (body: { title: string; content: string; linked_curiosity_event_id?: number; linked_article_id?: number }) =>
+    api.post('/theory', body),
 }
 
 // ===== Characters =====
@@ -71,7 +83,15 @@ export const ttsApi = {
 // ===== Stats =====
 export const statsApi = {
   overview: () => api.get('/stats/overview'),
+  categories: () => api.get('/stats/categories'),
   trend: (days?: number) => api.get('/stats/trend', { params: { days } }),
+}
+
+// ===== Concepts (Advanced) =====
+export const conceptsApi = {
+  list: () => api.get('/concepts'),
+  add: (concept: string, source: string = 'manual') => api.post('/concepts', { concept, source }),
+  remove: (id: number) => api.delete(`/concepts/${id}`),
 }
 
 // ===== STT (Speech to Text) =====
