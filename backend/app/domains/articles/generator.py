@@ -56,7 +56,7 @@ def build_article_prompt(
 2. 每个自然段2-4句话
 3. 把生字自然地融入文章
 4. 用词适合{label}认知水平
-5. 只输出文章正文，不需要标题"""
+5. 只输出文章正文，不需要标题，不要使用markdown格式（如**加粗**）"""
 
     return system, prompt
 
@@ -78,4 +78,6 @@ async def generate_article_with_pinyin(
     )
     result = await llm.generate(prompt, system=system, temperature=0.7, max_tokens=1500)
     content = result.content.strip()
+    content = re.sub(r'\*\*', '', content)
+    content = re.sub(r'__', '', content)
     return {"content": content}
