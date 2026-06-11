@@ -8,9 +8,8 @@ class Theory(Base, TimestampMixin):
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     student_id: Mapped[int] = mapped_column(Integer, ForeignKey("student.id"), nullable=False, index=True)
-    title: Mapped[str] = mapped_column(String(200), nullable=False, comment="理论标题")
-    content: Mapped[str] = mapped_column(Text, nullable=False, comment="孩子的想法/理论")
-    audio_url: Mapped[str | None] = mapped_column(Text, nullable=True, comment="语音录音URL")
+    title: Mapped[str] = mapped_column(String(200), nullable=False, comment="理论名称")
+    content: Mapped[str] = mapped_column(Text, nullable=False, comment="理论内容（孩子的想法）")
     linked_curiosity_event_id: Mapped[int | None] = mapped_column(
         Integer, ForeignKey("curiosity_event.id"), nullable=True
     )

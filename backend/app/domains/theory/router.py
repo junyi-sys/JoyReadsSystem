@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from app.database import get_db
@@ -34,7 +34,7 @@ def get_theory(
     svc = TheoryService(db)
     result = svc.get_theory(theory_id, student_id)
     if not result:
-        return {"detail": "理论不存在"}, 404
+        raise HTTPException(status_code=404, detail="理论不存在")
     return result
 
 

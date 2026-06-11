@@ -26,7 +26,7 @@ class SeriesNextRequest(BaseModel):
     user_question: str | None = None
 
 
-class SocraticRespondRequest(BaseModel):
+class SocraticAnswerRequest(BaseModel):
     event_id: int
     child_response: str
 
@@ -60,27 +60,6 @@ def ask_series(body: AskSeriesRequest, student_id: int = Depends(get_current_stu
         raise HTTPException(status_code=500, detail=f"系列启动失败: {str(e)}")
 
 
-@router.post("/ask-socratic")
-def ask_socratic(body: AskRequest, student_id: int = Depends(get_current_student_id),
-                 svc: CuriosityService = Depends(_get_service)):
-    """苏格拉底模式：AI不直接回答，而是反问一个引导性问题"""
-    try:
-        return svc.ask_socratic(student_id, body.raw_text, body.tags)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"追问生成失败: {str(e)}")
-
-
-@router.post("/socratic-respond")
-def socratic_respond(body: SocraticRespondRequest,
-                     student_id: int = Depends(get_current_student_id),
-                     svc: CuriosityService = Depends(_get_service)):
-    """孩子回答了AI的反问后，AI生成融入孩子想法的回答"""
-    try:
-        return svc.socratic_respond(body.event_id, student_id, body.child_response)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"回答生成失败: {str(e)}")
-
-
 @router.post("/series-next")
 def series_next(body: SeriesNextRequest, student_id: int = Depends(get_current_student_id),
                 svc: CuriosityService = Depends(_get_service)):
@@ -88,3 +67,25 @@ def series_next(body: SeriesNextRequest, student_id: int = Depends(get_current_s
         return svc.series_next(body.event_id, student_id, body.want_next, body.user_question)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"操作失败: {str(e)}")
+
+
+@router.post("/ask-socratic")
+def ask_socratic(body: AskRequest, student_id: int = Depends(get_current_student_id),
+                 svc: CuriosityService = Depends(_get_service)):
+    if not body.raw_text.strip():
+        raise HTTPException(status_code=400, detail="问题不能为空")
+    try:
+        return svc.ask_socratic(student_id, body.raw_text.strip())
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"苏格拉底提问失败: {str(e)}")
+
+
+@router.post("/socratic-answer")
+def submit_socratic_answer(body: SocraticAnswerRequest, student_id: int = Depends(get_current_student_id),
+                           svc: CuriosityService = Depends(_get_service)):
+    if not body.child_response.strip():
+        raise HTTPException(status_code=400, detail="回答不能为空")
+    try:
+        return svc.submit_socratic_answer(body.event_id, student_id, body.child_response.strip())
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"回答生成失败: {str(e)}")

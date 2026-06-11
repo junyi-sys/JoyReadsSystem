@@ -53,6 +53,9 @@ export const curiosityApi = {
   askSeries: (text: string) => api.post('/curiosity/ask-series', { raw_text: text }),
   seriesNext: (eventId: number, wantNext: boolean, userQuestion?: string) =>
     api.post('/curiosity/series-next', { event_id: eventId, want_next: wantNext, user_question: userQuestion }),
+  askSocratic: (text: string) => api.post('/curiosity/ask-socratic', { raw_text: text }),
+  submitSocraticAnswer: (eventId: number, childResponse: string) =>
+    api.post('/curiosity/socratic-answer', { event_id: eventId, child_response: childResponse }),
 }
 
 // ===== Theory =====

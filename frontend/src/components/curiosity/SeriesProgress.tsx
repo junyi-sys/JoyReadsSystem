@@ -8,7 +8,8 @@ interface Props {
 }
 
 export default function SeriesProgress({ series, onContinue }: Props) {
-  const readCount = series.chapters.filter((c) => c.read_status === 'read').length
+  const chapters = series.chapters || []
+  const readCount = chapters.filter((c) => c.read_status === 'read').length
   const percent = series.total_chapters > 0 ? Math.round((readCount / series.total_chapters) * 100) : 0
 
   return (
@@ -34,7 +35,7 @@ export default function SeriesProgress({ series, onContinue }: Props) {
       </div>
       <Progress percent={percent} size="small" status={percent === 100 ? 'success' : 'active'} />
       <div style={{ marginTop: 4, display: 'flex', gap: 4, flexWrap: 'wrap' }}>
-        {series.chapters.map((ch) => (
+        {chapters.map((ch) => (
           <div key={ch.chapter_number} style={{
             width: 24, height: 24, borderRadius: 12, display: 'flex',
             alignItems: 'center', justifyContent: 'center', fontSize: 11,

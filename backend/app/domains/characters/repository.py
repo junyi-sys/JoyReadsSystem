@@ -88,7 +88,9 @@ class CharacterRepository:
     # ===== Interactions =====
 
     def record_interaction(self, character: str, student_id: int, article_id: int | None = None):
-        """Record a tap-to-speak event and update character stats."""
+        """Record a tap-to-speak event and update character stats.
+        NOTE: Does NOT commit — caller must commit to persist degradation changes.
+        """
         from datetime import datetime as dt
         self.db.add(CharacterInteraction(
             student_id=student_id, character=character, article_id=article_id,
@@ -101,7 +103,7 @@ class CharacterRepository:
         if char_record:
             char_record.tap_count += 1
             char_record.last_tapped_at = dt.now()
-        self.db.commit()
+        self.db.flush()
 
     def get_interaction_counts(self, student_id: int, days: int = 30) -> dict[str, int]:
         """Get tap counts per character in recent days."""

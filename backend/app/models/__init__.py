@@ -5,7 +5,7 @@ from .character import Character, CharacterInteraction, CharacterZoneLog, DailyC
 from .curiosity import CuriosityEvent
 from .reading import ArticleReadStatus
 from .theory import Theory
-from .advanced_concept import AdvancedConcept
+from .concept import AdvancedConcept
 
 __all__ = [
     "Base", "TimestampMixin",

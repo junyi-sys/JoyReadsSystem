@@ -24,6 +24,7 @@ class CuriosityState(TypedDict, total=False):
     user_question: str
     follow_up_question: str
     child_response: str
+    theory_id: int | None
     article_id: int | None
     article_content: str
     paragraphs: list
@@ -34,6 +35,22 @@ class CuriosityState(TypedDict, total=False):
 def _make_db():
     from ...database import SessionLocal
     return SessionLocal()
+
+
+_openai_client = None
+
+
+def _get_openai_client():
+    global _openai_client
+    if _openai_client is None:
+        import httpx
+        from openai import OpenAI
+        from ...config import settings as cfg
+        _openai_client = OpenAI(
+            api_key=cfg.DEEPSEEK_API_KEY, base_url=cfg.DEEPSEEK_BASE_URL,
+            http_client=httpx.Client(timeout=120.0),
+        )
+    return _openai_client
 
 
 def node_load_event(state: CuriosityState, _db_factory) -> CuriosityState:
@@ -183,8 +200,6 @@ def node_socratic_question(state: CuriosityState, _db_factory) -> CuriosityState
         student_id = state.get("student_id", 1)
 
         from ...config import settings as cfg
-        import httpx
-        from openai import OpenAI
         import asyncio
 
         ctx = _build_student_context(db, student_id)
@@ -192,10 +207,8 @@ def node_socratic_question(state: CuriosityState, _db_factory) -> CuriosityState
 
         # Dynamic cognition: if child has advanced concepts, bump level
         effective_cog = state.get("effective_cognition", 0)
-        if ctx["concepts"] and effective_cog < 4:
+        if ctx["concepts"]:
             effective_cog = min(effective_cog + 2, cfg.COGNITION_MAX_LEVEL)
-
-        cog_label = cfg.COGNITION_LEVEL_LABELS.get(effective_cog, "儿童")
 
         # Build context preamble
         context_parts = [f"{name}问了一个问题：\"{topic}\""]
@@ -207,8 +220,7 @@ def node_socratic_question(state: CuriosityState, _db_factory) -> CuriosityState
 
         full_context = "\n".join(context_parts)
 
-        client = OpenAI(api_key=cfg.DEEPSEEK_API_KEY, base_url=cfg.DEEPSEEK_BASE_URL,
-                        http_client=httpx.Client(timeout=30.0))
+        client = _get_openai_client()
 
         prompt = f"""{full_context}
 
@@ -258,8 +270,6 @@ def node_generate_socratic_answer(state: CuriosityState, _db_factory) -> Curiosi
         event_id = state.get("event_id")
 
         from ...config import settings as cfg
-        import httpx
-        from openai import OpenAI
         import asyncio
 
         ctx = _build_student_context(db, student_id)
@@ -269,10 +279,8 @@ def node_generate_socratic_answer(state: CuriosityState, _db_factory) -> Curiosi
         effective_cog = state.get("effective_cognition", 0)
         if ctx["concepts"]:
             effective_cog = min(effective_cog + 2, cfg.COGNITION_MAX_LEVEL)
-        cog_label = cfg.COGNITION_LEVEL_LABELS.get(effective_cog, "儿童")
 
-        client = OpenAI(api_key=cfg.DEEPSEEK_API_KEY, base_url=cfg.DEEPSEEK_BASE_URL,
-                        http_client=httpx.Client(timeout=60.0))
+        client = _get_openai_client()
 
         # Build rich context
         context_parts = []
@@ -380,15 +388,13 @@ def node_generate_socratic_answer(state: CuriosityState, _db_factory) -> Curiosi
 
 
 def node_decompose_topic(state: CuriosityState, _db_factory) -> CuriosityState:
-    topic = state["raw_text"]
+    topic = state.get("raw_text", "")
+    raw = None
     try:
-        import httpx
-        from openai import OpenAI
         from ...config import settings as cfg
         import json, asyncio
 
-        client = OpenAI(api_key=cfg.DEEPSEEK_API_KEY, base_url=cfg.DEEPSEEK_BASE_URL,
-                        http_client=httpx.Client(timeout=30.0))
+        client = _get_openai_client()
         resp = asyncio.run(asyncio.to_thread(
             lambda: client.chat.completions.create(
                 model=cfg.DEEPSEEK_MODEL,
@@ -409,12 +415,14 @@ def node_decompose_topic(state: CuriosityState, _db_factory) -> CuriosityState:
 
         return {"chapter_titles": chapters, "current_chapter": 0}
     except Exception as e:
-        logger.error(f"node_decompose_topic: {e}, raw response: {raw if 'raw' in dir() else 'N/A'}")
+        raw_preview = raw[:200] if raw else "N/A"
+        logger.error(f"node_decompose_topic: {e}, raw response: {raw_preview}")
+        fallback_topic = topic[:10] if topic else "知识"
         return {
             "chapter_titles": [
-                {"ch": 1, "title": f"什么是{topic[:10]}？", "summary": "基本概念"},
-                {"ch": 2, "title": f"{topic[:10]}是怎么形成的？", "summary": "深入原理"},
-                {"ch": 3, "title": f"我们能看见{topic[:10]}吗？", "summary": "观察方法"},
+                {"ch": 1, "title": f"什么是{fallback_topic}？", "summary": "基本概念"},
+                {"ch": 2, "title": f"{fallback_topic}是怎么形成的？", "summary": "深入原理"},
+                {"ch": 3, "title": f"我们能看见{fallback_topic}吗？", "summary": "观察方法"},
             ],
             "current_chapter": 0,
         }
@@ -438,9 +446,9 @@ def node_generate_chapter(state: CuriosityState, _db_factory) -> CuriosityState:
         ch_title = ch.get("title", "")
         ch_summary = ch.get("summary", "")
 
-        import httpx
-        from openai import OpenAI
         import asyncio
+
+        client = _get_openai_client()
 
         ctx = _build_student_context(db, student_id)
         name = ctx["name"]

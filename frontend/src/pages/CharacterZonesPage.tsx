@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Col, Row, Spin, Modal, Input, Select, Button, message, Space, Tag } from 'antd'
+import { Col, Row, Spin, Modal, Input, Select, Button, Space, Tag } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { motion } from 'framer-motion'
 import { charactersApi } from '../services/api'
 import { useStudentStore } from '../store/useStudentStore'
+import { useMessage } from '../hooks/useMessage'
 import type { ZoneStats, CharacterItem } from '../types'
 import ZoneBoard from '../components/character/ZoneBoard'
 import { pageTransition, fadeInUp } from '../theme/animations'
@@ -16,6 +17,7 @@ const ZONES = [
 ]
 
 export default function CharacterZonesPage() {
+  const message = useMessage()
   const currentStudent = useStudentStore((s) => s.currentStudent)
   const [stats, setStats] = useState<ZoneStats | null>(null)
   const [zoneChars, setZoneChars] = useState<Record<string, CharacterItem[]>>({})

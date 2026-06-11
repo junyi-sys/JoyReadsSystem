@@ -16,6 +16,7 @@ export const useStudentStore = create<StudentState>((set, get) => ({
   loading: false,
 
   loadStudents: async () => {
+    if (get().students.length > 0) return
     set({ loading: true })
     try {
       const { data } = await studentsApi.list()

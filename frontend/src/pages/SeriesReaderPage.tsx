@@ -1,9 +1,10 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Layout, Menu, Spin, Empty, Button, Tag, Progress, message, Card, Input } from 'antd'
+import { Layout, Menu, Spin, Empty, Button, Tag, Progress, Card, Input } from 'antd'
 import { ArrowLeftOutlined, PlayCircleOutlined, CheckCircleOutlined, ReadOutlined, AudioOutlined, AudioMutedOutlined, SendOutlined } from '@ant-design/icons'
 import { motion } from 'framer-motion'
 import { articlesApi, curiosityApi, sttApi } from '../services/api'
+import { useMessage } from '../hooks/useMessage'
 import type { SeriesInfo, ArticleWithPinyin, ChapterItem } from '../types'
 import ArticleReader from '../components/reader/ArticleReader'
 import { pageTransition, fadeInUp } from '../theme/animations'
@@ -12,6 +13,7 @@ const { Sider, Content } = Layout
 const MAX_RECORD_SEC = 60
 
 export default function SeriesReaderPage() {
+  const message = useMessage()
   const { seriesId } = useParams()
   const navigate = useNavigate()
   const [series, setSeries] = useState<SeriesInfo | null>(null)
@@ -29,12 +31,16 @@ export default function SeriesReaderPage() {
   const streamRef = useRef<MediaStream | null>(null)
   const timerRef = useRef<number>(0)
 
+  const sid = parseInt(seriesId || '', 10)
+  const invalidSeriesId = !seriesId || isNaN(sid)
+
   useEffect(() => {
-    if (!seriesId) return
+    if (invalidSeriesId) return
     setLoading(true)
-    articlesApi.getSeries(parseInt(seriesId, 10))
+    articlesApi.getSeries(sid)
       .then(({ data }) => {
         setSeries(data)
+        if (!data.chapters || data.chapters.length === 0) return
         const firstUnread = data.chapters.find((c: ChapterItem) => c.read_status === 'unread')
         const toLoad = firstUnread || data.chapters[0]
         if (toLoad) loadChapter(toLoad.chapter_number)
@@ -127,7 +133,7 @@ export default function SeriesReaderPage() {
     }
     setChapterLoading(true)
     try {
-      const { data } = await articlesApi.getSeriesChapter(parseInt(seriesId!, 10), chNum)
+      const { data } = await articlesApi.getSeriesChapter(sid, chNum)
       setCurrentChapter(data)
       articlesApi.updateReadStatus(data.id, { status: 'reading', read_count: 0, total_count: data.paragraphs?.length || 0 }).catch(() => {})
     } catch { message.error('加载章节失败') }
@@ -180,11 +186,13 @@ export default function SeriesReaderPage() {
     finally { setGeneratingNext(false) }
   }
 
+  if (invalidSeriesId) return <div style={{ textAlign: 'center', marginTop: 100, color: '#999' }}>无效的系列ID</div>
   if (loading || !series) return <Spin spinning style={{ display: 'flex', justifyContent: 'center', marginTop: 100 }} />
 
-  const readCount = series.chapters.filter((c) => c.read_status === 'read').length
+  const chapters = series.chapters || []
+  const readCount = chapters.filter((c) => c.read_status === 'read').length
   const progress = series.total_chapters > 0 ? Math.round((readCount / series.total_chapters) * 100) : 0
-  const currentCh = series.chapters.find((c) => c.chapter_number === (currentChapter as any)?.chapter_number)
+  const currentCh = chapters.find((c) => c.chapter_number === (currentChapter as any)?.chapter_number)
   const isLastChapter = currentChapter?.chapter_number ? currentChapter.chapter_number >= series.current_chapter : false
 
   return (
@@ -212,13 +220,13 @@ export default function SeriesReaderPage() {
           </div>
           <Menu mode="inline" selectedKeys={currentCh ? [String(currentCh.chapter_number)] : []}
             style={{ border: 'none', background: 'transparent' }}
-            items={series.chapters.map((ch) => ({
+            items={chapters.map((ch) => ({
               key: String(ch.chapter_number),
               icon: ch.read_status === 'read' ? <CheckCircleOutlined style={{ color: '#52c41a' }} /> : <ReadOutlined />,
               label: <span>第{ch.chapter_number}章 {!collapsed && <span style={{ fontSize: 12, color: '#888' }}>{ch.title.length > 20 ? ch.title.slice(0, 20) + '...' : ch.title}</span>}</span>,
             }))}
             onClick={({ key }) => {
-              const ch = series.chapters.find((c) => c.chapter_number === parseInt(key, 10))
+              const ch = chapters.find((c) => c.chapter_number === parseInt(key, 10))
               if (ch) loadChapter(ch.chapter_number)
             }}
           />

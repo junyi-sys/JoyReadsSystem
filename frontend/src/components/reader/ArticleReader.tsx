@@ -3,9 +3,10 @@ import { motion } from 'framer-motion'
 import { fadeInUp, staggerContainer } from '../../theme/animations'
 import type { ArticleWithPinyin } from '../../types'
 import PinyinWord from './PinyinWord'
-import { Card, Tag, Typography, Button, message, Tooltip } from 'antd'
+import { Card, Tag, Typography, Button, Tooltip } from 'antd'
 import { BookOutlined, CheckCircleOutlined, StarOutlined, FireOutlined, BulbOutlined } from '@ant-design/icons'
 import { prewarmChars } from './audioCache'
+import { useMessage } from '../../hooks/useMessage'
 
 interface Props {
   article: ArticleWithPinyin
@@ -41,6 +42,7 @@ function uniqueChars(article: ArticleWithPinyin): string[] {
 }
 
 export default function ArticleReader({ article, onReadComplete, isRead }: Props) {
+  const message = useMessage()
   const [completing, setCompleting] = useState(false)
 
   useEffect(() => {

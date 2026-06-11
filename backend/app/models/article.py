@@ -23,6 +23,7 @@ class DailyArticle(Base, TimestampMixin):
     images_json: Mapped[list | None] = mapped_column(JSON, nullable=True, comment="段落配图列表")
     series_id: Mapped[int | None] = mapped_column(Integer, ForeignKey("article_series.id"), nullable=True, index=True)
     chapter_number: Mapped[int | None] = mapped_column(Integer, nullable=True, comment="章序号 1/2/3...")
+    topic_category: Mapped[str | None] = mapped_column(String(50), nullable=True, comment="话题分类")
 
 
 class ArticleSeries(Base, TimestampMixin):
