@@ -19,6 +19,8 @@ class CuriosityService:
             "mode": e.mode, "is_answered": e.is_answered,
             "linked_article_id": e.linked_article_id,
             "intensity_score": e.intensity_score,
+            "socratic_mode": e.socratic_mode if hasattr(e, 'socratic_mode') else False,
+            "follow_up_question": e.follow_up_question if hasattr(e, 'follow_up_question') else None,
             "created_at": e.created_at.isoformat() if e.created_at else None,
         } for e in events]
 
@@ -94,6 +96,58 @@ class CuriosityService:
             "article_id": result.get("article_id"),
             "article_content": result.get("article_content", ""),
             "paragraphs": result.get("paragraphs", []),
+        }
+
+    def ask_socratic(self, student_id: int, raw_text: str) -> dict:
+        """Start a Socratic dialogue: generate a follow-up question instead of an answer."""
+        from ...models import CuriosityEvent
+        event = CuriosityEvent(
+            student_id=student_id, raw_text=raw_text, mode="one_shot",
+        )
+        self.db.add(event)
+        self.db.commit()
+        self.db.refresh(event)
+
+        graph = get_curiosity_graph()
+        config = {"configurable": {"thread_id": f"socratic_{event.id}_{uuid.uuid4().hex[:6]}"}}
+        result = graph.invoke({
+            "event_id": event.id, "student_id": student_id,
+            "mode": "one_shot", "raw_text": raw_text,
+            "socratic_mode": True,
+        }, config)
+
+        if result.get("error"):
+            return {"error": result["error"], "event_id": event.id}
+
+        return {
+            "event_id": event.id,
+            "follow_up_question": result.get("follow_up_question", ""),
+        }
+
+    def submit_socratic_answer(self, event_id: int, student_id: int, child_response: str) -> dict:
+        """Submit child's response to a Socratic question and generate a full answer."""
+        from ...models import CuriosityEvent
+        event = self.db.query(CuriosityEvent).filter(CuriosityEvent.id == event_id).first()
+        if not event:
+            return {"error": "事件不存在"}
+
+        graph = get_curiosity_graph()
+        config = {"configurable": {"thread_id": f"socratic_ans_{event_id}_{uuid.uuid4().hex[:6]}"}}
+        result = graph.invoke({
+            "event_id": event_id, "student_id": student_id,
+            "mode": "one_shot", "raw_text": event.raw_text or "",
+            "socratic_mode": True, "child_response": child_response,
+        }, config)
+
+        if result.get("error"):
+            return {"error": result["error"], "event_id": event_id}
+
+        return {
+            "event_id": event_id,
+            "article_id": result.get("article_id"),
+            "article_content": result.get("article_content", ""),
+            "paragraphs": result.get("paragraphs", []),
+            "theory_id": result.get("theory_id"),
         }
 
     def series_next(self, event_id: int, student_id: int, want_next: bool, user_question: str | None = None) -> dict:

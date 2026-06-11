@@ -1,18 +1,24 @@
 import { useEffect } from 'react'
-import { Select, Avatar, message, Tag } from 'antd'
+import { Select, Avatar, Tag } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { useStudentStore } from '../../store/useStudentStore'
+import { useMessage } from '../../hooks/useMessage'
 import { COGNITION_LABELS } from '../../types'
 
 export default function StudentSwitcher() {
   const { currentStudent, students, loading, loadStudents, switchStudent } = useStudentStore()
+  const message = useMessage()
 
   useEffect(() => { loadStudents() }, [])
 
   return (
     <Select
       value={currentStudent?.id}
-      onChange={(id) => { switchStudent(id); message.success(`已切换到${currentStudent?.name}`) }}
+      onChange={(id) => {
+        const name = students.find((s) => s.id === id)?.name || ''
+        switchStudent(id)
+        message.success(`已切换到${name}`)
+      }}
       loading={loading}
       style={{ width: 180 }}
       options={students.map((s) => ({

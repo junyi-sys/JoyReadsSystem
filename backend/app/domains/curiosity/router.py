@@ -26,6 +26,11 @@ class SeriesNextRequest(BaseModel):
     user_question: str | None = None
 
 
+class SocraticAnswerRequest(BaseModel):
+    event_id: int
+    child_response: str
+
+
 def _get_service(db: Session = Depends(get_db)) -> CuriosityService:
     return CuriosityService(db, Container.llm())
 
@@ -62,3 +67,25 @@ def series_next(body: SeriesNextRequest, student_id: int = Depends(get_current_s
         return svc.series_next(body.event_id, student_id, body.want_next, body.user_question)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"操作失败: {str(e)}")
+
+
+@router.post("/ask-socratic")
+def ask_socratic(body: AskRequest, student_id: int = Depends(get_current_student_id),
+                 svc: CuriosityService = Depends(_get_service)):
+    if not body.raw_text.strip():
+        raise HTTPException(status_code=400, detail="问题不能为空")
+    try:
+        return svc.ask_socratic(student_id, body.raw_text.strip())
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"苏格拉底提问失败: {str(e)}")
+
+
+@router.post("/socratic-answer")
+def submit_socratic_answer(body: SocraticAnswerRequest, student_id: int = Depends(get_current_student_id),
+                           svc: CuriosityService = Depends(_get_service)):
+    if not body.child_response.strip():
+        raise HTTPException(status_code=400, detail="回答不能为空")
+    try:
+        return svc.submit_socratic_answer(body.event_id, student_id, body.child_response.strip())
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"回答生成失败: {str(e)}")

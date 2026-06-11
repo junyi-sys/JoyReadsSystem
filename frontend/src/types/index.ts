@@ -96,6 +96,8 @@ export interface CuriosityEvent {
   is_answered: boolean
   linked_article_id: number | null
   intensity_score: number
+  socratic_mode?: boolean
+  follow_up_question?: string | null
   created_at: string
 }
 

@@ -26,11 +26,13 @@ export default function CuriosityBubble({ event }: Props) {
               {intensityEmoji} {event.raw_text}
             </Typography.Text>
             <div style={{ marginTop: 6 }}>
-              <Tag color={event.mode === 'series' ? 'orange' : 'blue'} style={{ borderRadius: 10 }}>
-                {event.mode === 'series' ? '系列故事' : '快速回答'}
+              <Tag color={event.socratic_mode ? 'orange' : event.mode === 'series' ? 'orange' : 'blue'} style={{ borderRadius: 10 }}>
+                {event.socratic_mode ? '苏格拉底' : event.mode === 'series' ? '系列故事' : '快速回答'}
               </Tag>
               {event.is_answered ? (
                 <Tag color="green" style={{ borderRadius: 10 }}>已回答</Tag>
+              ) : event.socratic_mode && event.follow_up_question ? (
+                <Tag color="purple" style={{ borderRadius: 10 }}>等你回答</Tag>
               ) : (
                 <Tag color="gold" style={{ borderRadius: 10 }}>处理中</Tag>
               )}

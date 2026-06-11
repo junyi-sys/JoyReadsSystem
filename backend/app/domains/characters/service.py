@@ -63,6 +63,7 @@ class CharacterService:
         """Record a tap event and check auto-degradation rules."""
         self.repo.record_interaction(character, student_id, article_id)
         self.repo.check_tap_degrade(character, student_id, article_id)
+        self.repo.db.commit()
 
     def on_article_read(self, content: str, student_id: int, article_id: int):
         """Auto-promotion engine triggered when article is marked read."""

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Card, Button, Spin, Empty, Modal, Input, message, Tag, Select, Slider, Switch, Collapse } from 'antd'
+import { Card, Button, Spin, Empty, Modal, Input, Tag, Select, Slider, Switch, Collapse } from 'antd'
 import { PlusOutlined, BulbOutlined, SettingOutlined } from '@ant-design/icons'
 import { motion } from 'framer-motion'
 import { articlesApi } from '../services/api'
@@ -7,10 +7,12 @@ import { useStudentStore } from '../store/useStudentStore'
 import type { ArticleWithPinyin, ArticleParams } from '../types'
 import ArticleReader from '../components/reader/ArticleReader'
 import { pageTransition, fadeInUp } from '../theme/animations'
+import { useMessage } from '../hooks/useMessage'
 
 const ARTICLE_LENGTHS = [30, 50, 80, 100, 150, 200, 300, 500, 800, 1200] as const
 
 export default function HomePage() {
+  const message = useMessage()
   const currentStudent = useStudentStore((s) => s.currentStudent)
   const [article, setArticle] = useState<ArticleWithPinyin | null>(null)
   const [loading, setLoading] = useState(true)
