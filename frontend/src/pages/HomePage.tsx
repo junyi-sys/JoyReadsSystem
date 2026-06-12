@@ -6,6 +6,7 @@ import { articlesApi } from '../services/api'
 import { useStudentStore } from '../store/useStudentStore'
 import type { ArticleWithPinyin, ArticleParams } from '../types'
 import ArticleReader from '../components/reader/ArticleReader'
+import VoiceInputButton from '../components/ui/VoiceInputButton'
 import { pageTransition, fadeInUp } from '../theme/animations'
 import { useMessage } from '../hooks/useMessage'
 
@@ -148,12 +149,17 @@ export default function HomePage() {
         okButtonProps={{ style: { borderRadius: 16 } }}>
         <div style={{ marginBottom: 12 }}>
           <div style={{ marginBottom: 4, fontWeight: 500 }}>文章主题 <span style={{ color: '#ff4d4f' }}>*</span></div>
-          <Input
-            placeholder="例如：春天来了"
-            value={topic}
-            onChange={(e) => setTopic(e.target.value)}
-            style={{ borderRadius: 12 }}
-          />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            <Input
+              placeholder="例如：春天来了"
+              value={topic}
+              onChange={(e) => setTopic(e.target.value)}
+              style={{ borderRadius: 12, flex: 1 }}
+            />
+            <VoiceInputButton
+              onResult={(text) => setTopic((p) => (p ? p + ' ' + text : text))}
+            />
+          </div>
         </div>
         <div style={{ marginBottom: 12 }}>
           <div style={{ marginBottom: 4, fontWeight: 500 }}>生字（选填）</div>
@@ -175,13 +181,19 @@ export default function HomePage() {
         </div>
         <div style={{ marginBottom: 8 }}>
           <div style={{ marginBottom: 4, fontWeight: 500 }}>主题摘要（选填）</div>
-          <Input.TextArea
-            placeholder="描述文章要包含的内容"
-            value={summary}
-            onChange={(e) => setSummary(e.target.value)}
-            rows={2}
-            style={{ borderRadius: 12 }}
-          />
+          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+            <Input.TextArea
+              placeholder="描述文章要包含的内容"
+              value={summary}
+              onChange={(e) => setSummary(e.target.value)}
+              rows={2}
+              style={{ borderRadius: 12, flex: 1 }}
+            />
+            <VoiceInputButton
+              onResult={(text) => setSummary((p) => (p ? p + ' ' + text : text))}
+              style={{ marginTop: 4 }}
+            />
+          </div>
         </div>
 
         <Collapse

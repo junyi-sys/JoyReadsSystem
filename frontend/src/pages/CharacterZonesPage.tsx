@@ -7,6 +7,7 @@ import { useStudentStore } from '../store/useStudentStore'
 import { useMessage } from '../hooks/useMessage'
 import type { ZoneStats, CharacterItem } from '../types'
 import ZoneBoard from '../components/character/ZoneBoard'
+import VoiceInputButton from '../components/ui/VoiceInputButton'
 import { pageTransition, fadeInUp } from '../theme/animations'
 
 const ZONES = [
@@ -119,13 +120,19 @@ export default function CharacterZonesPage() {
 
       <Modal title="添加汉字" open={addOpen} onCancel={() => setAddOpen(false)} onOk={handleAdd}
         confirmLoading={adding} okText="添加" cancelText="取消" width={420}>
-        <Input.TextArea
-          placeholder="输入一个或多个汉字，如：春天花草木"
-          value={newChars}
-          onChange={(e) => setNewChars(e.target.value)}
-          autoSize={{ minRows: 2, maxRows: 4 }}
-          style={{ borderRadius: 12, fontSize: 20, marginBottom: 12 }}
-        />
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginBottom: 12 }}>
+          <Input.TextArea
+            placeholder="输入一个或多个汉字，如：春天花草木"
+            value={newChars}
+            onChange={(e) => setNewChars(e.target.value)}
+            autoSize={{ minRows: 2, maxRows: 4 }}
+            style={{ borderRadius: 12, fontSize: 20, flex: 1 }}
+          />
+          <VoiceInputButton
+            onResult={(text) => setNewChars((p) => (p ? p + text : text))}
+            style={{ marginTop: 6 }}
+          />
+        </div>
         <Select value={newZone} onChange={setNewZone} style={{ width: '100%', borderRadius: 12 }}>
           {ZONES.map((z) => (
             <Select.Option key={z.key} value={z.key}>{z.icon} {z.title} - {z.desc}</Select.Option>

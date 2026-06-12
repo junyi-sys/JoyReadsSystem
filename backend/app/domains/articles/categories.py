@@ -11,6 +11,20 @@ CATEGORY_KEYWORDS: dict[str, list[str]] = {
     "科技": ["电脑", "手机", "互联网", "AI", "机器人", "火箭", "卫星", "发明", "编程", "数据"],
 }
 
+TOPIC_CATEGORIES = list(CATEGORY_KEYWORDS.keys()) + ["其他"]
+
+CATEGORY_ICONS: dict[str, str] = {
+    "天文": "🌌", "生物": "🌿", "物理": "⚛️", "化学": "🧪",
+    "地理": "🌍", "历史": "📜", "人体": "🧬", "科技": "🚀",
+    "其他": "📌", "综合": "📌",
+}
+
+CATEGORY_COLORS: dict[str, str] = {
+    "天文": "#722ed1", "生物": "#52c41a", "物理": "#1677ff", "化学": "#fa8c16",
+    "地理": "#13c2c2", "历史": "#eb2f96", "人体": "#f5222d", "科技": "#2f54eb",
+    "其他": "#8c8c8c", "综合": "#8c8c8c",
+}
+
 
 def detect_category(topic: str, content: str = "") -> str:
     text = topic + content[:200] if content else topic

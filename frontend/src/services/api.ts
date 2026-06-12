@@ -99,10 +99,10 @@ export const conceptsApi = {
 
 // ===== STT (Speech to Text) =====
 export const sttApi = {
-  transcribe: (audioBlob: Blob) => {
+  transcribe: (audioBlob: Blob, ext: string = 'webm') => {
     const fd = new FormData()
-    fd.append('file', audioBlob, 'recording.webm')
-    return api.post('/stt/transcribe', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+    fd.append('file', audioBlob, `recording.${ext}`)
+    return api.post('/stt/transcribe', fd)
   },
 }
 
