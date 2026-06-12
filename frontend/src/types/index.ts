@@ -183,7 +183,7 @@ export interface CuriositySeed {
 
 export interface KnowledgeNode {
   id: number; student_id: number; concept: string; depth: number
-  first_exposed_at: string; last_updated_at: string
+  first_exposed_at: string; updated_at: string
   source: 'curiosity' | 'reading' | 'theory' | 'manual'
   evidence: string | null
 }
