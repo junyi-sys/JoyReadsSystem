@@ -12,6 +12,8 @@ import { useStudentStore } from '../store/useStudentStore'
 export default function StatsPage() {
   const [stats, setStats] = useState<StatsOverview | null>(null)
   const [levelProgress, setLevelProgress] = useState<LevelProgress | null>(null)
+  // TODO: category stats — needs backend /api/stats/categories endpoint and CategoryStats type
+  // const [categoryStats, setCategoryStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const currentStudent = useStudentStore((s) => s.currentStudent)
 
@@ -21,6 +23,7 @@ export default function StatsPage() {
     Promise.all([
       statsApi.overview().then(({ data }) => setStats(data)),
       studentsApi.levelProgress(studentId).then(({ data }) => setLevelProgress(data)),
+      // statsApi.categories().then(({ data }) => setCategoryStats(data)),
     ]).catch(() => {}).finally(() => setLoading(false))
   }, [currentStudent])
 
@@ -139,6 +142,8 @@ export default function StatsPage() {
             </Row>
           </Card>
         </motion.div>
+
+{/* TODO: category stats — blocked on backend /api/stats/categories endpoint */}
 
         <motion.div variants={fadeInUp} style={{ textAlign: 'center', padding: 40 }}>
           <Typography.Text type="secondary" style={{ fontSize: 16, fontFamily: '"ZCOOL KuaiLe",cursive' }}>
