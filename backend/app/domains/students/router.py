@@ -55,8 +55,9 @@ def get_level(student_id: int, db: Session = Depends(get_db)):
     cfg_ = db.query(LevelConfig).filter(
         LevelConfig.student_id == student_id, LevelConfig.level == student.cognition_level + 1
     ).first()
-    word_threshold = cfg_.word_threshold if cfg_ else 100
-    article_threshold = cfg_.article_threshold if cfg_ else 5
+    defaults = cfg.LEVEL_THRESHOLDS.get(student.cognition_level + 1, {"articles": 5, "chars": 50})
+    word_threshold = cfg_.word_threshold if cfg_ else defaults.get("chars", 50)
+    article_threshold = cfg_.article_threshold if cfg_ else defaults.get("articles", 5)
     next_level = student.cognition_level + 1 if student.cognition_level < 6 else None
     return {
         "current_level": student.cognition_level,

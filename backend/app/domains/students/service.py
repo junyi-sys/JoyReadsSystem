@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from ...models import Student, Character
+from ...models import Student, Character, LevelConfig
 from ...models.reading import ArticleReadStatus
 from ...config import settings as cfg
 
@@ -7,6 +7,16 @@ from ...config import settings as cfg
 class StudentService:
     def __init__(self, db: Session):
         self.db = db
+
+    def _get_thresholds(self, student_id: int, level: int) -> dict:
+        """Get thresholds for a level, preferring custom LevelConfig over defaults."""
+        cfg_row = self.db.query(LevelConfig).filter(
+            LevelConfig.student_id == student_id, LevelConfig.level == level
+        ).first()
+        if cfg_row:
+            return {"articles": cfg_row.article_threshold, "chars": cfg_row.word_threshold}
+        defaults = cfg.LEVEL_THRESHOLDS.get(level, {})
+        return {"articles": defaults.get("articles", 5), "chars": defaults.get("chars", 10)}
 
     def get_student(self, student_id: int) -> Student | None:
         return self.db.query(Student).filter(Student.id == student_id).first()
@@ -17,9 +27,7 @@ class StudentService:
             return None
 
         next_level = student.cognition_level + 1
-        threshold = cfg.LEVEL_THRESHOLDS.get(next_level)
-        if not threshold:
-            return None
+        threshold = self._get_thresholds(student_id, next_level)
 
         total_read = self.db.query(ArticleReadStatus).filter(
             ArticleReadStatus.student_id == student_id,
@@ -60,7 +68,7 @@ class StudentService:
 
         current = student.cognition_level
         next_level = min(current + 1, 6) if current < 6 else None
-        threshold = cfg.LEVEL_THRESHOLDS.get(next_level) if next_level else None
+        threshold = self._get_thresholds(student_id, next_level) if next_level else None
 
         return {
             "current_level": current,
