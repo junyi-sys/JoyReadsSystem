@@ -1,0 +1,18 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Bash",
+        "if": "Bash(git merge *)",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "taskkill //F //IM python.exe 2>/dev/null; taskkill //F //IM python3.exe 2>/dev/null; echo 'old server processes killed'",
+            "timeout": 10,
+            "statusMessage": "Killing old server processes..."
+          }
+        ]
+      }
+    ]
+  }
+}
