@@ -158,3 +158,64 @@ export interface LevelProgress {
   chars_needed: number
   can_level_up: boolean
 }
+
+export interface ReadingPlan {
+  id: number; student_id: number; name: string
+  start_date: string; end_date: string
+  status: 'active' | 'completed' | 'paused'
+  week_count: number; current_week: number
+}
+
+export interface PlanDay {
+  id: number; plan_id: number; week_number: number; day_of_week: number
+  topic_category: string; focus: string
+  article_id: number | null; guide_text: string | null
+  status: 'pending' | 'reading' | 'completed' | 'skipped'
+}
+
+export interface CuriositySeed {
+  id: number; student_id: number; question_text: string
+  source: 'curiosity_chat' | 'reading_summary' | 'manual'
+  source_article_id: number | null
+  status: 'pending' | 'growing' | 'converted' | 'skipped'
+  converted_article_id: number | null; created_at: string
+}
+
+export interface KnowledgeNode {
+  id: number; student_id: number; concept: string; depth: number
+  first_exposed_at: string; last_updated_at: string
+  source: 'curiosity' | 'reading' | 'theory' | 'manual'
+  evidence: string | null
+}
+
+export interface ComprehensionRecord {
+  id: number; student_id: number; article_id: number
+  plan_day_id: number | null; focus: string
+  question: string; correct_answer: string; child_answer: string
+  is_correct: boolean; created_at: string
+}
+
+export interface FeatureFlags {
+  student_id: number; socratic_enabled: boolean
+  seed_auto_grow: boolean; ai_review_enabled: boolean
+  reading_plan_enabled: boolean
+}
+
+export interface TheoryItem {
+  id: number; title: string; content: string | null
+  transcript: string | null; ai_summary: string | null
+  ai_encouragement: string | null
+  linked_curiosity_event_id: number | null
+  linked_article_id: number | null
+  has_audio: boolean; created_at: string
+}
+
+export interface RadarData {
+  plot: number; character: number; detail: number
+  association: number; imagination: number
+}
+
+export interface ParentStudentOverview {
+  id: number; name: string; age: number; level: number
+  articles_read: number; last_activity: string | null; is_active: boolean
+}
