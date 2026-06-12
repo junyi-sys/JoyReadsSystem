@@ -46,10 +46,6 @@ export const curiosityApi = {
   events: () => api.get('/curiosity/events'),
   ask: (text: string, mode: string = 'one_shot', tags?: string[]) =>
     api.post('/curiosity/ask', { raw_text: text, mode, tags }),
-  askSocratic: (text: string) =>
-    api.post('/curiosity/ask-socratic', { raw_text: text, mode: 'one_shot' }),
-  socraticRespond: (eventId: number, childResponse: string) =>
-    api.post('/curiosity/socratic-respond', { event_id: eventId, child_response: childResponse }),
   askSeries: (text: string) => api.post('/curiosity/ask-series', { raw_text: text }),
   seriesNext: (eventId: number, wantNext: boolean, userQuestion?: string) =>
     api.post('/curiosity/series-next', { event_id: eventId, want_next: wantNext, user_question: userQuestion }),
