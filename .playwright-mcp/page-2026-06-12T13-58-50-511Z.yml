@@ -1,0 +1,108 @@
+- generic [ref=e1]:
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - complementary [ref=e5]:
+        - generic [ref=e7]:
+          - generic [ref=e8]: 俊宜阅读
+          - menu [ref=e9]:
+            - menuitem "home 首页" [ref=e10] [cursor=pointer]:
+              - img "home" [ref=e11]:
+                - img [ref=e12]
+              - generic [ref=e14]: 首页
+            - menuitem "bulb 好奇心" [ref=e15] [cursor=pointer]:
+              - img "bulb" [ref=e16]:
+                - img [ref=e17]
+              - generic [ref=e19]: 好奇心
+            - menuitem "read 字库" [ref=e20] [cursor=pointer]:
+              - img "read" [ref=e21]:
+                - img [ref=e22]
+              - generic [ref=e24]: 字库
+            - menuitem "book 文章" [ref=e25] [cursor=pointer]:
+              - img "book" [ref=e26]:
+                - img [ref=e27]
+              - generic [ref=e29]: 文章
+            - menuitem "bar-chart 统计" [ref=e30] [cursor=pointer]:
+              - img "bar-chart" [ref=e31]:
+                - img [ref=e32]
+              - generic [ref=e34]: 统计
+        - img "left" [ref=e36] [cursor=pointer]:
+          - img [ref=e37]
+      - generic [ref=e39]:
+        - banner [ref=e40]:
+          - generic [ref=e41] [cursor=pointer]:
+            - generic [ref=e43]:
+              - combobox [ref=e45]
+              - generic [ref=e47]:
+                - img "user" [ref=e49]:
+                  - img [ref=e50]
+                - text: 俊宜
+                - generic [ref=e52]: 一年级
+            - generic:
+              - img:
+                - img
+        - main [ref=e53]:
+          - generic [ref=e63]:
+            - generic [ref=e64]:
+              - heading "今日文章 俊宜" [level=1] [ref=e65]:
+                - text: 今日文章
+                - generic [ref=e66]: 俊宜
+              - button "plus 生成文章" [ref=e67] [cursor=pointer]:
+                - img "plus" [ref=e69]:
+                  - img [ref=e70]
+                - generic [ref=e73]: 生成文章
+            - generic [ref=e77]:
+              - img "bulb" [ref=e79]:
+                - img [ref=e80]
+              - generic [ref=e82]: 今天还没有文章哦~ 点击"生成文章"开始吧！
+              - button "plus 生成今日文章" [ref=e84] [cursor=pointer]:
+                - img "plus" [ref=e86]:
+                  - img [ref=e87]
+                - generic [ref=e90]: 生成今日文章
+    - generic "加油！" [ref=e62] [cursor=pointer]: 🐱
+  - generic [ref=e91]:
+    - dialog "AI 生成文章":
+      - generic [ref=e92]:
+        - button "Close" [ref=e93] [cursor=pointer]:
+          - generic "关闭" [ref=e94]:
+            - img "close" [ref=e95]:
+              - img [ref=e96]
+        - generic [ref=e99]: AI 生成文章
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - generic [ref=e102]: 文章主题 *
+            - generic [ref=e103]:
+              - textbox "例如：春天来了" [ref=e104]
+              - button "audio" [ref=e107] [cursor=pointer]:
+                - img "audio" [ref=e109]:
+                  - img [ref=e110]
+          - generic [ref=e112]:
+            - generic [ref=e113]: 生字（选填）
+            - textbox "输入生字，用逗号或空格分隔，例如：花,草,风" [ref=e114]
+          - generic [ref=e115]:
+            - generic [ref=e116]: 文章字数
+            - generic [ref=e117] [cursor=pointer]:
+              - generic [ref=e119]:
+                - combobox [ref=e121]
+                - generic "900" [ref=e122]
+              - generic:
+                - img:
+                  - img
+          - generic [ref=e123]:
+            - generic [ref=e124]: 主题摘要（选填）
+            - generic [ref=e125]:
+              - textbox "描述文章要包含的内容" [ref=e126]
+              - button "audio" [ref=e129] [cursor=pointer]:
+                - img "audio" [ref=e131]:
+                  - img [ref=e132]
+          - button "collapsed setting 家长模式（高级设置）" [ref=e136] [cursor=pointer]:
+            - img "collapsed" [ref=e138]:
+              - img [ref=e139]
+            - generic [ref=e142]:
+              - img "setting" [ref=e143]:
+                - img [ref=e144]
+              - text: 家长模式（高级设置）
+        - generic [ref=e146]:
+          - button "取 消" [ref=e147] [cursor=pointer]:
+            - generic [ref=e148]: 取 消
+          - button "开始生成" [ref=e149] [cursor=pointer]:
+            - generic [ref=e150]: 开始生成

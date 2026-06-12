@@ -1,0 +1,295 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - complementary [ref=e5]:
+      - generic [ref=e7]:
+        - generic [ref=e8]: 俊宜阅读
+        - menu [ref=e9]:
+          - menuitem "home 首页" [ref=e10] [cursor=pointer]:
+            - img "home" [ref=e11]:
+              - img [ref=e12]
+            - generic [ref=e14]: 首页
+          - menuitem "bulb 好奇心" [ref=e15] [cursor=pointer]:
+            - img "bulb" [ref=e16]:
+              - img [ref=e17]
+            - generic [ref=e19]: 好奇心
+          - menuitem "read 字库" [ref=e20] [cursor=pointer]:
+            - img "read" [ref=e21]:
+              - img [ref=e22]
+            - generic [ref=e24]: 字库
+          - menuitem "book 文章" [ref=e25] [cursor=pointer]:
+            - img "book" [ref=e26]:
+              - img [ref=e27]
+            - generic [ref=e29]: 文章
+          - menuitem "bar-chart 统计" [ref=e30] [cursor=pointer]:
+            - img "bar-chart" [ref=e31]:
+              - img [ref=e32]
+            - generic [ref=e34]: 统计
+      - img "left" [ref=e36] [cursor=pointer]:
+        - img [ref=e37]
+    - generic [ref=e39]:
+      - banner [ref=e40]:
+        - generic [ref=e41] [cursor=pointer]:
+          - generic [ref=e43]:
+            - combobox [ref=e45]
+            - generic [ref=e47]:
+              - img "user" [ref=e49]:
+                - img [ref=e50]
+              - text: 俊宜
+              - generic [ref=e52]: 一年级
+          - generic:
+            - img:
+              - img
+      - main [ref=e53]:
+        - generic [ref=e63]:
+          - heading "💡 好奇心问答" [level=1] [ref=e64]
+          - generic [ref=e67]:
+            - textbox "今天想了解什么呀？✨ 例如：'为什么天空是蓝色的？'" [ref=e68]
+            - generic [ref=e69]:
+              - generic [ref=e70]:
+                - generic [ref=e71] [cursor=pointer]:
+                  - generic [ref=e72]:
+                    - radio "bulb 快速回答" [checked]
+                  - generic [ref=e73]:
+                    - img "bulb" [ref=e74]:
+                      - img [ref=e75]
+                    - text: 快速回答
+                - generic [ref=e77] [cursor=pointer]:
+                  - generic [ref=e78]:
+                    - radio "book 系列故事"
+                  - generic [ref=e79]:
+                    - img "book" [ref=e80]:
+                      - img [ref=e81]
+                    - text: 系列故事
+                - generic [ref=e83] [cursor=pointer]:
+                  - generic [ref=e84]:
+                    - radio "question-circle 苏格拉底"
+                  - generic [ref=e85]:
+                    - img "question-circle" [ref=e86]:
+                      - img [ref=e87]
+                    - text: 苏格拉底
+              - button "send 提问" [disabled] [ref=e90]:
+                - generic:
+                  - img "send":
+                    - img
+                - generic: 提问
+          - generic [ref=e91]:
+            - generic [ref=e97]:
+              - generic [ref=e98]: 💡 为什么天空是蓝色的
+              - generic [ref=e99]:
+                - generic [ref=e100]: 快速回答
+                - generic [ref=e101]: 已回答
+            - generic [ref=e107]:
+              - generic [ref=e108]: 💡 为什么海水是咸的？
+              - generic [ref=e109]:
+                - generic [ref=e110]: 苏格拉底
+                - generic [ref=e111]: 已回答
+            - generic [ref=e112]:
+              - generic [ref=e117]:
+                - generic [ref=e118]: 💡 月亮为什么会变圆变缺？
+                - generic [ref=e119]:
+                  - generic [ref=e120]: 系列故事
+                  - generic [ref=e121]: 已回答
+              - generic [ref=e122]:
+                - generic [ref=e123]:
+                  - strong [ref=e125]: 第1/5章
+                  - button "继续阅读 →" [ref=e126] [cursor=pointer]:
+                    - generic [ref=e127]: 继续阅读 →
+                - progressbar [ref=e128]:
+                  - generic "0%" [ref=e131]
+                - generic [ref=e133]: "1"
+              - generic [ref=e134]:
+                - button "继续生成下一章" [ref=e135] [cursor=pointer]:
+                  - generic [ref=e136]: 继续生成下一章
+                - button "不看了" [ref=e137] [cursor=pointer]:
+                  - generic [ref=e138]: 不看了
+            - generic [ref=e144]:
+              - generic [ref=e145]: 💡 太阳有多大？
+              - generic [ref=e146]:
+                - generic [ref=e147]: 快速回答
+                - generic [ref=e148]: 已回答
+            - generic [ref=e151]:
+              - generic [ref=e152]:
+                - generic [ref=e153]: 🤔
+                - generic [ref=e154]:
+                  - generic [ref=e155]: 苏格拉底追问
+                  - generic [ref=e156]:
+                    - text: 问题：
+                    - strong
+                  - generic [ref=e157]: 「俊宜，既然你理解引力塌缩，那我想问你：如果恒星塌缩成黑洞时，它原来表面的光线就像被"冻住"一样留在事件视界上——这和你之前说的「鱼鳃水栖限定律」有没有什么相似之处？是不是有些东西在临界条件下一旦形成，就再也无法摆脱自身特性的限制？」
+              - textbox "写下你的想法..." [ref=e158]
+              - button "提交我的想法" [disabled] [ref=e159]:
+                - generic: 提交我的想法
+            - generic [ref=e162]:
+              - generic [ref=e163]:
+                - generic [ref=e164]: 🤔
+                - generic [ref=e165]:
+                  - generic [ref=e166]: 苏格拉底追问
+                  - generic [ref=e167]:
+                    - text: 问题：
+                    - strong
+                  - generic [ref=e168]: 「俊宜，你之前提到过鱼鳃只能在水里呼吸，那如果有一条鱼进化出了能吸收空气中氧气的结构，它算不算打破了"鱼鳃水栖限定律"？这让我想到，黑洞的事件视界一旦形成，信息是不是也像鱼一样永远逃不出去？」
+              - textbox "写下你的想法..." [ref=e169]
+              - button "提交我的想法" [disabled] [ref=e170]:
+                - generic: 提交我的想法
+            - generic [ref=e176]:
+              - generic [ref=e177]: 💡 鱼为什么生活在水里？
+              - generic [ref=e178]:
+                - generic [ref=e179]: 苏格拉底
+                - generic [ref=e180]: 已回答
+            - generic [ref=e186]:
+              - generic [ref=e187]: 💡 为什么树叶会变色？
+              - generic [ref=e188]:
+                - generic [ref=e189]: 苏格拉底
+                - generic [ref=e190]: 已回答
+            - generic [ref=e196]:
+              - generic [ref=e197]: 💡 闪电是怎么形成的？
+              - generic [ref=e198]:
+                - generic [ref=e199]: 苏格拉底
+                - generic [ref=e200]: 已回答
+            - generic [ref=e206]:
+              - generic [ref=e207]: 💡 为什么天空是蓝色的？
+              - generic [ref=e208]:
+                - generic [ref=e209]: 苏格拉底
+                - generic [ref=e210]: 已回答
+            - generic [ref=e216]:
+              - generic [ref=e217]: 💡 为什么恐龙会灭绝？
+              - generic [ref=e218]:
+                - generic [ref=e219]: 苏格拉底
+                - generic [ref=e220]: 已回答
+            - generic [ref=e226]:
+              - generic [ref=e227]: 💡 为什么天空是蓝色的？
+              - generic [ref=e228]:
+                - generic [ref=e229]: 快速回答
+                - generic [ref=e230]: 已回答
+            - generic [ref=e236]:
+              - generic [ref=e237]: 💡 为什么天空是蓝色的？
+              - generic [ref=e238]:
+                - generic [ref=e239]: 苏格拉底
+                - generic [ref=e240]: 已回答
+            - generic [ref=e246]:
+              - generic [ref=e247]: 💡 中国能不能调控 气候
+              - generic [ref=e248]:
+                - generic [ref=e249]: 系列故事
+                - generic [ref=e250]: 处理中
+            - generic [ref=e256]:
+              - generic [ref=e257]: 💡 厄尔尼诺今年一定会来吗
+              - generic [ref=e258]:
+                - generic [ref=e259]: 苏格拉底
+                - generic [ref=e260]: 已回答
+            - generic [ref=e266]:
+              - generic [ref=e267]: 💡 黑洞里面是什么？
+              - generic [ref=e268]:
+                - generic [ref=e269]: 快速回答
+                - generic [ref=e270]: 已回答
+            - generic [ref=e276]:
+              - generic [ref=e277]: 💡 黑洞里面是什么？
+              - generic [ref=e278]:
+                - generic [ref=e279]: 快速回答
+                - generic [ref=e280]: 已回答
+            - generic [ref=e286]:
+              - generic [ref=e287]: 💡 恐龙是怎么灭绝的？
+              - generic [ref=e288]:
+                - generic [ref=e289]: 快速回答
+                - generic [ref=e290]: 已回答
+            - generic [ref=e291]:
+              - generic [ref=e296]:
+                - generic [ref=e297]: 💡 蜗牛怎么走路的？
+                - generic [ref=e298]:
+                  - generic [ref=e299]: 系列故事
+                  - generic [ref=e300]: 已回答
+              - generic [ref=e301]:
+                - generic [ref=e302]:
+                  - strong [ref=e304]: 第3/5章
+                  - button "继续阅读 →" [ref=e305] [cursor=pointer]:
+                    - generic [ref=e306]: 继续阅读 →
+                - progressbar [ref=e307]:
+                  - generic "60%" [ref=e311]
+                - generic [ref=e312]:
+                  - img "check-circle" [ref=e314]:
+                    - img [ref=e315]
+                  - img "check-circle" [ref=e319]:
+                    - img [ref=e320]
+                  - img "check-circle" [ref=e324]:
+                    - img [ref=e325]
+              - generic [ref=e328]:
+                - button "继续生成下一章" [ref=e329] [cursor=pointer]:
+                  - generic [ref=e330]: 继续生成下一章
+                - button "不看了" [ref=e331] [cursor=pointer]:
+                  - generic [ref=e332]: 不看了
+            - generic [ref=e338]:
+              - generic [ref=e339]: 💡 天空为什么是蓝色的？
+              - generic [ref=e340]:
+                - generic [ref=e341]: 快速回答
+                - generic [ref=e342]: 已回答
+            - generic [ref=e343]:
+              - generic [ref=e348]:
+                - generic [ref=e349]: 💡 第一大黑洞凤凰座A 第二大黑洞TN618
+                - generic [ref=e350]:
+                  - generic [ref=e351]: 系列故事
+                  - generic [ref=e352]: 已回答
+              - generic [ref=e353]:
+                - generic [ref=e354]:
+                  - strong [ref=e356]: 第2/5章
+                  - button "继续阅读 →" [ref=e357] [cursor=pointer]:
+                    - generic [ref=e358]: 继续阅读 →
+                - progressbar [ref=e359]:
+                  - generic "0%" [ref=e362]
+                - generic [ref=e363]:
+                  - generic [ref=e364]: "1"
+                  - generic [ref=e365]: "2"
+              - generic [ref=e366]:
+                - button "继续生成下一章" [ref=e367] [cursor=pointer]:
+                  - generic [ref=e368]: 继续生成下一章
+                - button "不看了" [ref=e369] [cursor=pointer]:
+                  - generic [ref=e370]: 不看了
+            - generic [ref=e376]:
+              - generic [ref=e377]: 💡 第一大黑洞凤凰座A 第二大黑洞TN618
+              - generic [ref=e378]:
+                - generic [ref=e379]: 快速回答
+                - generic [ref=e380]: 已回答
+            - generic [ref=e381]:
+              - generic [ref=e386]:
+                - generic [ref=e387]: 💡 黑洞是怎么形成的
+                - generic [ref=e388]:
+                  - generic [ref=e389]: 系列故事
+                  - generic [ref=e390]: 已回答
+              - generic [ref=e391]:
+                - generic [ref=e392]:
+                  - strong [ref=e394]: 第3/5章
+                  - button "继续阅读 →" [ref=e395] [cursor=pointer]:
+                    - generic [ref=e396]: 继续阅读 →
+                - progressbar [ref=e397]:
+                  - generic "20%" [ref=e401]
+                - generic [ref=e402]:
+                  - generic [ref=e403]: "1"
+                  - img "check-circle" [ref=e405]:
+                    - img [ref=e406]
+                  - generic [ref=e409]: "3"
+              - generic [ref=e410]:
+                - button "继续生成下一章" [ref=e411] [cursor=pointer]:
+                  - generic [ref=e412]: 继续生成下一章
+                - button "不看了" [ref=e413] [cursor=pointer]:
+                  - generic [ref=e414]: 不看了
+            - generic [ref=e415]:
+              - generic [ref=e420]:
+                - generic [ref=e421]: 💡 恒星变小了怎么能产生能量
+                - generic [ref=e422]:
+                  - generic [ref=e423]: 系列故事
+                  - generic [ref=e424]: 已回答
+              - generic [ref=e425]:
+                - generic [ref=e426]:
+                  - strong [ref=e428]: 第5/5章
+                  - generic [ref=e429]:
+                    - img "check-circle" [ref=e430]:
+                      - img [ref=e431]
+                    - text: 已完成
+                - progressbar [ref=e434]:
+                  - generic "20%" [ref=e438]
+                - generic [ref=e439]:
+                  - generic [ref=e440]: "1"
+                  - generic [ref=e441]: "2"
+                  - generic [ref=e442]: "3"
+                  - img "check-circle" [ref=e444]:
+                    - img [ref=e445]
+                  - generic [ref=e448]: "5"
+  - generic "加油！" [ref=e62] [cursor=pointer]: 🐱

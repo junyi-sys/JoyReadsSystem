@@ -3,7 +3,7 @@ import { Card, Col, Row, Spin, Statistic, Progress, Typography, Tag } from 'antd
 import { ReadOutlined, TrophyOutlined, FireOutlined, BookOutlined, RiseOutlined } from '@ant-design/icons'
 import { motion } from 'framer-motion'
 import { statsApi, studentsApi } from '../services/api'
-import type { StatsOverview, LevelProgress, CategoryStats } from '../types'
+import type { StatsOverview, LevelProgress } from '../types'
 import { COGNITION_LABELS } from '../types'
 import { colors } from '../theme/tokens'
 import { pageTransition, fadeInUp, staggerContainer } from '../theme/animations'
@@ -12,7 +12,8 @@ import { useStudentStore } from '../store/useStudentStore'
 export default function StatsPage() {
   const [stats, setStats] = useState<StatsOverview | null>(null)
   const [levelProgress, setLevelProgress] = useState<LevelProgress | null>(null)
-  const [categoryStats, setCategoryStats] = useState<CategoryStats | null>(null)
+  // TODO: category stats — needs backend /api/stats/categories endpoint and CategoryStats type
+  // const [categoryStats, setCategoryStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const currentStudent = useStudentStore((s) => s.currentStudent)
 
@@ -22,7 +23,7 @@ export default function StatsPage() {
     Promise.all([
       statsApi.overview().then(({ data }) => setStats(data)),
       studentsApi.levelProgress(studentId).then(({ data }) => setLevelProgress(data)),
-      statsApi.categories().then(({ data }) => setCategoryStats(data)),
+      // statsApi.categories().then(({ data }) => setCategoryStats(data)),
     ]).catch(() => {}).finally(() => setLoading(false))
   }, [currentStudent])
 
@@ -142,33 +143,7 @@ export default function StatsPage() {
           </Card>
         </motion.div>
 
-        {categoryStats && categoryStats.total > 0 && (
-          <motion.div variants={fadeInUp} style={{ marginBottom: 24 }}>
-            <Card title={<span style={{ fontFamily: '"ZCOOL KuaiLe",cursive' }}>阅读领域分布</span>}
-              style={{ borderRadius: 16 }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-                {categoryStats.items.filter(c => c.count > 0).sort((a, b) => b.count - a.count).map((cat) => (
-                  <div key={cat.category} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                    <span style={{ fontSize: 18, width: 32, textAlign: 'center' }}>{cat.icon}</span>
-                    <Tag color={cat.color} style={{ borderRadius: 10, fontSize: 13, minWidth: 48, textAlign: 'center' }}>
-                      {cat.category}
-                    </Tag>
-                    <Progress
-                      percent={cat.percent}
-                      strokeColor={cat.color}
-                      style={{ flex: 1 }}
-                      size="small"
-                      format={() => `${cat.count}篇`}
-                    />
-                  </div>
-                ))}
-              </div>
-              <div style={{ textAlign: 'center', marginTop: 16, fontSize: 13, color: '#999' }}>
-                共 {categoryStats.total} 篇文章，覆盖 {categoryStats.items.filter(c => c.count > 0).length} 个领域
-              </div>
-            </Card>
-          </motion.div>
-        )}
+{/* TODO: category stats — blocked on backend /api/stats/categories endpoint */}
 
         <motion.div variants={fadeInUp} style={{ textAlign: 'center', padding: 40 }}>
           <Typography.Text type="secondary" style={{ fontSize: 16, fontFamily: '"ZCOOL KuaiLe",cursive' }}>

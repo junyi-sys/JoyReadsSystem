@@ -1,0 +1,251 @@
+[      55ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:21550
+[      92ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[      92ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[   34397ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781272769941:0
+[   34397ms] [ERROR] [hmr] Failed to reload /src/components/ui/VoiceInputButton.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3002/@vite/client:175
+[   34487ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781272769941:0
+[   37645ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:21550
+[   37695ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[   37695ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[  608600ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3002/src/pages/StatsPage.tsx?t=1781273343424:0
+[  608700ms] [ERROR] [hmr] Failed to reload /src/pages/StatsPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3002/@vite/client:175
+[  614914ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3002/src/pages/StatsPage.tsx?t=1781273343424:0
+[  623591ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3002/src/pages/StatsPage.tsx?t=1781273359116:0
+[  631429ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3002/src/pages/StatsPage.tsx?t=1781273366948:0
+[  661339ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:21550
+[  661403ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[  661403ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[  706771ms] [ERROR] Warning: React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://reactjs.org/link/rules-of-hooks
+
+   Previous render            Next render
+   ------------------------------------------------------
+%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%s VoiceInputButton 1. useState                   useState
+2. useState                   useState
+3. useRef                     useRef
+4. useRef                     useRef
+5. useRef                     useRef
+6. useRef                     useRef
+7. useRef                     useRef
+8. useRef                     useCallback
+ 
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781273442270:23:44)
+    at div
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14698:23
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14716:25
+    at DomWrapper4 (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:5875:5)
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6262:32
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14820:25
+    at div
+    at div
+    at Dialog2 (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14879:32)
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14551:21
+    at DialogWrap2 (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:15011:23)
+    at NoFormStyle (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:18336:3)
+    at NoCompactStyle (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:10897:5)
+    at ContextIsolator (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:18362:5)
+    at Modal (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:19702:16)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at HomePage (http://localhost:3002/src/pages/HomePage.tsx?t=1781273442273:31:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx?t=1781273342925:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27) @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:520
+[  706771ms] Error: Rendered fewer hooks than expected. This may be caused by an accidental early return statement.
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11595:19)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19137:13)
+    at renderRootSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19116:15)
+[  706773ms] Error: Rendered fewer hooks than expected. This may be caused by an accidental early return statement.
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11595:19)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19137:13)
+    at renderRootSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19116:15)
+[  706777ms] Error: Rendered fewer hooks than expected. This may be caused by an accidental early return statement.
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11595:19)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19137:13)
+    at renderRootSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19116:15)
+[  706778ms] Error: Rendered fewer hooks than expected. This may be caused by an accidental early return statement.
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11595:19)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19137:13)
+    at renderRootSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19116:15)
+[  706780ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781273442270:23:44)
+    at div
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14698:23
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14716:25
+    at DomWrapper4 (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:5875:5)
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6262:32
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14820:25
+    at div
+    at div
+    at Dialog2 (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14879:32)
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14551:21
+    at DialogWrap2 (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:15011:23)
+    at NoFormStyle (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:18336:3)
+    at NoCompactStyle (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:10897:5)
+    at ContextIsolator (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:18362:5)
+    at Modal (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:19702:16)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at HomePage (http://localhost:3002/src/pages/HomePage.tsx?t=1781273442273:31:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx?t=1781273342925:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[  706780ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781273442270:23:44)
+    at div
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14698:23
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14716:25
+    at DomWrapper4 (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:5875:5)
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6262:32
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14820:25
+    at div
+    at div
+    at Dialog2 (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14879:32)
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:14551:21
+    at DialogWrap2 (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:15011:23)
+    at NoFormStyle (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:18336:3)
+    at NoCompactStyle (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:10897:5)
+    at ContextIsolator (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:18362:5)
+    at Modal (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:19702:16)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at HomePage (http://localhost:3002/src/pages/HomePage.tsx?t=1781273442273:31:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx?t=1781273342925:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[  706781ms] Error: Rendered fewer hooks than expected. This may be caused by an accidental early return statement.
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11595:19)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19753:22)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19137:13)
+    at renderRootSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19116:15)
+    at recoverFromConcurrentError (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:18736:28)
+    at performSyncWorkOnRoot (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:18879:28)
+    at flushSyncCallbacks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:9119:30)
+[  707269ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3002/src/pages/StatsPage.tsx?t=1781273442814:0
+[  707269ms] [ERROR] [hmr] Failed to reload /src/pages/StatsPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3002/@vite/client:175
+[  716761ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3002/src/pages/StatsPage.tsx?t=1781273452307:0
+[  716766ms] [ERROR] [hmr] Failed to reload /src/pages/StatsPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3002/@vite/client:175
+[  724943ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3002/src/pages/StatsPage.tsx?t=1781273460489:0
+[  724943ms] [ERROR] [hmr] Failed to reload /src/pages/StatsPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3002/@vite/client:175
+[  733459ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3002/src/pages/StatsPage.tsx?t=1781273469005:0
+[  733459ms] [ERROR] [hmr] Failed to reload /src/pages/StatsPage.tsx. This could be due to syntax errors or importing non-existent modules. (see errors above) @ http://localhost:3002/@vite/client:175

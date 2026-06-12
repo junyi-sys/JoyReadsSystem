@@ -1,0 +1,1060 @@
+[    1011ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:21550
+[    1085ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[    1085ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[   71711ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:21550
+[   71766ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[   71766ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[   74112ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:21550
+[   74152ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[   74152ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[  635577ms] [LOG] [vite] server connection lost. Polling for restart... @ http://localhost:3002/@vite/client:559
+[  637948ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/:0
+[  641314ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/:0
+[  644674ms] [ERROR] Failed to load resource: net::ERR_CONNECTION_REFUSED @ http://localhost:3002/:0
+[  648696ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:21550
+[  648754ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[  648754ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4435
+[ 1693359ms] [ERROR] Warning: React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://reactjs.org/link/rules-of-hooks
+
+   Previous render            Next render
+   ------------------------------------------------------
+%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%s VoiceInputButton 1. useState                   useState
+2. useState                   useState
+3. useRef                     useRef
+4. useRef                     useRef
+5. useRef                     useRef
+6. useRef                     useRef
+7. useRef                     useRef
+8. useCallback                useRef
+ 
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781219473593:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27) @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:520
+[ 1693359ms] Error: Rendered more hooks than during the previous render.
+    at updateWorkInProgressHook (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11678:21)
+    at updateMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12199:22)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12726:24)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=7839bc71:1094:29)
+    at useInternalMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:9965:27)
+    at Object.useMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:10070:10)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781219473593:26:47)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+[ 1693359ms] Error: Rendered more hooks than during the previous render.
+    at updateWorkInProgressHook (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11678:21)
+    at updateMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12199:22)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12726:24)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=7839bc71:1094:29)
+    at useInternalMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:9965:27)
+    at Object.useMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:10070:10)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781219473593:26:47)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+[ 1693359ms] Error: Rendered more hooks than during the previous render.
+    at updateWorkInProgressHook (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11678:21)
+    at updateMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12199:22)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12726:24)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=7839bc71:1094:29)
+    at useInternalMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:9965:27)
+    at Object.useMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:10070:10)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781219473593:26:47)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+[ 1693360ms] Error: Rendered more hooks than during the previous render.
+    at updateWorkInProgressHook (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11678:21)
+    at updateMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12199:22)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12726:24)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=7839bc71:1094:29)
+    at useInternalMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:9965:27)
+    at Object.useMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:10070:10)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781219473593:26:47)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+[ 1693360ms] Error: Rendered more hooks than during the previous render.
+    at updateWorkInProgressHook (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11678:21)
+    at updateMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12199:22)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12726:24)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=7839bc71:1094:29)
+    at useInternalMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:9965:27)
+    at Object.useMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:10070:10)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781219473593:26:47)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+[ 1693360ms] Error: Rendered more hooks than during the previous render.
+    at updateWorkInProgressHook (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11678:21)
+    at updateMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12199:22)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12726:24)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=7839bc71:1094:29)
+    at useInternalMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:9965:27)
+    at Object.useMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:10070:10)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781219473593:26:47)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+[ 1693363ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781219473593:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 1693363ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781219473593:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 1693363ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781219473593:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 1693365ms] Error: Rendered more hooks than during the previous render.
+    at updateWorkInProgressHook (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11678:21)
+    at updateMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12199:22)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:12726:24)
+    at Object.useMemo (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=7839bc71:1094:29)
+    at useInternalMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:9965:27)
+    at Object.useMessage (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:10070:10)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781219473593:26:47)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+[ 3145770ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220926028:99:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220926028:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3145770ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220926028:99:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220926028:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3145770ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220926028:99:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220926028:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3145770ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220926028:99:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220926028:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3145770ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220926028:99:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220926028:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3145770ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220926028:99:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220926028:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3145773ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220926028:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3145773ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220926028:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3145773ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220926028:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3145775ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220926028:99:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220926028:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15924:22)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19753:22)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19137:13)
+    at renderRootSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19116:15)
+    at recoverFromConcurrentError (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:18736:28)
+[ 3153286ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220933281:98:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220933281:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3153296ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220933281:98:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220933281:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3153297ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220933281:98:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220933281:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3153307ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220933281:98:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220933281:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3153311ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220933281:98:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220933281:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3153312ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220933281:98:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220933281:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3153322ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220933281:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3153322ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220933281:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3153322ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220933281:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3153322ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220933281:98:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220933281:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19753:22)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19137:13)
+    at renderRootSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19116:15)
+    at recoverFromConcurrentError (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:18736:28)
+[ 3161557ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220941652:97:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220941652:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3161561ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220941652:97:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220941652:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3161561ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220941652:97:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220941652:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3161569ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220941652:97:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220941652:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3161572ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220941652:97:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220941652:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3161573ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220941652:97:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220941652:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3161581ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220941652:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3161581ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220941652:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3161581ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220941652:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3161581ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220941652:97:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220941652:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19753:22)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19137:13)
+    at renderRootSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19116:15)
+    at recoverFromConcurrentError (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:18736:28)
+[ 3172094ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220952196:96:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220952196:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3172098ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220952196:96:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220952196:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3172099ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220952196:96:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220952196:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3172111ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220952196:96:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220952196:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3172114ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220952196:96:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220952196:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3172115ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220952196:96:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220952196:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3674:22)
+    at Object.invokeGuardedCallbackDev (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3699:24)
+    at invokeGuardedCallback (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:3733:39)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19765:15)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+[ 3172122ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220952196:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3172122ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220952196:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3172123ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220952196:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=7839bc71:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=7839bc71:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=7839bc71:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14031
+[ 3172122ms] ReferenceError: cleanupAudio is not defined
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781220952196:96:7)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781220952196:25:70)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:11548:26)
+    at mountIndeterminateComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:14926:21)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:15914:22)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19753:22)
+    at performUnitOfWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19198:20)
+    at workLoopSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19137:13)
+    at renderRootSync (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:19116:15)
+    at recoverFromConcurrentError (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=7839bc71:18736:28)

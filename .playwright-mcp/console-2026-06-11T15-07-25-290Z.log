@@ -1,0 +1,248 @@
+[      48ms] [INFO] %cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools font-weight:bold @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:21550
+[     114ms] [WARNING] ⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4435
+[     114ms] [WARNING] ⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath. @ http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4435
+[  137237ms] [ERROR] Warning: React has detected a change in the order of Hooks called by %s. This will lead to bugs and errors if not fixed. For more information, read the Rules of Hooks: https://reactjs.org/link/rules-of-hooks
+
+   Previous render            Next render
+   ------------------------------------------------------
+%s   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+%s VoiceInputButton 1. useState                   useState
+2. useState                   useState
+3. useState                   useState
+4. useState                   useState
+5. useRef                     useState
+ 
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781190582499:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:46684:16
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx?t=1781190437185:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6942:27) @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:520
+[  137236ms] Error: Should have a queue. This is likely a bug in React. Please file an issue.
+    at updateReducer (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11730:19)
+    at updateState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12021:18)
+    at Object.useState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12753:24)
+    at useState (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=c01dd454:1066:29)
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781190582499:15:43)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781190582499:25:79)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:3674:22)
+[  137237ms] Error: Should have a queue. This is likely a bug in React. Please file an issue.
+    at updateReducer (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11730:19)
+    at updateState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12021:18)
+    at Object.useState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12753:24)
+    at useState (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=c01dd454:1066:29)
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781190582499:15:43)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781190582499:25:79)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:3674:22)
+[  137237ms] Error: Should have a queue. This is likely a bug in React. Please file an issue.
+    at updateReducer (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11730:19)
+    at updateState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12021:18)
+    at Object.useState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12753:24)
+    at useState (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=c01dd454:1066:29)
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781190582499:15:43)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781190582499:25:79)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:3674:22)
+[  137237ms] Error: Should have a queue. This is likely a bug in React. Please file an issue.
+    at updateReducer (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11730:19)
+    at updateState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12021:18)
+    at Object.useState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12753:24)
+    at useState (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=c01dd454:1066:29)
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781190582499:15:43)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781190582499:25:79)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:3674:22)
+[  137237ms] Error: Should have a queue. This is likely a bug in React. Please file an issue.
+    at updateReducer (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11730:19)
+    at updateState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12021:18)
+    at Object.useState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12753:24)
+    at useState (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=c01dd454:1066:29)
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781190582499:15:43)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781190582499:25:79)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:3674:22)
+[  137237ms] Error: Should have a queue. This is likely a bug in React. Please file an issue.
+    at updateReducer (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11730:19)
+    at updateState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12021:18)
+    at Object.useState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12753:24)
+    at useState (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=c01dd454:1066:29)
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781190582499:15:43)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781190582499:25:79)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:15924:22)
+    at HTMLUnknownElement.callCallback2 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:3674:22)
+[  137240ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781190582499:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:46684:16
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx?t=1781190437185:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:14031
+[  137240ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781190582499:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx?t=1781190437185:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:14031
+[  137240ms] [ERROR] The above error occurred in the <VoiceInputButton> component:
+
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781190582499:23:44)
+    at div
+    at div
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:46684:16
+    at div
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at CuriosityPage (http://localhost:3002/src/pages/CuriosityPage.tsx?t=1781190437185:32:19)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4131:5)
+    at Outlet (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4537:26)
+    at div
+    at MotionComponent (http://localhost:3002/node_modules/.vite/deps/framer-motion.js?v=c01dd454:945:40)
+    at main
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66577:16
+    at Content
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66596:16
+    at Layout
+    at div
+    at http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:66596:16
+    at Layout
+    at AppShell (http://localhost:3002/src/components/layout/AppShell.tsx:28:21)
+    at RenderedRoute (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4131:5)
+    at Routes (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4601:5)
+    at App
+    at Router (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:4544:15)
+    at BrowserRouter (http://localhost:3002/node_modules/.vite/deps/react-router-dom.js?v=c01dd454:5290:5)
+    at div
+    at App (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:21273:16)
+    at LocaleProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:4009:13)
+    at MotionWrapper (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6543:32)
+    at ProviderChildren (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6651:5)
+    at ConfigProvider (http://localhost:3002/node_modules/.vite/deps/antd.js?v=c01dd454:6942:27)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries. @ http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:14031
+[  137241ms] Error: Should have a queue. This is likely a bug in React. Please file an issue.
+    at updateReducer (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11730:19)
+    at updateState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12021:18)
+    at Object.useState (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:12753:24)
+    at useState (http://localhost:3002/node_modules/.vite/deps/chunk-DRWLMN53.js?v=c01dd454:1066:29)
+    at useVoiceInput (http://localhost:3002/src/hooks/useVoiceInput.ts?t=1781190582499:15:43)
+    at VoiceInputButton (http://localhost:3002/src/components/ui/VoiceInputButton.tsx?t=1781190582499:25:79)
+    at renderWithHooks (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:11548:26)
+    at updateFunctionComponent (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:14582:28)
+    at beginWork (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:15924:22)
+    at beginWork$1 (http://localhost:3002/node_modules/.vite/deps/chunk-PJEEZAML.js?v=c01dd454:19753:22)

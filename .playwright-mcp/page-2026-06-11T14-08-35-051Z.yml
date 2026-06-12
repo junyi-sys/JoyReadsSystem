@@ -1,0 +1,1545 @@
+- generic [ref=e3]:
+  - generic [ref=e4]:
+    - complementary [ref=e5]:
+      - generic [ref=e7]:
+        - generic [ref=e8]: 俊宜阅读
+        - menu [ref=e9]:
+          - menuitem "home 首页" [ref=e10] [cursor=pointer]:
+            - img "home" [ref=e11]:
+              - img [ref=e12]
+            - generic [ref=e14]: 首页
+          - menuitem "bulb 好奇心" [ref=e15] [cursor=pointer]:
+            - img "bulb" [ref=e16]:
+              - img [ref=e17]
+            - generic [ref=e19]: 好奇心
+          - menuitem "read 字库" [ref=e20] [cursor=pointer]:
+            - img "read" [ref=e21]:
+              - img [ref=e22]
+            - generic [ref=e24]: 字库
+          - menuitem "book 文章" [ref=e25] [cursor=pointer]:
+            - img "book" [ref=e26]:
+              - img [ref=e27]
+            - generic [ref=e29]: 文章
+          - menuitem "bar-chart 统计" [ref=e30] [cursor=pointer]:
+            - img "bar-chart" [ref=e31]:
+              - img [ref=e32]
+            - generic [ref=e34]: 统计
+      - img "left" [ref=e36] [cursor=pointer]:
+        - img [ref=e37]
+    - generic [ref=e39]:
+      - banner [ref=e40]:
+        - generic [ref=e41] [cursor=pointer]:
+          - generic [ref=e43]:
+            - combobox [ref=e45]
+            - generic [ref=e47]:
+              - img "user" [ref=e49]:
+                - img [ref=e50]
+              - text: 俊宜
+              - generic [ref=e52]: 一年级
+          - generic:
+            - img:
+              - img
+      - main [ref=e53]:
+        - generic [ref=e55]:
+          - generic [ref=e56]:
+            - heading "今日文章 俊宜" [level=1] [ref=e57]:
+              - text: 今日文章
+              - generic [ref=e58]: 俊宜
+            - button "plus 生成文章" [ref=e59] [cursor=pointer]:
+              - img "plus" [ref=e61]:
+                - img [ref=e62]
+              - generic [ref=e65]: 生成文章
+          - generic [ref=e66]:
+            - generic [ref=e69]: 为什么海水是咸的？
+            - generic [ref=e71]:
+              - generic [ref=e72]:
+                - generic [ref=e73]:
+                  - img "book" [ref=e74]:
+                    - img [ref=e75]
+                  - generic [ref=e77]: 501 字
+                - generic [ref=e78]: answer
+              - generic [ref=e79]:
+                - generic [ref=e80] [cursor=pointer]:
+                  - generic [ref=e81]: gēn
+                  - text: 根
+                - generic [ref=e82] [cursor=pointer]:
+                  - generic [ref=e83]: jù
+                  - text: 据
+                - generic [ref=e84] [cursor=pointer]:
+                  - generic [ref=e85]: jùn
+                  - text: 俊
+                - generic [ref=e86] [cursor=pointer]:
+                  - generic [ref=e87]: yí
+                  - text: 宜
+                - generic [ref=e88] [cursor=pointer]:
+                  - generic [ref=e89]: de
+                  - text: 的
+                - generic [ref=e90] [cursor=pointer]:
+                  - generic [ref=e91]: xiǎng
+                  - text: 想
+                - generic [ref=e92] [cursor=pointer]:
+                  - generic [ref=e93]: fǎ
+                  - text: 法
+                - generic [ref=e94] [cursor=pointer]: ，
+                - generic [ref=e95] [cursor=pointer]:
+                  - generic [ref=e96]: hǎi
+                  - text: 海
+                - generic [ref=e97] [cursor=pointer]:
+                  - generic [ref=e98]: dǐ
+                  - text: 底
+                - generic [ref=e99] [cursor=pointer]:
+                  - generic [ref=e100]: yǒu
+                  - text: 有
+                - generic [ref=e101] [cursor=pointer]:
+                  - generic [ref=e102]: yán
+                  - text: 盐
+                - generic [ref=e103] [cursor=pointer]:
+                  - generic [ref=e104]: kuàng
+                  - text: 矿
+                - generic [ref=e105] [cursor=pointer]: ，
+                - generic [ref=e106] [cursor=pointer]:
+                  - generic [ref=e107]: shuǐ
+                  - text: 水
+                - generic [ref=e108] [cursor=pointer]:
+                  - generic [ref=e109]: bǎ
+                  - text: 把
+                - generic [ref=e110] [cursor=pointer]:
+                  - generic [ref=e111]: yán
+                  - text: 盐
+                - generic [ref=e112] [cursor=pointer]:
+                  - generic [ref=e113]: róng
+                  - text: 溶
+                - generic [ref=e114] [cursor=pointer]:
+                  - generic [ref=e115]: jiě
+                  - text: 解
+                - generic [ref=e116] [cursor=pointer]:
+                  - generic [ref=e117]: le
+                  - text: 了
+                - generic [ref=e118] [cursor=pointer]: —
+                - generic [ref=e119] [cursor=pointer]: —
+                - generic [ref=e120] [cursor=pointer]:
+                  - generic [ref=e121]: zhè
+                  - text: 这
+                - generic [ref=e122] [cursor=pointer]:
+                  - generic [ref=e123]: gè
+                  - text: 个
+                - generic [ref=e124] [cursor=pointer]:
+                  - generic [ref=e125]: zhí
+                  - text: 直
+                - generic [ref=e126] [cursor=pointer]:
+                  - generic [ref=e127]: jué
+                  - text: 觉
+                - generic [ref=e128] [cursor=pointer]:
+                  - generic [ref=e129]: zhuā
+                  - text: 抓
+                - generic [ref=e130] [cursor=pointer]:
+                  - generic [ref=e131]: zhù
+                  - text: 住
+                - generic [ref=e132] [cursor=pointer]:
+                  - generic [ref=e133]: le
+                  - text: 了
+                - generic [ref=e134] [cursor=pointer]:
+                  - generic [ref=e135]: guān
+                  - text: 关
+                - generic [ref=e136] [cursor=pointer]:
+                  - generic [ref=e137]: jiàn
+                  - text: 键
+                - generic [ref=e138] [cursor=pointer]:
+                  - generic [ref=e139]: jī
+                  - text: 机
+                - generic [ref=e140] [cursor=pointer]:
+                  - generic [ref=e141]: zhì
+                  - text: 制
+                - generic [ref=e142] [cursor=pointer]: ：
+                - generic [ref=e143] [cursor=pointer]:
+                  - generic [ref=e144]: hǎi
+                  - text: 海
+                - generic [ref=e145] [cursor=pointer]:
+                  - generic [ref=e146]: shuǐ
+                  - text: 水
+                - generic [ref=e147] [cursor=pointer]:
+                  - generic [ref=e148]: xián
+                  - text: 咸
+                - generic [ref=e149] [cursor=pointer]:
+                  - generic [ref=e150]: wèi
+                  - text: 味
+                - generic [ref=e151] [cursor=pointer]:
+                  - generic [ref=e152]: de
+                  - text: 的
+                - generic [ref=e153] [cursor=pointer]:
+                  - generic [ref=e154]: zhí
+                  - text: 直
+                - generic [ref=e155] [cursor=pointer]:
+                  - generic [ref=e156]: jiē
+                  - text: 接
+                - generic [ref=e157] [cursor=pointer]:
+                  - generic [ref=e158]: lái
+                  - text: 来
+                - generic [ref=e159] [cursor=pointer]:
+                  - generic [ref=e160]: yuán
+                  - text: 源
+                - generic [ref=e161] [cursor=pointer]:
+                  - generic [ref=e162]: zhèng
+                  - text: 正
+                - generic [ref=e163] [cursor=pointer]:
+                  - generic [ref=e164]: shì
+                  - text: 是
+                - generic [ref=e165] [cursor=pointer]:
+                  - generic [ref=e166]: lù
+                  - text: 陆
+                - generic [ref=e167] [cursor=pointer]:
+                  - generic [ref=e168]: dì
+                  - text: 地
+                - generic [ref=e169] [cursor=pointer]:
+                  - generic [ref=e170]: hé
+                  - text: 和
+                - generic [ref=e171] [cursor=pointer]:
+                  - generic [ref=e172]: hǎi
+                  - text: 海
+                - generic [ref=e173] [cursor=pointer]:
+                  - generic [ref=e174]: dǐ
+                  - text: 底
+                - generic [ref=e175] [cursor=pointer]:
+                  - generic [ref=e176]: yán
+                  - text: 岩
+                - generic [ref=e177] [cursor=pointer]:
+                  - generic [ref=e178]: shí
+                  - text: 石
+                - generic [ref=e179] [cursor=pointer]:
+                  - generic [ref=e180]: zhōng
+                  - text: 中
+                - generic [ref=e181] [cursor=pointer]:
+                  - generic [ref=e182]: kě
+                  - text: 可
+                - generic [ref=e183] [cursor=pointer]:
+                  - generic [ref=e184]: róng
+                  - text: 溶
+                - generic [ref=e185] [cursor=pointer]:
+                  - generic [ref=e186]: xìng
+                  - text: 性
+                - generic [ref=e187] [cursor=pointer]:
+                  - generic [ref=e188]: yán
+                  - text: 盐
+                - generic [ref=e189] [cursor=pointer]:
+                  - generic [ref=e190]: lèi
+                  - text: 类
+                - generic [ref=e191] [cursor=pointer]:
+                  - generic [ref=e192]: de
+                  - text: 的
+                - generic [ref=e193] [cursor=pointer]:
+                  - generic [ref=e194]: chí
+                  - text: 持
+                - generic [ref=e195] [cursor=pointer]:
+                  - generic [ref=e196]: xù
+                  - text: 续
+                - generic [ref=e197] [cursor=pointer]:
+                  - generic [ref=e198]: róng
+                  - text: 溶
+                - generic [ref=e199] [cursor=pointer]:
+                  - generic [ref=e200]: chū
+                  - text: 出
+                - generic [ref=e201] [cursor=pointer]: 。
+                - generic [ref=e202] [cursor=pointer]:
+                  - generic [ref=e203]: jùn
+                  - text: 俊
+                - generic [ref=e204] [cursor=pointer]:
+                  - generic [ref=e205]: yí
+                  - text: 宜
+                - generic [ref=e206] [cursor=pointer]:
+                  - generic [ref=e207]: nǐ
+                  - text: 你
+                - generic [ref=e208] [cursor=pointer]:
+                  - generic [ref=e209]: zhī
+                  - text: 之
+                - generic [ref=e210] [cursor=pointer]:
+                  - generic [ref=e211]: qián
+                  - text: 前
+                - generic [ref=e212] [cursor=pointer]:
+                  - generic [ref=e213]: tí
+                  - text: 提
+                - generic [ref=e214] [cursor=pointer]:
+                  - generic [ref=e215]: chū
+                  - text: 出
+                - generic [ref=e216] [cursor=pointer]:
+                  - generic [ref=e217]: guò
+                  - text: 过
+                - generic [ref=e218] [cursor=pointer]: 「
+                - generic [ref=e219] [cursor=pointer]:
+                  - generic [ref=e220]: rèn
+                  - text: 认
+                - generic [ref=e221] [cursor=pointer]:
+                  - generic [ref=e222]: zhī
+                  - text: 知
+                - generic [ref=e223] [cursor=pointer]:
+                  - generic [ref=e224]: shāng
+                  - text: 熵
+                - generic [ref=e225] [cursor=pointer]:
+                  - generic [ref=e226]: jiǎn
+                  - text: 减
+                - generic [ref=e227] [cursor=pointer]:
+                  - generic [ref=e228]: dìng
+                  - text: 定
+                - generic [ref=e229] [cursor=pointer]:
+                  - generic [ref=e230]: lǜ
+                  - text: 律
+                - generic [ref=e231] [cursor=pointer]: 」
+                - generic [ref=e232] [cursor=pointer]: ，
+                - generic [ref=e233] [cursor=pointer]:
+                  - generic [ref=e234]: zhè
+                  - text: 这
+                - generic [ref=e235] [cursor=pointer]:
+                  - generic [ref=e236]: yī
+                  - text: 一
+                - generic [ref=e237] [cursor=pointer]:
+                  - generic [ref=e238]: dìng
+                  - text: 定
+                - generic [ref=e239] [cursor=pointer]:
+                  - generic [ref=e240]: lǜ
+                  - text: 律
+                - generic [ref=e241] [cursor=pointer]:
+                  - generic [ref=e242]: qiáng
+                  - text: 强
+                - generic [ref=e243] [cursor=pointer]:
+                  - generic [ref=e244]: diào
+                  - text: 调
+                - generic [ref=e245] [cursor=pointer]:
+                  - generic [ref=e246]: xì
+                  - text: 系
+                - generic [ref=e247] [cursor=pointer]:
+                  - generic [ref=e248]: tǒng
+                  - text: 统
+                - generic [ref=e249] [cursor=pointer]:
+                  - generic [ref=e250]: cóng
+                  - text: 从
+                - generic [ref=e251] [cursor=pointer]:
+                  - generic [ref=e252]: hùn
+                  - text: 混
+                - generic [ref=e253] [cursor=pointer]:
+                  - generic [ref=e254]: luàn
+                  - text: 乱
+                - generic [ref=e255] [cursor=pointer]:
+                  - generic [ref=e256]: qū
+                  - text: 趋
+                - generic [ref=e257] [cursor=pointer]:
+                  - generic [ref=e258]: xiàng
+                  - text: 向
+                - generic [ref=e259] [cursor=pointer]:
+                  - generic [ref=e260]: yǒu
+                  - text: 有
+                - generic [ref=e261] [cursor=pointer]:
+                  - generic [ref=e262]: xù
+                  - text: 序
+                - generic [ref=e263] [cursor=pointer]:
+                  - generic [ref=e264]: de
+                  - text: 的
+                - generic [ref=e265] [cursor=pointer]:
+                  - generic [ref=e266]: guī
+                  - text: 规
+                - generic [ref=e267] [cursor=pointer]:
+                  - generic [ref=e268]: lǜ
+                  - text: 律
+                - generic [ref=e269] [cursor=pointer]: ，
+                - generic [ref=e270] [cursor=pointer]:
+                  - generic [ref=e271]: ér
+                  - text: 而
+                - generic [ref=e272] [cursor=pointer]:
+                  - generic [ref=e273]: dì
+                  - text: 地
+                - generic [ref=e274] [cursor=pointer]:
+                  - generic [ref=e275]: qiú
+                  - text: 球
+                - generic [ref=e276] [cursor=pointer]:
+                  - generic [ref=e277]: de
+                  - text: 的
+                - generic [ref=e278] [cursor=pointer]:
+                  - generic [ref=e279]: shuǐ
+                  - text: 水
+                - generic [ref=e280] [cursor=pointer]:
+                  - generic [ref=e281]: xún
+                  - text: 循
+                - generic [ref=e282] [cursor=pointer]:
+                  - generic [ref=e283]: huán
+                  - text: 环
+                - generic [ref=e284] [cursor=pointer]:
+                  - generic [ref=e285]: qià
+                  - text: 恰
+                - generic [ref=e286] [cursor=pointer]:
+                  - generic [ref=e287]: hǎo
+                  - text: 好
+                - generic [ref=e288] [cursor=pointer]:
+                  - generic [ref=e289]: shì
+                  - text: 是
+                - generic [ref=e290] [cursor=pointer]:
+                  - generic [ref=e291]: zhè
+                  - text: 这
+                - generic [ref=e292] [cursor=pointer]:
+                  - generic [ref=e293]: yàng
+                  - text: 样
+                - generic [ref=e294] [cursor=pointer]:
+                  - generic [ref=e295]: yī
+                  - text: 一
+                - generic [ref=e296] [cursor=pointer]:
+                  - generic [ref=e297]: gè
+                  - text: 个
+                - generic [ref=e298] [cursor=pointer]:
+                  - generic [ref=e299]: shāng
+                  - text: 熵
+                - generic [ref=e300] [cursor=pointer]:
+                  - generic [ref=e301]: jiǎn
+                  - text: 减
+                - generic [ref=e302] [cursor=pointer]:
+                  - generic [ref=e303]: guò
+                  - text: 过
+                - generic [ref=e304] [cursor=pointer]:
+                  - generic [ref=e305]: chéng
+                  - text: 程
+                - generic [ref=e306] [cursor=pointer]: ：
+                - generic [ref=e307] [cursor=pointer]:
+                  - generic [ref=e308]: yǔ
+                  - text: 雨
+                - generic [ref=e309] [cursor=pointer]:
+                  - generic [ref=e310]: shuǐ
+                  - text: 水
+                - generic [ref=e311] [cursor=pointer]: （
+                - generic [ref=e312] [cursor=pointer]:
+                  - generic [ref=e313]: jìn
+                  - text: 近
+                - generic [ref=e314] [cursor=pointer]:
+                  - generic [ref=e315]: hū
+                  - text: 乎
+                - generic [ref=e316] [cursor=pointer]:
+                  - generic [ref=e317]: chún
+                  - text: 纯
+                - generic [ref=e318] [cursor=pointer]:
+                  - generic [ref=e319]: shuǐ
+                  - text: 水
+                - generic [ref=e320] [cursor=pointer]: ）
+                - generic [ref=e321] [cursor=pointer]:
+                  - generic [ref=e322]: chōng
+                  - text: 冲
+                - generic [ref=e323] [cursor=pointer]:
+                  - generic [ref=e324]: shuā
+                  - text: 刷
+                - generic [ref=e325] [cursor=pointer]:
+                  - generic [ref=e326]: lù
+                  - text: 陆
+                - generic [ref=e327] [cursor=pointer]:
+                  - generic [ref=e328]: dì
+                  - text: 地
+                - generic [ref=e329] [cursor=pointer]: ，
+                - generic [ref=e330] [cursor=pointer]:
+                  - generic [ref=e331]: róng
+                  - text: 溶
+                - generic [ref=e332] [cursor=pointer]:
+                  - generic [ref=e333]: jiě
+                  - text: 解
+                - generic [ref=e334] [cursor=pointer]:
+                  - generic [ref=e335]: kuàng
+                  - text: 矿
+                - generic [ref=e336] [cursor=pointer]:
+                  - generic [ref=e337]: wù
+                  - text: 物
+                - generic [ref=e338] [cursor=pointer]:
+                  - generic [ref=e339]: lí
+                  - text: 离
+                - generic [ref=e340] [cursor=pointer]:
+                  - generic [ref=e341]: zi
+                  - text: 子
+                - generic [ref=e342] [cursor=pointer]: ，
+                - generic [ref=e343] [cursor=pointer]:
+                  - generic [ref=e344]: zuì
+                  - text: 最
+                - generic [ref=e345] [cursor=pointer]:
+                  - generic [ref=e346]: zhōng
+                  - text: 终
+                - generic [ref=e347] [cursor=pointer]:
+                  - generic [ref=e348]: huì
+                  - text: 汇
+                - generic [ref=e349] [cursor=pointer]:
+                  - generic [ref=e350]: rù
+                  - text: 入
+                - generic [ref=e351] [cursor=pointer]:
+                  - generic [ref=e352]: hǎi
+                  - text: 海
+                - generic [ref=e353] [cursor=pointer]:
+                  - generic [ref=e354]: yáng
+                  - text: 洋
+                - generic [ref=e355] [cursor=pointer]: ，
+                - generic [ref=e356] [cursor=pointer]:
+                  - generic [ref=e357]: ér
+                  - text: 而
+                - generic [ref=e358] [cursor=pointer]:
+                  - generic [ref=e359]: hǎi
+                  - text: 海
+                - generic [ref=e360] [cursor=pointer]:
+                  - generic [ref=e361]: shuǐ
+                  - text: 水
+                - generic [ref=e362] [cursor=pointer]:
+                  - generic [ref=e363]: zhēng
+                  - text: 蒸
+                - generic [ref=e364] [cursor=pointer]:
+                  - generic [ref=e365]: fā
+                  - text: 发
+                - generic [ref=e366] [cursor=pointer]:
+                  - generic [ref=e367]: shí
+                  - text: 时
+                - generic [ref=e368] [cursor=pointer]:
+                  - generic [ref=e369]: yán
+                  - text: 盐
+                - generic [ref=e370] [cursor=pointer]:
+                  - generic [ref=e371]: fēn
+                  - text: 分
+                - generic [ref=e372] [cursor=pointer]:
+                  - generic [ref=e373]: bèi
+                  - text: 被
+                - generic [ref=e374] [cursor=pointer]:
+                  - generic [ref=e375]: liú
+                  - text: 留
+                - generic [ref=e376] [cursor=pointer]:
+                  - generic [ref=e377]: xià
+                  - text: 下
+                - generic [ref=e378] [cursor=pointer]: ，
+                - generic [ref=e379] [cursor=pointer]:
+                  - generic [ref=e380]: nóng
+                  - text: 浓
+                - generic [ref=e381] [cursor=pointer]:
+                  - generic [ref=e382]: dù
+                  - text: 度
+                - generic [ref=e383] [cursor=pointer]:
+                  - generic [ref=e384]: bù
+                  - text: 不
+                - generic [ref=e385] [cursor=pointer]:
+                  - generic [ref=e386]: duàn
+                  - text: 断
+                - generic [ref=e387] [cursor=pointer]:
+                  - generic [ref=e388]: lèi
+                  - text: 累
+                - generic [ref=e389] [cursor=pointer]:
+                  - generic [ref=e390]: jī
+                  - text: 积
+                - generic [ref=e391] [cursor=pointer]: ，
+                - generic [ref=e392] [cursor=pointer]:
+                  - generic [ref=e393]: xíng
+                  - text: 形
+                - generic [ref=e394] [cursor=pointer]:
+                  - generic [ref=e395]: chéng
+                  - text: 成
+                - generic [ref=e396] [cursor=pointer]:
+                  - generic [ref=e397]: wěn
+                  - text: 稳
+                - generic [ref=e398] [cursor=pointer]:
+                  - generic [ref=e399]: dìng
+                  - text: 定
+                - generic [ref=e400] [cursor=pointer]:
+                  - generic [ref=e401]: de
+                  - text: 的
+                - generic [ref=e402] [cursor=pointer]:
+                  - generic [ref=e403]: xián
+                  - text: 咸
+                - generic [ref=e404] [cursor=pointer]:
+                  - generic [ref=e405]: shuǐ
+                  - text: 水
+                - generic [ref=e406] [cursor=pointer]:
+                  - generic [ref=e407]: píng
+                  - text: 平
+                - generic [ref=e408] [cursor=pointer]:
+                  - generic [ref=e409]: héng
+                  - text: 衡
+                - generic [ref=e410] [cursor=pointer]: 。
+              - generic [ref=e411]:
+                - generic [ref=e412] [cursor=pointer]:
+                  - generic [ref=e413]: jìn
+                  - text: 进
+                - generic [ref=e414] [cursor=pointer]:
+                  - generic [ref=e415]: yī
+                  - text: 一
+                - generic [ref=e416] [cursor=pointer]:
+                  - generic [ref=e417]: bù
+                  - text: 步
+                - generic [ref=e418] [cursor=pointer]:
+                  - generic [ref=e419]: kàn
+                  - text: 看
+                - generic [ref=e420] [cursor=pointer]: ，
+                - generic [ref=e421] [cursor=pointer]:
+                  - generic [ref=e422]: hǎi
+                  - text: 海
+                - generic [ref=e423] [cursor=pointer]:
+                  - generic [ref=e424]: dǐ
+                  - text: 底
+                - generic [ref=e425] [cursor=pointer]:
+                  - generic [ref=e426]: què
+                  - text: 确
+                - generic [ref=e427] [cursor=pointer]:
+                  - generic [ref=e428]: shí
+                  - text: 实
+                - generic [ref=e429] [cursor=pointer]:
+                  - generic [ref=e430]: cún
+                  - text: 存
+                - generic [ref=e431] [cursor=pointer]:
+                  - generic [ref=e432]: zài
+                  - text: 在
+                - generic [ref=e433] [cursor=pointer]:
+                  - generic [ref=e434]: yán
+                  - text: 盐
+                - generic [ref=e435] [cursor=pointer]:
+                  - generic [ref=e436]: kuàng
+                  - text: 矿
+                - generic [ref=e437] [cursor=pointer]: （
+                - generic [ref=e438] [cursor=pointer]:
+                  - generic [ref=e439]: rú
+                  - text: 如
+                - generic [ref=e440] [cursor=pointer]:
+                  - generic [ref=e441]: zhēng
+                  - text: 蒸
+                - generic [ref=e442] [cursor=pointer]:
+                  - generic [ref=e443]: fā
+                  - text: 发
+                - generic [ref=e444] [cursor=pointer]:
+                  - generic [ref=e445]: yán
+                  - text: 岩
+                - generic [ref=e446] [cursor=pointer]:
+                  - generic [ref=e447]: céng
+                  - text: 层
+                - generic [ref=e448] [cursor=pointer]: ）
+                - generic [ref=e449] [cursor=pointer]: ，
+                - generic [ref=e450] [cursor=pointer]:
+                  - generic [ref=e451]: dàn
+                  - text: 但
+                - generic [ref=e452] [cursor=pointer]:
+                  - generic [ref=e453]: gèng
+                  - text: 更
+                - generic [ref=e454] [cursor=pointer]:
+                  - generic [ref=e455]: zhǔ
+                  - text: 主
+                - generic [ref=e456] [cursor=pointer]:
+                  - generic [ref=e457]: yào
+                  - text: 要
+                - generic [ref=e458] [cursor=pointer]:
+                  - generic [ref=e459]: de
+                  - text: 的
+                - generic [ref=e460] [cursor=pointer]:
+                  - generic [ref=e461]: yán
+                  - text: 盐
+                - generic [ref=e462] [cursor=pointer]:
+                  - generic [ref=e463]: fēn
+                  - text: 分
+                - generic [ref=e464] [cursor=pointer]:
+                  - generic [ref=e465]: lái
+                  - text: 来
+                - generic [ref=e466] [cursor=pointer]:
+                  - generic [ref=e467]: zì
+                  - text: 自
+                - generic [ref=e468] [cursor=pointer]:
+                  - generic [ref=e469]: hé
+                  - text: 河
+                - generic [ref=e470] [cursor=pointer]:
+                  - generic [ref=e471]: liú
+                  - text: 流
+                - generic [ref=e472] [cursor=pointer]:
+                  - generic [ref=e473]: měi
+                  - text: 每
+                - generic [ref=e474] [cursor=pointer]:
+                  - generic [ref=e475]: nián
+                  - text: 年
+                - generic [ref=e476] [cursor=pointer]:
+                  - generic [ref=e477]: xié
+                  - text: 携
+                - generic [ref=e478] [cursor=pointer]:
+                  - generic [ref=e479]: dài
+                  - text: 带
+                - generic [ref=e480] [cursor=pointer]:
+                  - generic [ref=e481]: yuē
+                  - text: 约
+                - generic [ref=e482] [cursor=pointer]: "4"
+                - generic [ref=e483] [cursor=pointer]: "0"
+                - generic [ref=e484] [cursor=pointer]:
+                  - generic [ref=e485]: yì
+                  - text: 亿
+                - generic [ref=e486] [cursor=pointer]:
+                  - generic [ref=e487]: dūn
+                  - text: 吨
+                - generic [ref=e488] [cursor=pointer]:
+                  - generic [ref=e489]: róng
+                  - text: 溶
+                - generic [ref=e490] [cursor=pointer]:
+                  - generic [ref=e491]: jiě
+                  - text: 解
+                - generic [ref=e492] [cursor=pointer]:
+                  - generic [ref=e493]: wù
+                  - text: 物
+                - generic [ref=e494] [cursor=pointer]:
+                  - generic [ref=e495]: zhì
+                  - text: 质
+                - generic [ref=e496] [cursor=pointer]:
+                  - generic [ref=e497]: rù
+                  - text: 入
+                - generic [ref=e498] [cursor=pointer]:
+                  - generic [ref=e499]: hǎi
+                  - text: 海
+                - generic [ref=e500] [cursor=pointer]: 。
+                - generic [ref=e501] [cursor=pointer]:
+                  - generic [ref=e502]: zhè
+                  - text: 这
+                - generic [ref=e503] [cursor=pointer]:
+                  - generic [ref=e504]: xiē
+                  - text: 些
+                - generic [ref=e505] [cursor=pointer]:
+                  - generic [ref=e506]: lí
+                  - text: 离
+                - generic [ref=e507] [cursor=pointer]:
+                  - generic [ref=e508]: zi
+                  - text: 子
+                - generic [ref=e509] [cursor=pointer]:
+                  - generic [ref=e510]: bāo
+                  - text: 包
+                - generic [ref=e511] [cursor=pointer]:
+                  - generic [ref=e512]: kuò
+                  - text: 括
+                - generic [ref=e513] [cursor=pointer]:
+                  - generic [ref=e514]: nà
+                  - text: 钠
+                - generic [ref=e515] [cursor=pointer]: 、
+                - generic [ref=e516] [cursor=pointer]:
+                  - generic [ref=e517]: lǜ
+                  - text: 氯
+                - generic [ref=e518] [cursor=pointer]: 、
+                - generic [ref=e519] [cursor=pointer]:
+                  - generic [ref=e520]: měi
+                  - text: 镁
+                - generic [ref=e521] [cursor=pointer]: 、
+                - generic [ref=e522] [cursor=pointer]:
+                  - generic [ref=e523]: gài
+                  - text: 钙
+                - generic [ref=e524] [cursor=pointer]:
+                  - generic [ref=e525]: děng
+                  - text: 等
+                - generic [ref=e526] [cursor=pointer]: ，
+                - generic [ref=e527] [cursor=pointer]:
+                  - generic [ref=e528]: qí
+                  - text: 其
+                - generic [ref=e529] [cursor=pointer]:
+                  - generic [ref=e530]: zhōng
+                  - text: 中
+                - generic [ref=e531] [cursor=pointer]:
+                  - generic [ref=e532]: lǜ
+                  - text: 氯
+                - generic [ref=e533] [cursor=pointer]:
+                  - generic [ref=e534]: huà
+                  - text: 化
+                - generic [ref=e535] [cursor=pointer]:
+                  - generic [ref=e536]: nà
+                  - text: 钠
+                - generic [ref=e537] [cursor=pointer]:
+                  - generic [ref=e538]: zhàn
+                  - text: 占
+                - generic [ref=e539] [cursor=pointer]:
+                  - generic [ref=e540]: zhǔ
+                  - text: 主
+                - generic [ref=e541] [cursor=pointer]:
+                  - generic [ref=e542]: dǎo
+                  - text: 导
+                - generic [ref=e543] [cursor=pointer]: 。
+                - generic [ref=e544] [cursor=pointer]:
+                  - generic [ref=e545]: hǎi
+                  - text: 海
+                - generic [ref=e546] [cursor=pointer]:
+                  - generic [ref=e547]: yáng
+                  - text: 洋
+                - generic [ref=e548] [cursor=pointer]:
+                  - generic [ref=e549]: de
+                  - text: 的
+                - generic [ref=e550] [cursor=pointer]: “
+                - generic [ref=e551] [cursor=pointer]:
+                  - generic [ref=e552]: xián
+                  - text: 咸
+                - generic [ref=e553] [cursor=pointer]:
+                  - generic [ref=e554]: wèi
+                  - text: 味
+                - generic [ref=e555] [cursor=pointer]: ”
+                - generic [ref=e556] [cursor=pointer]:
+                  - generic [ref=e557]: běn
+                  - text: 本
+                - generic [ref=e558] [cursor=pointer]:
+                  - generic [ref=e559]: zhì
+                  - text: 质
+                - generic [ref=e560] [cursor=pointer]:
+                  - generic [ref=e561]: shàng
+                  - text: 上
+                - generic [ref=e562] [cursor=pointer]:
+                  - generic [ref=e563]: shì
+                  - text: 是
+                - generic [ref=e564] [cursor=pointer]:
+                  - generic [ref=e565]: dì
+                  - text: 地
+                - generic [ref=e566] [cursor=pointer]:
+                  - generic [ref=e567]: zhì
+                  - text: 质
+                - generic [ref=e568] [cursor=pointer]:
+                  - generic [ref=e569]: shí
+                  - text: 时
+                - generic [ref=e570] [cursor=pointer]:
+                  - generic [ref=e571]: jiān
+                  - text: 间
+                - generic [ref=e572] [cursor=pointer]:
+                  - generic [ref=e573]: chǐ
+                  - text: 尺
+                - generic [ref=e574] [cursor=pointer]:
+                  - generic [ref=e575]: dù
+                  - text: 度
+                - generic [ref=e576] [cursor=pointer]:
+                  - generic [ref=e577]: shàng
+                  - text: 上
+                - generic [ref=e578] [cursor=pointer]:
+                  - generic [ref=e579]: wù
+                  - text: 物
+                - generic [ref=e580] [cursor=pointer]:
+                  - generic [ref=e581]: zhì
+                  - text: 质
+                - generic [ref=e582] [cursor=pointer]:
+                  - generic [ref=e583]: xún
+                  - text: 循
+                - generic [ref=e584] [cursor=pointer]:
+                  - generic [ref=e585]: huán
+                  - text: 环
+                - generic [ref=e586] [cursor=pointer]:
+                  - generic [ref=e587]: de
+                  - text: 的
+                - generic [ref=e588] [cursor=pointer]:
+                  - generic [ref=e589]: bì
+                  - text: 必
+                - generic [ref=e590] [cursor=pointer]:
+                  - generic [ref=e591]: rán
+                  - text: 然
+                - generic [ref=e592] [cursor=pointer]:
+                  - generic [ref=e593]: jié
+                  - text: 结
+                - generic [ref=e594] [cursor=pointer]:
+                  - generic [ref=e595]: guǒ
+                  - text: 果
+                - generic [ref=e596] [cursor=pointer]: —
+                - generic [ref=e597] [cursor=pointer]: —
+                - generic [ref=e598] [cursor=pointer]:
+                  - generic [ref=e599]: lèi
+                  - text: 类
+                - generic [ref=e600] [cursor=pointer]:
+                  - generic [ref=e601]: shì
+                  - text: 似
+                - generic [ref=e602] [cursor=pointer]:
+                  - generic [ref=e603]: yú
+                  - text: 于
+                - generic [ref=e604] [cursor=pointer]:
+                  - generic [ref=e605]: hēi
+                  - text: 黑
+                - generic [ref=e606] [cursor=pointer]:
+                  - generic [ref=e607]: dòng
+                  - text: 洞
+                - generic [ref=e608] [cursor=pointer]:
+                  - generic [ref=e609]: rè
+                  - text: 热
+                - generic [ref=e610] [cursor=pointer]:
+                  - generic [ref=e611]: lì
+                  - text: 力
+                - generic [ref=e612] [cursor=pointer]:
+                  - generic [ref=e613]: xué
+                  - text: 学
+                - generic [ref=e614] [cursor=pointer]:
+                  - generic [ref=e615]: zhōng
+                  - text: 中
+                - generic [ref=e616] [cursor=pointer]:
+                  - generic [ref=e617]: shì
+                  - text: 事
+                - generic [ref=e618] [cursor=pointer]:
+                  - generic [ref=e619]: jiàn
+                  - text: 件
+                - generic [ref=e620] [cursor=pointer]:
+                  - generic [ref=e621]: shì
+                  - text: 视
+                - generic [ref=e622] [cursor=pointer]:
+                  - generic [ref=e623]: jiè
+                  - text: 界
+                - generic [ref=e624] [cursor=pointer]:
+                  - generic [ref=e625]: nèi
+                  - text: 内
+                - generic [ref=e626] [cursor=pointer]:
+                  - generic [ref=e627]: wù
+                  - text: 物
+                - generic [ref=e628] [cursor=pointer]:
+                  - generic [ref=e629]: zhì
+                  - text: 质
+                - generic [ref=e630] [cursor=pointer]:
+                  - generic [ref=e631]: bù
+                  - text: 不
+                - generic [ref=e632] [cursor=pointer]:
+                  - generic [ref=e633]: kě
+                  - text: 可
+                - generic [ref=e634] [cursor=pointer]:
+                  - generic [ref=e635]: nì
+                  - text: 逆
+                - generic [ref=e636] [cursor=pointer]:
+                  - generic [ref=e637]: de
+                  - text: 的
+                - generic [ref=e638] [cursor=pointer]: “
+                - generic [ref=e639] [cursor=pointer]:
+                  - generic [ref=e640]: xìn
+                  - text: 信
+                - generic [ref=e641] [cursor=pointer]:
+                  - generic [ref=e642]: xī
+                  - text: 息
+                - generic [ref=e643] [cursor=pointer]:
+                  - generic [ref=e644]: diū
+                  - text: 丢
+                - generic [ref=e645] [cursor=pointer]:
+                  - generic [ref=e646]: shī
+                  - text: 失
+                - generic [ref=e647] [cursor=pointer]: ”
+                - generic [ref=e648] [cursor=pointer]: ，
+                - generic [ref=e649] [cursor=pointer]:
+                  - generic [ref=e650]: hǎi
+                  - text: 海
+                - generic [ref=e651] [cursor=pointer]:
+                  - generic [ref=e652]: shuǐ
+                  - text: 水
+                - generic [ref=e653] [cursor=pointer]:
+                  - generic [ref=e654]: yán
+                  - text: 盐
+                - generic [ref=e655] [cursor=pointer]:
+                  - generic [ref=e656]: fēn
+                  - text: 分
+                - generic [ref=e657] [cursor=pointer]:
+                  - generic [ref=e658]: yī
+                  - text: 一
+                - generic [ref=e659] [cursor=pointer]:
+                  - generic [ref=e660]: dàn
+                  - text: 旦
+                - generic [ref=e661] [cursor=pointer]:
+                  - generic [ref=e662]: jìn
+                  - text: 进
+                - generic [ref=e663] [cursor=pointer]:
+                  - generic [ref=e664]: rù
+                  - text: 入
+                - generic [ref=e665] [cursor=pointer]:
+                  - generic [ref=e666]: hǎi
+                  - text: 海
+                - generic [ref=e667] [cursor=pointer]:
+                  - generic [ref=e668]: yáng
+                  - text: 洋
+                - generic [ref=e669] [cursor=pointer]: ，
+                - generic [ref=e670] [cursor=pointer]:
+                  - generic [ref=e671]: chú
+                  - text: 除
+                - generic [ref=e672] [cursor=pointer]:
+                  - generic [ref=e673]: fēi
+                  - text: 非
+                - generic [ref=e674] [cursor=pointer]:
+                  - generic [ref=e675]: tōng
+                  - text: 通
+                - generic [ref=e676] [cursor=pointer]:
+                  - generic [ref=e677]: guò
+                  - text: 过
+                - generic [ref=e678] [cursor=pointer]:
+                  - generic [ref=e679]: bǎn
+                  - text: 板
+                - generic [ref=e680] [cursor=pointer]:
+                  - generic [ref=e681]: kuài
+                  - text: 块
+                - generic [ref=e682] [cursor=pointer]:
+                  - generic [ref=e683]: fǔ
+                  - text: 俯
+                - generic [ref=e684] [cursor=pointer]:
+                  - generic [ref=e685]: chōng
+                  - text: 冲
+                - generic [ref=e686] [cursor=pointer]:
+                  - generic [ref=e687]: huò
+                  - text: 或
+                - generic [ref=e688] [cursor=pointer]:
+                  - generic [ref=e689]: chén
+                  - text: 沉
+                - generic [ref=e690] [cursor=pointer]:
+                  - generic [ref=e691]: jī
+                  - text: 积
+                - generic [ref=e692] [cursor=pointer]:
+                  - generic [ref=e693]: zuò
+                  - text: 作
+                - generic [ref=e694] [cursor=pointer]:
+                  - generic [ref=e695]: yòng
+                  - text: 用
+                - generic [ref=e696] [cursor=pointer]: ，
+                - generic [ref=e697] [cursor=pointer]:
+                  - generic [ref=e698]: fǒu
+                  - text: 否
+                - generic [ref=e699] [cursor=pointer]:
+                  - generic [ref=e700]: zé
+                  - text: 则
+                - generic [ref=e701] [cursor=pointer]:
+                  - generic [ref=e702]: nán
+                  - text: 难
+                - generic [ref=e703] [cursor=pointer]:
+                  - generic [ref=e704]: yǐ
+                  - text: 以
+                - generic [ref=e705] [cursor=pointer]:
+                  - generic [ref=e706]: dà
+                  - text: 大
+                - generic [ref=e707] [cursor=pointer]:
+                  - generic [ref=e708]: guī
+                  - text: 规
+                - generic [ref=e709] [cursor=pointer]:
+                  - generic [ref=e710]: mó
+                  - text: 模
+                - generic [ref=e711] [cursor=pointer]:
+                  - generic [ref=e712]: tuō
+                  - text: 脱
+                - generic [ref=e713] [cursor=pointer]:
+                  - generic [ref=e714]: lí
+                  - text: 离
+                - generic [ref=e715] [cursor=pointer]: 。
+                - generic [ref=e716] [cursor=pointer]:
+                  - generic [ref=e717]: zhè
+                  - text: 这
+                - generic [ref=e718] [cursor=pointer]:
+                  - generic [ref=e719]: yǔ
+                  - text: 与
+                - generic [ref=e720] [cursor=pointer]:
+                  - generic [ref=e721]: nǐ
+                  - text: 你
+                - generic [ref=e722] [cursor=pointer]:
+                  - generic [ref=e723]: tí
+                  - text: 提
+                - generic [ref=e724] [cursor=pointer]:
+                  - generic [ref=e725]: chū
+                  - text: 出
+                - generic [ref=e726] [cursor=pointer]:
+                  - generic [ref=e727]: de
+                  - text: 的
+                - generic [ref=e728] [cursor=pointer]: 「
+                - generic [ref=e729] [cursor=pointer]:
+                  - generic [ref=e730]: yú
+                  - text: 鱼
+                - generic [ref=e731] [cursor=pointer]:
+                  - generic [ref=e732]: sāi
+                  - text: 鳃
+                - generic [ref=e733] [cursor=pointer]:
+                  - generic [ref=e734]: shuǐ
+                  - text: 水
+                - generic [ref=e735] [cursor=pointer]:
+                  - generic [ref=e736]: qī
+                  - text: 栖
+                - generic [ref=e737] [cursor=pointer]:
+                  - generic [ref=e738]: xiàn
+                  - text: 限
+                - generic [ref=e739] [cursor=pointer]:
+                  - generic [ref=e740]: dìng
+                  - text: 定
+                - generic [ref=e741] [cursor=pointer]:
+                  - generic [ref=e742]: lǜ
+                  - text: 律
+                - generic [ref=e743] [cursor=pointer]: 」
+                - generic [ref=e744] [cursor=pointer]:
+                  - generic [ref=e745]: yě
+                  - text: 也
+                - generic [ref=e746] [cursor=pointer]:
+                  - generic [ref=e747]: yǒu
+                  - text: 有
+                - generic [ref=e748] [cursor=pointer]:
+                  - generic [ref=e749]: yǐn
+                  - text: 隐
+                - generic [ref=e750] [cursor=pointer]:
+                  - generic [ref=e751]: huì
+                  - text: 晦
+                - generic [ref=e752] [cursor=pointer]:
+                  - generic [ref=e753]: guān
+                  - text: 关
+                - generic [ref=e754] [cursor=pointer]:
+                  - generic [ref=e755]: lián
+                  - text: 联
+                - generic [ref=e756] [cursor=pointer]: ：
+                - generic [ref=e757] [cursor=pointer]:
+                  - generic [ref=e758]: yú
+                  - text: 鱼
+                - generic [ref=e759] [cursor=pointer]:
+                  - generic [ref=e760]: yòng
+                  - text: 用
+                - generic [ref=e761] [cursor=pointer]:
+                  - generic [ref=e762]: sāi
+                  - text: 鳃
+                - generic [ref=e763] [cursor=pointer]:
+                  - generic [ref=e764]: zhí
+                  - text: 直
+                - generic [ref=e765] [cursor=pointer]:
+                  - generic [ref=e766]: jiē
+                  - text: 接
+                - generic [ref=e767] [cursor=pointer]:
+                  - generic [ref=e768]: jiē
+                  - text: 接
+                - generic [ref=e769] [cursor=pointer]:
+                  - generic [ref=e770]: chù
+                  - text: 触
+                - generic [ref=e771] [cursor=pointer]:
+                  - generic [ref=e772]: gāo
+                  - text: 高
+                - generic [ref=e773] [cursor=pointer]:
+                  - generic [ref=e774]: yán
+                  - text: 盐
+                - generic [ref=e775] [cursor=pointer]:
+                  - generic [ref=e776]: shuǐ
+                  - text: 水
+                - generic [ref=e777] [cursor=pointer]:
+                  - generic [ref=e778]: tǐ
+                  - text: 体
+                - generic [ref=e779] [cursor=pointer]: ，
+                - generic [ref=e780] [cursor=pointer]:
+                  - generic [ref=e781]: bì
+                  - text: 必
+                - generic [ref=e782] [cursor=pointer]:
+                  - generic [ref=e783]: xū
+                  - text: 须
+                - generic [ref=e784] [cursor=pointer]:
+                  - generic [ref=e785]: tōng
+                  - text: 通
+                - generic [ref=e786] [cursor=pointer]:
+                  - generic [ref=e787]: guò
+                  - text: 过
+                - generic [ref=e788] [cursor=pointer]:
+                  - generic [ref=e789]: shèn
+                  - text: 渗
+                - generic [ref=e790] [cursor=pointer]:
+                  - generic [ref=e791]: tòu
+                  - text: 透
+                - generic [ref=e792] [cursor=pointer]:
+                  - generic [ref=e793]: diào
+                  - text: 调
+                - generic [ref=e794] [cursor=pointer]:
+                  - generic [ref=e795]: jié
+                  - text: 节
+                - generic [ref=e796] [cursor=pointer]:
+                  - generic [ref=e797]: wéi
+                  - text: 维
+                - generic [ref=e798] [cursor=pointer]:
+                  - generic [ref=e799]: chí
+                  - text: 持
+                - generic [ref=e800] [cursor=pointer]:
+                  - generic [ref=e801]: tǐ
+                  - text: 体
+                - generic [ref=e802] [cursor=pointer]:
+                  - generic [ref=e803]: nèi
+                  - text: 内
+                - generic [ref=e804] [cursor=pointer]:
+                  - generic [ref=e805]: lí
+                  - text: 离
+                - generic [ref=e806] [cursor=pointer]:
+                  - generic [ref=e807]: zi
+                  - text: 子
+                - generic [ref=e808] [cursor=pointer]:
+                  - generic [ref=e809]: píng
+                  - text: 平
+                - generic [ref=e810] [cursor=pointer]:
+                  - generic [ref=e811]: héng
+                  - text: 衡
+                - generic [ref=e812] [cursor=pointer]: ，
+                - generic [ref=e813] [cursor=pointer]:
+                  - generic [ref=e814]: zhè
+                  - text: 这
+                - generic [ref=e815] [cursor=pointer]:
+                  - generic [ref=e816]: qià
+                  - text: 恰
+                - generic [ref=e817] [cursor=pointer]:
+                  - generic [ref=e818]: qià
+                  - text: 恰
+                - generic [ref=e819] [cursor=pointer]:
+                  - generic [ref=e820]: shì
+                  - text: 是
+                - generic [ref=e821] [cursor=pointer]:
+                  - generic [ref=e822]: shēng
+                  - text: 生
+                - generic [ref=e823] [cursor=pointer]:
+                  - generic [ref=e824]: wù
+                  - text: 物
+                - generic [ref=e825] [cursor=pointer]:
+                  - generic [ref=e826]: duì
+                  - text: 对
+                - generic [ref=e827] [cursor=pointer]:
+                  - generic [ref=e828]: yán
+                  - text: 盐
+                - generic [ref=e829] [cursor=pointer]:
+                  - generic [ref=e830]: dù
+                  - text: 度
+                - generic [ref=e831] [cursor=pointer]:
+                  - generic [ref=e832]: huán
+                  - text: 环
+                - generic [ref=e833] [cursor=pointer]:
+                  - generic [ref=e834]: jìng
+                  - text: 境
+                - generic [ref=e835] [cursor=pointer]:
+                  - generic [ref=e836]: de
+                  - text: 的
+                - generic [ref=e837] [cursor=pointer]:
+                  - generic [ref=e838]: shì
+                  - text: 适
+                - generic [ref=e839] [cursor=pointer]:
+                  - generic [ref=e840]: yīng
+                  - text: 应
+                - generic [ref=e841] [cursor=pointer]:
+                  - generic [ref=e842]: biān
+                  - text: 边
+                - generic [ref=e843] [cursor=pointer]:
+                  - generic [ref=e844]: jiè
+                  - text: 界
+                - generic [ref=e845] [cursor=pointer]: 。
+              - generic [ref=e846]:
+                - generic [ref=e847] [cursor=pointer]:
+                  - generic [ref=e848]: jì
+                  - text: 既
+                - generic [ref=e849] [cursor=pointer]:
+                  - generic [ref=e850]: rán
+                  - text: 然
+                - generic [ref=e851] [cursor=pointer]:
+                  - generic [ref=e852]: yán
+                  - text: 盐
+                - generic [ref=e853] [cursor=pointer]:
+                  - generic [ref=e854]: fēn
+                  - text: 分
+                - generic [ref=e855] [cursor=pointer]:
+                  - generic [ref=e856]: chí
+                  - text: 持
+                - generic [ref=e857] [cursor=pointer]:
+                  - generic [ref=e858]: xù
+                  - text: 续
+                - generic [ref=e859] [cursor=pointer]:
+                  - generic [ref=e860]: shū
+                  - text: 输
+                - generic [ref=e861] [cursor=pointer]:
+                  - generic [ref=e862]: rù
+                  - text: 入
+                - generic [ref=e863] [cursor=pointer]:
+                  - generic [ref=e864]: què
+                  - text: 却
+                - generic [ref=e865] [cursor=pointer]:
+                  - generic [ref=e866]: wèi
+                  - text: 未
+                - generic [ref=e867] [cursor=pointer]:
+                  - generic [ref=e868]: wú
+                  - text: 无
+                - generic [ref=e869] [cursor=pointer]:
+                  - generic [ref=e870]: xiàn
+                  - text: 限
+                - generic [ref=e871] [cursor=pointer]:
+                  - generic [ref=e872]: zēng
+                  - text: 增
+                - generic [ref=e873] [cursor=pointer]:
+                  - generic [ref=e874]: nóng
+                  - text: 浓
+                - generic [ref=e875] [cursor=pointer]: ，
+                - generic [ref=e876] [cursor=pointer]:
+                  - generic [ref=e877]: nà
+                  - text: 那
+                - generic [ref=e878] [cursor=pointer]:
+                  - generic [ref=e879]: me
+                  - text: 么
+                - generic [ref=e880] [cursor=pointer]:
+                  - generic [ref=e881]: yī
+                  - text: 一
+                - generic [ref=e882] [cursor=pointer]:
+                  - generic [ref=e883]: gè
+                  - text: 个
+                - generic [ref=e884] [cursor=pointer]:
+                  - generic [ref=e885]: gèng
+                  - text: 更
+                - generic [ref=e886] [cursor=pointer]:
+                  - generic [ref=e887]: shēn
+                  - text: 深
+                - generic [ref=e888] [cursor=pointer]:
+                  - generic [ref=e889]: de
+                  - text: 的
+                - generic [ref=e890] [cursor=pointer]:
+                  - generic [ref=e891]: wèn
+                  - text: 问
+                - generic [ref=e892] [cursor=pointer]:
+                  - generic [ref=e893]: tí
+                  - text: 题
+                - generic [ref=e894] [cursor=pointer]:
+                  - generic [ref=e895]: lái
+                  - text: 来
+                - generic [ref=e896] [cursor=pointer]:
+                  - generic [ref=e897]: le
+                  - text: 了
+                - generic [ref=e898] [cursor=pointer]: ：
+                - generic [ref=e899] [cursor=pointer]: "*"
+                - generic [ref=e900] [cursor=pointer]: "*"
+                - generic [ref=e901] [cursor=pointer]:
+                  - generic [ref=e902]: rú
+                  - text: 如
+                - generic [ref=e903] [cursor=pointer]:
+                  - generic [ref=e904]: guǒ
+                  - text: 果
+                - generic [ref=e905] [cursor=pointer]:
+                  - generic [ref=e906]: hǎi
+                  - text: 海
+                - generic [ref=e907] [cursor=pointer]:
+                  - generic [ref=e908]: shuǐ
+                  - text: 水
+                - generic [ref=e909] [cursor=pointer]:
+                  - generic [ref=e910]: yán
+                  - text: 盐
+                - generic [ref=e911] [cursor=pointer]:
+                  - generic [ref=e912]: dù
+                  - text: 度
+                - generic [ref=e913] [cursor=pointer]:
+                  - generic [ref=e914]: zhǎng
+                  - text: 长
+                - generic [ref=e915] [cursor=pointer]:
+                  - generic [ref=e916]: qī
+                  - text: 期
+                - generic [ref=e917] [cursor=pointer]:
+                  - generic [ref=e918]: bǎo
+                  - text: 保
+                - generic [ref=e919] [cursor=pointer]:
+                  - generic [ref=e920]: chí
+                  - text: 持
+                - generic [ref=e921] [cursor=pointer]:
+                  - generic [ref=e922]: wěn
+                  - text: 稳
+                - generic [ref=e923] [cursor=pointer]:
+                  - generic [ref=e924]: dìng
+                  - text: 定
+                - generic [ref=e925] [cursor=pointer]: （
+                - generic [ref=e926] [cursor=pointer]:
+                  - generic [ref=e927]: yuē
+                  - text: 约
+                - generic [ref=e928] [cursor=pointer]: "3"
+                - generic [ref=e929] [cursor=pointer]: .
+                - generic [ref=e930] [cursor=pointer]: "5"
+                - generic [ref=e931] [cursor=pointer]: "%"
+                - generic [ref=e932] [cursor=pointer]: ）
+                - generic [ref=e933] [cursor=pointer]: ，
+                - generic [ref=e934] [cursor=pointer]:
+                  - generic [ref=e935]: nà
+                  - text: 那
+                - generic [ref=e936] [cursor=pointer]:
+                  - generic [ref=e937]: me
+                  - text: 么
+                - generic [ref=e938] [cursor=pointer]:
+                  - generic [ref=e939]: yán
+                  - text: 盐
+                - generic [ref=e940] [cursor=pointer]:
+                  - generic [ref=e941]: fēn
+                  - text: 分
+                - generic [ref=e942] [cursor=pointer]:
+                  - generic [ref=e943]: de
+                  - text: 的
+                - generic [ref=e944] [cursor=pointer]: “
+                - generic [ref=e945] [cursor=pointer]:
+                  - generic [ref=e946]: shū
+                  - text: 输
+                - generic [ref=e947] [cursor=pointer]:
+                  - generic [ref=e948]: chū
+                  - text: 出
+                - generic [ref=e949] [cursor=pointer]:
+                  - generic [ref=e950]: jī
+                  - text: 机
+                - generic [ref=e951] [cursor=pointer]:
+                  - generic [ref=e952]: zhì
+                  - text: 制
+                - generic [ref=e953] [cursor=pointer]: ”
+                - generic [ref=e954] [cursor=pointer]:
+                  - generic [ref=e955]: shì
+                  - text: 是
+                - generic [ref=e956] [cursor=pointer]:
+                  - generic [ref=e957]: shén
+                  - text: 什
+                - generic [ref=e958] [cursor=pointer]:
+                  - generic [ref=e959]: me
+                  - text: 么
+                - generic [ref=e960] [cursor=pointer]: ？
+                - generic [ref=e961] [cursor=pointer]: "*"
+                - generic [ref=e962] [cursor=pointer]: "*"
+                - generic [ref=e964] [cursor=pointer]:
+                  - generic [ref=e965]: zhè
+                  - text: 这
+                - generic [ref=e966] [cursor=pointer]:
+                  - generic [ref=e967]: huò
+                  - text: 或
+                - generic [ref=e968] [cursor=pointer]:
+                  - generic [ref=e969]: xǔ
+                  - text: 许
+                - generic [ref=e970] [cursor=pointer]:
+                  - generic [ref=e971]: xū
+                  - text: 需
+                - generic [ref=e972] [cursor=pointer]:
+                  - generic [ref=e973]: yào
+                  - text: 要
+                - generic [ref=e974] [cursor=pointer]:
+                  - generic [ref=e975]: nǐ
+                  - text: 你
+                - generic [ref=e976] [cursor=pointer]:
+                  - generic [ref=e977]: cóng
+                  - text: 从
+                - generic [ref=e978] [cursor=pointer]:
+                  - generic [ref=e979]: bǎn
+                  - text: 板
+                - generic [ref=e980] [cursor=pointer]:
+                  - generic [ref=e981]: kuài
+                  - text: 块
+                - generic [ref=e982] [cursor=pointer]:
+                  - generic [ref=e983]: gòu
+                  - text: 构
+                - generic [ref=e984] [cursor=pointer]:
+                  - generic [ref=e985]: zào
+                  - text: 造
+                - generic [ref=e986] [cursor=pointer]:
+                  - generic [ref=e987]: huò
+                  - text: 或
+                - generic [ref=e988] [cursor=pointer]:
+                  - generic [ref=e989]: shēng
+                  - text: 生
+                - generic [ref=e990] [cursor=pointer]:
+                  - generic [ref=e991]: wù
+                  - text: 物
+                - generic [ref=e992] [cursor=pointer]:
+                  - generic [ref=e993]: kuàng
+                  - text: 矿
+                - generic [ref=e994] [cursor=pointer]:
+                  - generic [ref=e995]: huà
+                  - text: 化
+                - generic [ref=e996] [cursor=pointer]:
+                  - generic [ref=e997]: de
+                  - text: 的
+                - generic [ref=e998] [cursor=pointer]:
+                  - generic [ref=e999]: jiǎo
+                  - text: 角
+                - generic [ref=e1000] [cursor=pointer]:
+                  - generic [ref=e1001]: dù
+                  - text: 度
+                - generic [ref=e1002] [cursor=pointer]:
+                  - generic [ref=e1003]: zhòng
+                  - text: 重
+                - generic [ref=e1004] [cursor=pointer]:
+                  - generic [ref=e1005]: xīn
+                  - text: 新
+                - generic [ref=e1006] [cursor=pointer]:
+                  - generic [ref=e1007]: sī
+                  - text: 思
+                - generic [ref=e1008] [cursor=pointer]:
+                  - generic [ref=e1009]: kǎo
+                  - text: 考
+                - generic [ref=e1010] [cursor=pointer]: 。
+              - generic [ref=e1012]:
+                - generic [ref=e1016]:
+                  - img "star" [ref=e1017]:
+                    - img [ref=e1018]
+                  - text: 文章字库统计（共 235 个不重复汉字）
+                - generic [ref=e1020]:
+                  - generic [ref=e1026]:
+                    - generic [ref=e1027]:
+                      - generic [ref=e1029]: 正在学
+                      - generic [ref=e1030]: "15"
+                      - generic [ref=e1031]: (6%)
+                    - generic [ref=e1032]:
+                      - generic [ref=e1034]: 待评估
+                      - generic [ref=e1035]: "107"
+                      - generic [ref=e1036]: (46%)
+                    - generic [ref=e1037]:
+                      - generic [ref=e1039]: 已掌握
+                      - generic [ref=e1040]: "102"
+                      - generic [ref=e1041]: (43%)
+                    - generic [ref=e1042]:
+                      - generic [ref=e1044]: 困难字
+                      - generic [ref=e1045]: "11"
+                      - generic [ref=e1046]: (5%)
+                  - generic [ref=e1047]:
+                    - generic [ref=e1048]:
+                      - img "fire" [ref=e1049]:
+                        - img [ref=e1050]
+                      - text: 今日新字
+                    - generic [ref=e1052]: 盐
+                    - generic [ref=e1053]: 矿
+                    - generic [ref=e1054]: 溶
+                    - generic [ref=e1055]: 解
+                    - generic [ref=e1056]: 咸
+                    - generic [ref=e1057]: 味
+                    - generic [ref=e1058]: 源
+                    - generic [ref=e1059]: 陆
+                    - generic [ref=e1060]: 岩
+                    - generic [ref=e1061]: 认
+                    - generic [ref=e1062]: 趋
+                    - generic [ref=e1063]: 序
+                    - generic [ref=e1064]: 规
+                    - generic [ref=e1065]: 循
+                    - generic [ref=e1066]: 恰
+                    - generic [ref=e1067]: 乎
+                    - generic [ref=e1068]: 冲
+                    - generic [ref=e1069]: 刷
+                    - generic [ref=e1070]: 终
+                    - generic [ref=e1071]: 汇
+                    - generic [ref=e1072]: 蒸
+                    - generic [ref=e1073]: 浓
+                    - generic [ref=e1074]: 稳
+                    - generic [ref=e1075]: 衡
+                    - generic [ref=e1076]: 携
+                    - generic [ref=e1077]: 约
+                    - generic [ref=e1078]: 吨
+                    - generic [ref=e1079]: 包
+                    - generic [ref=e1080]: 括
+                    - generic [ref=e1081]: 钠
+                    - generic [ref=e1082]: 氯
+                    - generic [ref=e1083]: 镁
+                    - generic [ref=e1084]: 钙
+                    - generic [ref=e1085]: 占
+                    - generic [ref=e1086]: 导
+                    - generic [ref=e1087]: 必
+                    - generic [ref=e1088]: 结
+                    - generic [ref=e1089]: 旦
+                    - generic [ref=e1090]: 除
+                    - generic [ref=e1091]: 俯
+                    - generic [ref=e1092]: 沉
+                    - generic [ref=e1093]: 脱
+                    - generic [ref=e1094]: 鳃
+                    - generic [ref=e1095]: 栖
+                    - generic [ref=e1096]: 晦
+                    - generic [ref=e1097]: 须
+                    - generic [ref=e1098]: 渗
+                    - generic [ref=e1099]: 透
+                    - generic [ref=e1100]: 维
+                    - generic [ref=e1101]: 境
+                    - generic [ref=e1102]: 适
+                    - generic [ref=e1103]: 应
+                    - generic [ref=e1104]: 既
+                    - generic [ref=e1105]: 增
+                    - generic [ref=e1106]: 许
+                    - generic [ref=e1107]: 需
+                    - generic [ref=e1108]: 构
+                    - generic [ref=e1109]: 考
+                  - generic [ref=e1110]:
+                    - generic [ref=e1111]:
+                      - text: 正在学：
+                      - generic [ref=e1112]: 住
+                      - generic [ref=e1113]: 是
+                      - generic [ref=e1114]: 知
+                      - generic [ref=e1115]: 一
+                      - generic [ref=e1116]: 近
+                      - generic [ref=e1117]: 下
+                      - generic [ref=e1118]: 在
+                      - generic [ref=e1119]: 质
+                      - generic [ref=e1120]: 其
+                      - generic [ref=e1121]: 通
+                      - generic [ref=e1122]: 则
+                      - generic [ref=e1123]: 以
+                      - generic [ref=e1124]: 大
+                      - generic [ref=e1125]: 与
+                      - generic [ref=e1126]: 深
+                    - generic [ref=e1127]:
+                      - text: 需复习：
+                      - generic [ref=e1128]: 想
+                      - generic [ref=e1129]: 底
+                      - generic [ref=e1130]: 把
+                      - generic [ref=e1131]: 了
+                      - generic [ref=e1132]: 直
+                      - generic [ref=e1133]: 累
+                      - generic [ref=e1134]: 进
+                      - generic [ref=e1135]: 黑
+                      - generic [ref=e1136]: 那
+                      - generic [ref=e1137]: 角
+                      - generic [ref=e1138]: 重
+              - button "check-circle 完成阅读" [ref=e1140] [cursor=pointer]:
+                - img "check-circle" [ref=e1142]:
+                  - img [ref=e1143]
+                - generic [ref=e1146]: 完成阅读
+  - generic "加油！" [ref=e1147] [cursor=pointer]: 🐱
