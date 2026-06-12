@@ -44,8 +44,12 @@ def get_events(answered: bool | None = None, limit: int = 50, offset: int = 0,
 
 @router.post("/ask")
 def ask(body: AskRequest, student_id: int = Depends(get_current_student_id),
-        svc: CuriosityService = Depends(_get_service)):
-    return svc.ask_one_shot(student_id, body.raw_text, body.tags)
+        svc: CuriosityService = Depends(_get_service),
+        db: Session = Depends(get_db)):
+    result = svc.ask_one_shot(student_id, body.raw_text, body.tags)
+    from ..seeds.service import SeedService as SeedSvc
+    SeedSvc(db).collect_if_seed(student_id, body.raw_text)
+    return result
 
 
 @router.post("/ask-series")

@@ -98,3 +98,10 @@ export const studentsApi = {
   updateFeatureFlags: (studentId: number, body: Record<string, boolean>) =>
     api.put(`/students/${studentId}/feature-flags`, body),
 }
+
+// ===== Seeds =====
+export const seedsApi = {
+  list: (status?: string) => api.get('/seeds', { params: { status } }),
+  grow: (seedId: number) => api.post(`/seeds/${seedId}/grow`),
+  delete: (seedId: number) => api.delete(`/seeds/${seedId}`),
+}
