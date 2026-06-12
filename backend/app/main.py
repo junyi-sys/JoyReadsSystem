@@ -56,3 +56,5 @@ from .domains.theory.router import router as theory_router
 app.include_router(theory_router)
 from .domains.seeds.router import router as seeds_router
 app.include_router(seeds_router)
+from .domains.plan.router import router as plan_router
+app.include_router(plan_router)

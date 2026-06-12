@@ -99,6 +99,15 @@ export const studentsApi = {
     api.put(`/students/${studentId}/feature-flags`, body),
 }
 
+// ===== Reading Plan =====
+export const planApi = {
+  create: () => api.post('/plan/create'),
+  current: () => api.get('/plan/current'),
+  startDay: (dayId: number) => api.post(`/plan/days/${dayId}/start`),
+  completeDay: (dayId: number, body: { child_answer: string; is_correct: boolean; question: string; correct_answer: string }) =>
+    api.post(`/plan/days/${dayId}/complete`, body),
+}
+
 // ===== Seeds =====
 export const seedsApi = {
   list: (status?: string) => api.get('/seeds', { params: { status } }),

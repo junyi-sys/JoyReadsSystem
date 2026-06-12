@@ -6,6 +6,8 @@ import CuriosityPage from './pages/CuriosityPage'
 import SeriesReaderPage from './pages/SeriesReaderPage'
 import CharacterZonesPage from './pages/CharacterZonesPage'
 import StatsPage from './pages/StatsPage'
+import PlanPage from './pages/PlanPage'
+import ReadingSessionPage from './pages/ReadingSessionPage'
 import ReadingBuddy from './components/game/ReadingBuddy'
 
 export default function App() {
@@ -18,6 +20,8 @@ export default function App() {
           <Route path="/curiosity" element={<CuriosityPage />} />
           <Route path="/characters" element={<CharacterZonesPage />} />
           <Route path="/stats" element={<StatsPage />} />
+          <Route path="/plan" element={<PlanPage />} />
+          <Route path="/reading/:dayId" element={<ReadingSessionPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
         <Route path="/series/:seriesId" element={<SeriesReaderPage />} />
