@@ -1,10 +1,13 @@
-from sqlalchemy import Integer, ForeignKey
+from sqlalchemy import Integer, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 from .base import Base, TimestampMixin
 
 
 class LevelConfig(Base, TimestampMixin):
     __tablename__ = "level_config"
+    __table_args__ = (
+        UniqueConstraint("student_id", "level", name="uq_student_level"),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     student_id: Mapped[int] = mapped_column(Integer, ForeignKey("student.id"), nullable=False, index=True)
