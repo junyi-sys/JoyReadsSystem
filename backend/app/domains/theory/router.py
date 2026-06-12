@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from app.database import get_db
 from app.shared.middleware import get_current_student_id
 from .service import TheoryService
@@ -9,8 +9,8 @@ router = APIRouter(prefix="/api/theory", tags=["theory"])
 
 
 class CreateTheoryBody(BaseModel):
-    title: str
-    content: str
+    title: str = Field(..., max_length=200)
+    content: str = Field(..., max_length=5000)
     linked_curiosity_event_id: int | None = None
     linked_article_id: int | None = None
 

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from ...database import get_db
@@ -13,12 +13,12 @@ router = APIRouter(prefix="/api/articles", tags=["文章"])
 # ===== Request Schemas =====
 
 class GenerateRequest(BaseModel):
-    topic: str
-    summary: str = ""
-    characters: list[str] = []
+    topic: str = Field(..., max_length=200)
+    summary: str = Field(default="", max_length=500)
+    characters: list[str] = Field(default=[], max_length=50)
     min_chars: int = 100
     max_chars: int = 350
-    category: str = "daily"
+    category: str = Field(default="daily", max_length=50)
     density: int | None = None       # 每百字新字数，None=系统自动
     reinforce: int | None = None     # 每百字复习字数，None=系统自动
 
@@ -29,11 +29,11 @@ class ArticleParamsRequest(BaseModel):
 
 
 class ReviseRequest(BaseModel):
-    suggestions: str
+    suggestions: str = Field(..., max_length=1000)
 
 
 class ReadStatusRequest(BaseModel):
-    status: str  # 'reading' | 'read'
+    status: str = Field(..., max_length=20)  # 'reading' | 'read'
     read_count: int = 0
     total_count: int = 0
 
@@ -59,14 +59,11 @@ def get_history(limit: int = 50, offset: int = 0, student_id: int = Depends(get_
 
 @router.post("/generate")
 async def generate_article(body: GenerateRequest, student_id: int = Depends(get_current_student_id), svc: ArticleService = Depends(_get_service)):
-    try:
-        return await svc.generate(
-            student_id, body.topic, body.summary, body.characters,
-            body.min_chars, body.max_chars, body.category,
-            density=body.density, reinforce=body.reinforce,
-        )
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"AI生成失败: {str(e)}")
+    return await svc.generate(
+        student_id, body.topic, body.summary, body.characters,
+        body.min_chars, body.max_chars, body.category,
+        density=body.density, reinforce=body.reinforce,
+    )
 
 
 @router.post("/compute-params")
@@ -83,27 +80,24 @@ def get_article(article_id: int, student_id: int = Depends(get_current_student_i
 @router.post("/{article_id}/revise")
 def revise_article(article_id: int, body: ReviseRequest, student_id: int = Depends(get_current_student_id), svc: ArticleService = Depends(_get_service)):
     article = svc.get_article(article_id, student_id)
+    import asyncio
+    result = asyncio.run(Container.llm().generate(
+        f"根据以下建议修改这篇文章:\n\n原文:\n{article['content']}\n\n修改建议:\n{body.suggestions}",
+        system="你是儿童教育编辑。修改文章使其更适合儿童阅读。直接输出修改后的全文。",
+        temperature=0.5, max_tokens=1500,
+    ))
+    from ...models import DailyArticle
+    from ...database import SessionLocal
+    db = SessionLocal()
     try:
-        import asyncio
-        result = asyncio.run(Container.llm().generate(
-            f"根据以下建议修改这篇文章:\n\n原文:\n{article['content']}\n\n修改建议:\n{body.suggestions}",
-            system="你是儿童教育编辑。修改文章使其更适合儿童阅读。直接输出修改后的全文。",
-            temperature=0.5, max_tokens=1500,
-        ))
-        from ...models import DailyArticle
-        from ...database import SessionLocal
-        db = SessionLocal()
-        try:
-            a = db.query(DailyArticle).filter(DailyArticle.id == article_id).first()
-            if a:
-                a.content = result.content
-                a.character_count = len(result.content)
-                db.commit()
-        finally:
-            db.close()
-        return svc.get_article(article_id, student_id)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"修改失败: {str(e)}")
+        a = db.query(DailyArticle).filter(DailyArticle.id == article_id).first()
+        if a:
+            a.content = result.content
+            a.character_count = len(result.content)
+            db.commit()
+    finally:
+        db.close()
+    return svc.get_article(article_id, student_id)
 
 
 @router.delete("/{article_id}")

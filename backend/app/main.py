@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from .config import settings
 from .database import init_db
 
 app = FastAPI(title="俊宜阅读", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -30,6 +31,10 @@ def on_startup():
 @app.get("/api/health")
 def health():
     return {"status": "ok", "version": "0.1.0"}
+
+
+from .shared.exceptions import global_exception_handler
+app.add_exception_handler(Exception, global_exception_handler)
 
 
 # Register domain routers

@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from ...database import get_db
@@ -11,24 +11,24 @@ router = APIRouter(prefix="/api/curiosity", tags=["好奇心"])
 
 
 class AskRequest(BaseModel):
-    raw_text: str
-    mode: str = "one_shot"
-    tags: list[str] | None = None
+    raw_text: str = Field(..., max_length=500)
+    mode: str = Field(default="one_shot", max_length=20)
+    tags: list[str] | None = Field(default=None, max_length=10)
 
 
 class AskSeriesRequest(BaseModel):
-    raw_text: str
+    raw_text: str = Field(..., max_length=500)
 
 
 class SeriesNextRequest(BaseModel):
     event_id: int
     want_next: bool
-    user_question: str | None = None
+    user_question: str | None = Field(default=None, max_length=500)
 
 
 class SocraticAnswerRequest(BaseModel):
     event_id: int
-    child_response: str
+    child_response: str = Field(..., max_length=2000)
 
 
 def _get_service(db: Session = Depends(get_db)) -> CuriosityService:
@@ -45,28 +45,19 @@ def get_events(answered: bool | None = None, limit: int = 50, offset: int = 0,
 @router.post("/ask")
 def ask(body: AskRequest, student_id: int = Depends(get_current_student_id),
         svc: CuriosityService = Depends(_get_service)):
-    try:
-        return svc.ask_one_shot(student_id, body.raw_text, body.tags)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"AI生成失败: {str(e)}")
+    return svc.ask_one_shot(student_id, body.raw_text, body.tags)
 
 
 @router.post("/ask-series")
 def ask_series(body: AskSeriesRequest, student_id: int = Depends(get_current_student_id),
                svc: CuriosityService = Depends(_get_service)):
-    try:
-        return svc.start_series(student_id, body.raw_text)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"系列启动失败: {str(e)}")
+    return svc.start_series(student_id, body.raw_text)
 
 
 @router.post("/series-next")
 def series_next(body: SeriesNextRequest, student_id: int = Depends(get_current_student_id),
                 svc: CuriosityService = Depends(_get_service)):
-    try:
-        return svc.series_next(body.event_id, student_id, body.want_next, body.user_question)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"操作失败: {str(e)}")
+    return svc.series_next(body.event_id, student_id, body.want_next, body.user_question)
 
 
 @router.post("/ask-socratic")
@@ -74,10 +65,7 @@ def ask_socratic(body: AskRequest, student_id: int = Depends(get_current_student
                  svc: CuriosityService = Depends(_get_service)):
     if not body.raw_text.strip():
         raise HTTPException(status_code=400, detail="问题不能为空")
-    try:
-        return svc.ask_socratic(student_id, body.raw_text.strip())
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"苏格拉底提问失败: {str(e)}")
+    return svc.ask_socratic(student_id, body.raw_text.strip())
 
 
 @router.post("/socratic-answer")
@@ -85,7 +73,4 @@ def submit_socratic_answer(body: SocraticAnswerRequest, student_id: int = Depend
                            svc: CuriosityService = Depends(_get_service)):
     if not body.child_response.strip():
         raise HTTPException(status_code=400, detail="回答不能为空")
-    try:
-        return svc.submit_socratic_answer(body.event_id, student_id, body.child_response.strip())
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"回答生成失败: {str(e)}")
+    return svc.submit_socratic_answer(body.event_id, student_id, body.child_response.strip())

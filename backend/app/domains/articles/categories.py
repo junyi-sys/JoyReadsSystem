@@ -30,7 +30,16 @@ def detect_category(topic: str, content: str = "") -> str:
     text = topic + content[:200] if content else topic
     scores: dict[str, int] = {}
     for cat, keywords in CATEGORY_KEYWORDS.items():
-        score = sum(1 for kw in keywords if kw in text)
+        score = 0
+        for kw in keywords:
+            if kw in text:
+                if len(kw) == 1:
+                    idx = text.index(kw)
+                    snippet = text[max(0, idx - 1): idx + 2]
+                    if len(snippet) >= 2 and any(c >= '一' and c <= '鿿' for c in snippet if c != kw):
+                        score += 0.5
+                else:
+                    score += 1
         if score > 0:
             scores[cat] = score
     if not scores:
