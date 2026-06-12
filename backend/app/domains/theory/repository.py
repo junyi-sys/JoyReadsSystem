@@ -23,6 +23,10 @@ class TheoryRepository:
             .first()
         )
 
+    def get_any_by_id(self, theory_id: int) -> Theory | None:
+        """Get theory by ID only — for internal use (AI review, etc)."""
+        return self.db.query(Theory).filter(Theory.id == theory_id).first()
+
     def create_with_audio(
         self, student_id: int, title: str, content: str | None,
         audio_data: bytes | None = None, transcript: str | None = None,

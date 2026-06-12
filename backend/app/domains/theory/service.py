@@ -1,8 +1,10 @@
 import asyncio
+import logging
 from sqlalchemy.orm import Session
 from .repository import TheoryRepository
-from ...models import Theory
 from ...di import Container
+
+logger = logging.getLogger(__name__)
 
 
 class TheoryService:
@@ -43,8 +45,8 @@ class TheoryService:
         return {"id": t.id, "title": t.title, "has_audio": audio_data is not None}
 
     def trigger_ai_review(self, theory_id: int, student_age: int, topic: str = ""):
-        """Best-effort async LLM review -- don't block on failure."""
-        theory = self.repo.db.query(Theory).filter(Theory.id == theory_id).first()
+        """Best-effort async LLM review — don't block on failure."""
+        theory = self.repo.get_any_by_id(theory_id)
         if not theory or not theory.transcript:
             return
         try:
@@ -58,6 +60,7 @@ class TheoryService:
                 f"2. 肯定孩子说得好的地方\n"
                 f"3. 不批评、不纠错、不打分"
             )
+            # asyncio.run is needed because this runs on a threading.Thread, not an async event loop
             result = asyncio.run(llm.generate(
                 prompt,
                 system="你是儿童教育鼓励师，语气温暖鼓励。",
@@ -68,7 +71,7 @@ class TheoryService:
             ai_encouragement = '\n'.join(lines[1:]) if len(lines) > 1 else ""
             self.repo.update_review(theory_id, ai_summary, ai_encouragement)
         except Exception:
-            pass
+            logger.warning("AI review failed for theory %d", theory_id, exc_info=True)
 
     def delete_theory(self, theory_id: int, student_id: int) -> bool:
         return self.repo.delete(theory_id, student_id)
