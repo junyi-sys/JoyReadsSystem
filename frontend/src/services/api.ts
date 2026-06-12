@@ -91,4 +91,10 @@ export const studentsApi = {
   list: () => api.get('/students/'),
   switch: (id: number) => api.post(`/students/switch/${id}`),
   levelProgress: (studentId: number) => api.get(`/students/${studentId}/level-progress`),
+  level: (studentId: number) => api.get(`/students/${studentId}/level`),
+  updateLevelConfig: (studentId: number, body: { level: number; word_threshold: number; article_threshold: number }) =>
+    api.put(`/students/${studentId}/level-config`, body),
+  featureFlags: (studentId: number) => api.get(`/students/${studentId}/feature-flags`),
+  updateFeatureFlags: (studentId: number, body: Record<string, boolean>) =>
+    api.put(`/students/${studentId}/feature-flags`, body),
 }
