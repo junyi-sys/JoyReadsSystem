@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Card, Input, Button, Tag, Spin, Empty, Radio } from 'antd'
+import { Card, Input, Button, Tag, Spin, Empty, Radio, Tooltip } from 'antd'
 import { BulbOutlined, SendOutlined, BookOutlined, QuestionCircleOutlined } from '@ant-design/icons'
 import { motion } from 'framer-motion'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +9,7 @@ import { useMessage } from '../hooks/useMessage'
 import type { CuriosityEvent, SeriesInfo } from '../types'
 import CuriosityBubble from '../components/curiosity/CuriosityBubble'
 import SeriesProgress from '../components/curiosity/SeriesProgress'
+import VoiceInputButton from '../components/ui/VoiceInputButton'
 import { pageTransition, fadeInUp, staggerContainer } from '../theme/animations'
 
 export default function CuriosityPage() {
@@ -124,12 +125,22 @@ export default function CuriosityPage() {
       <motion.div variants={fadeInUp}>
         <Card style={{ borderRadius: 16, marginBottom: 24, boxShadow: '0 4px 16px rgba(255,107,107,0.12)', border: 'none' }}>
           <Input.TextArea
+            autoFocus
             placeholder="今天想了解什么呀？✨ 例如：'为什么天空是蓝色的？'"
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                e.preventDefault()
+                handleAsk()
+              }
+            }}
             rows={2}
             style={{ borderRadius: 12, fontSize: 15, marginBottom: 12 }}
           />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <VoiceInputButton onResult={(text) => setQuestion((p) => (p ? p + ' ' + text : text))} />
+          </div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <Radio.Group value={mode} onChange={(e) => setMode(e.target.value)} size="small"
               optionType="button" buttonStyle="solid">
@@ -143,11 +154,13 @@ export default function CuriosityPage() {
                 <QuestionCircleOutlined /> 苏格拉底
               </Radio.Button>
             </Radio.Group>
-            <Button type="primary" icon={<SendOutlined />} onClick={handleAsk} loading={asking}
-              disabled={!question.trim()}
-              style={{ borderRadius: 16, fontWeight: 600 }}>
-              提问
-            </Button>
+            <Tooltip title={!question.trim() ? "请先输入你的问题" : ""}>
+              <Button type="primary" icon={<SendOutlined />} onClick={handleAsk} loading={asking}
+                disabled={!question.trim()}
+                style={{ borderRadius: 16, fontWeight: 600 }}>
+                提问
+              </Button>
+            </Tooltip>
           </div>
         </Card>
       </motion.div>
@@ -183,13 +196,23 @@ export default function CuriosityPage() {
                     rows={3}
                     style={{ borderRadius: 12, fontSize: 14, marginBottom: 8 }}
                   />
-                  <Button type="primary"
-                    onClick={() => handleSocraticSubmit(event.id)}
-                    loading={socraticSubmitting.has(event.id)}
-                    disabled={!(socraticInputs[event.id]?.trim())}
-                    style={{ borderRadius: 12, background: '#ff9800', borderColor: '#ff9800' }}>
-                    提交我的想法
-                  </Button>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <VoiceInputButton
+                      onResult={(text) =>
+                        setSocraticInputs((prev) => ({
+                          ...prev,
+                          [event.id]: (prev[event.id] ? prev[event.id] + ' ' + text : text),
+                        }))
+                      }
+                    />
+                    <Button type="primary"
+                      onClick={() => handleSocraticSubmit(event.id)}
+                      loading={socraticSubmitting.has(event.id)}
+                      disabled={!(socraticInputs[event.id]?.trim())}
+                      style={{ borderRadius: 12, background: '#ff9800', borderColor: '#ff9800' }}>
+                      提交我的想法
+                    </Button>
+                  </div>
                 </Card>
               ) : (
                 <CuriosityBubble event={event} />

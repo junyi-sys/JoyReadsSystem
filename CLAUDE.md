@@ -92,7 +92,7 @@ npm run preview                    # 本地预览构建产物
 - **后端**: FastAPI + SQLAlchemy ORM + MySQL (PyMySQL)
 - **前端**: React 18 + TypeScript + Vite + Ant Design 5 + Zustand + Framer Motion
 - **移动端**: Capacitor 8 (Android 打包)
-- **AI**: DeepSeek (LLM), Edge-TTS (语音), CogView/GLM (图片)
+- **AI**: DeepSeek (LLM), Edge-TTS (语音), Faster-Whisper (语音识别), CogView/GLM (图片)
 - **编排**: LangGraph StateGraph（好奇心系列模式的多步任务）
 
 ## 后端架构
@@ -105,14 +105,16 @@ backend/app/
 ├── di.py            线程安全懒加载单例容器 (LLM/TTS/Image provider)
 ├── models/          ORM 模型 (Base → Student, DailyArticle, ArticleSeries,
 │                       Character, CharacterInteraction, CharacterZoneLog,
-│                       CuriosityEvent, ArticleReadStatus)
+│                       CuriosityEvent, Theory, ArticleReadStatus)
 ├── domains/         领域模块 (router → service → repository 模式)
 │   ├── articles/    文章生成/历史/系列/已读状态
 │   │   └── generator.py  提取汉字 + 构建 LLM prompt（注入字库上下文）
 │   ├── characters/  生字四区 + 统计(stats_router.py) + 交互追踪 + 自动晋升引擎
-│   ├── curiosity/   好奇心问答 (含 LangGraph 状态图 graph.py)
-│   ├── students/    学生列表（只读，仅 router）
-│   └── tts/         语音合成 (仅 router + service，无 repository)
+│   ├── curiosity/   好奇心问答 + 苏格拉底追问 (含 LangGraph 状态图 graph.py)
+│   ├── students/    学生列表 + 等级进度
+│   ├── theory/      孩子的自建理论（与好奇心事件和文章关联）
+│   ├── tts/         语音合成 (仅 router + service，无 repository)
+│   └── stt/         语音识别 (faster-whisper 本地模型，仅 router + service)
 ├── ai/              AI 抽象接口 (LLMProvider/TTSProvider/ImageProvider) 及实现
 ├── schemas/         跨域共享 Pydantic 模型 (PaginatedRequest, MessageResponse)
 └── shared/          拼音标注、异常类、middleware(get_current_student_id)、
@@ -131,14 +133,16 @@ backend/app/
 **三个自动引擎**：
 - **点读降级** — PinyinWord 每次点击上报 `POST /api/characters/interaction`，累计 tap_count ≥ 3 且 zone=ally → 自动降回 target
 - **自然习得晋升** — 文章标记"已读"时触发：scout 区字在 ≥3 篇已读文章中未被点读 → 自动晋升 ally；ally 区字被点读 → 降回 target
-- **文章生成联动** — 生成文章时注入字库上下文到 LLM prompt（已掌握的字放心用、学习中的字多重复、困难字重点复习）
+- **文章生成联动** — 生成文章时注入字库上下文到 LLM prompt（已掌握的字放心用、学习中的字多重复、困难字重点复习）。`ARTICLE_DENSITY_TIERS` 按已知字数自动匹配文章长度和生字密度，支持 `density`（每百字新字数）和 `reinforce`（每百字复习数）参数。主题分类（天文/生物/物理/化学/地理/历史/人体/科技）由 `categories.py` 自动检测并提供图标和颜色。
 
 ### 其他模式
 
-- **认知分级**: `config.py` 中 `COGNITION_MAX_LEVEL`(1-3) 控制文章难度，每个等级有对应的 `COGNITION_PROMPTS` 指导 LLM 生成。`ADVANCED_KEYWORDS` 包含高级关键词（因为/所以/原理/原子/基因/宇宙等），当文章主题或生字触发这些词时临时提升认知等级，确保高级话题给出更深度的解释。
+- **认知分级**: 7 个等级（0-6，学前~六年级），`config.py` 中 `COGNITION_MAX_LEVEL`(0-6) 控制文章难度上限。每个等级有 `COGNITION_PROMPTS` 指导 LLM 生成。`LEVEL_THRESHOLDS` 定义升级所需文章数和识字量，达到阈值自动升级。`ADVANCED_KEYWORDS` 包含高级关键词（因为/所以/原理/原子/基因/宇宙等），当文章主题或生字触发这些词时临时提升认知等级，确保高级话题给出更深度的解释。
 - **AI Provider 抽象**: `ai/base.py` 定义接口，`factory.py` 根据 `LLM_PROVIDER` / `IMAGE_PROVIDER` / `TTS_PROVIDER` 配置创建实例。`di.py` 提供线程安全的双检锁单例。
 - **异常处理**: `shared/exceptions.py` 定义 `AppError`（基类）、`NotFoundError`(404)、`AIError`(502)，`main.py` 注册全局异常处理器统一返回 JSON。
 - **LangGraph 好奇心引擎**: `curiosity/graph.py` — one_shot 模式直接生成回答；series 模式先分解话题为章节 (`node_decompose_topic`)，再逐章生成 (`node_generate_chapter`)，用 MemorySaver 做内存检查点。注意：LangGraph 节点中调用 `asyncio.run()` 包装异步 LLM 调用，不能在已运行的事件循环中执行 graph。
+- **苏格拉底追问**: `curiosity/` 支持 `socratic_mode` — AI 不直接给答案，用引导性追问 (`follow_up_question`) 启发孩子思考。孩子回答后 (`child_response`) 生成更深入的解释。通过 `POST /curiosity/ask-socratic` 和 `POST /curiosity/socratic-answer` 交互。
+- **理论追踪**: `theory/` 领域让孩子建立自己的理论 (`Theory` 模型，含 title/content，可关联 `curiosity_event` 或 `article`)。通过 `POST /theory` 创建，`GET /theory` 列出。
 
 ## 前端架构
 
@@ -154,18 +158,19 @@ frontend/src/
 │   ├── character/     CharacterCard(含tap_count显示), ZoneBoard (四区看板)
 │   ├── curiosity/     CuriosityBubble, SeriesProgress
 │   ├── game/          ReadingBuddy, StreakBadge, AchievementModal
-│   └── ui/            CartoonButton/Card/Tag 通用组件
+│   └── ui/            CartoonButton/Card/Tag 通用组件, VoiceInputButton
 ├── store/             Zustand: useAppStore(UI状态), useStudentStore(当前学生)
 ├── services/api.ts    Axios 实例 + 所有 API 封装
 ├── types/index.ts     TypeScript 类型定义
 ├── theme/             global.css, tokens.ts (浅绿+蓝配色), animations.ts
-└── hooks/             useAudio (TTS 播放)
+└── hooks/             useAudio (TTS 播放), useVoiceInput (语音输入)
 ```
 
 ### 关键模式
 
 - **主题**: 浅绿主色 `#6DBF6E` + 天蓝辅色 `#4DABF7` + 薄荷绿白背景 `#F0F7F4`。Ant Design 主题通过 `ConfigProvider theme.token` 注入，`tokens.ts` 和 `global.css` 同步维护。
 - **点读发音**: 混合方案。文章加载时后台预加载 Edge-TTS 音频（3字一批，存入 `audioCache` Map）。点击时优先播缓存的高音质 Edge-TTS，未缓存则用浏览器 SpeechSynthesis（Yaoyao 童声优先，0.7 倍速）即时兜底。
+- **语音输入**: `useVoiceInput` hook + `VoiceInputButton` 组件。前端用 MediaRecorder 录制音频（webm/opus），通过 `POST /stt/transcribe` 上传到后端 faster-whisper 转文字。后端用 ffmpeg 预处理非 WAV 格式（转 16kHz 单声道 PCM）。注意：不使用 Web Speech API（国内无法访问 Google 服务）。
 - **学生上下文**: `useStudentStore` 管理当前学生和全部学生列表，切换时更新 localStorage。API 拦截器读取 localStorage 设置 `X-Student-ID` 头。
 - **API 封装**: 每个领域一个对象 (articlesApi, curiosityApi, charactersApi 等)，调用 `api.get/post`。超时 120s（AI 生成耗时较长）。
 - **Capacitor Android**: `capacitor.config.ts` 配置 `appId: com.junyi.reading`，`androidScheme: http`（开发时允许明文 HTTP 访问 dev server）。`npx cap sync android` 同步前端 build 产物到 `android/`。
@@ -195,7 +200,8 @@ frontend/src/
 | `DEEPSEEK_API_KEY/BASE_URL/MODEL` | DeepSeek 配置 | — | — |
 | `GLM_API_KEY` | 智谱 API Key | — | — |
 | `GLM_IMAGE_MODEL` | 智谱图片模型 | cogview-3-plus | cogview-3-plus |
-| `COGNITION_MAX_LEVEL` | 认知等级上限 (1-3) | 3 | 3 |
+| `STT_MODEL` | 语音识别模型大小 | base | base |
+| `COGNITION_MAX_LEVEL` | 认知等级上限 (0-6) | 6 | 6 |
 
 ### 认知分级系统
 
@@ -291,14 +297,43 @@ curl -s -X POST http://localhost:8002/api/curiosity/series-next \
 curl -s "http://localhost:8002/api/curiosity/events?limit=20" -H "X-Student-ID: 1"
 ```
 
-### 语音合成
+### 语音相关
 
 ```bash
-# 合成语音（返回 WAV）
+# 语音合成（返回 WAV）
 curl -s -X POST http://localhost:8002/api/tts/synthesize \
   -H "Content-Type: application/json" \
   -d '{"text": "你好世界", "speed": 0.7}' \
   -o output.wav
+
+# 语音识别（faster-whisper）
+curl -s -X POST http://localhost:8002/api/stt/transcribe \
+  -F "file=@recording.webm"
+```
+
+### 苏格拉底追问 + 理论
+
+```bash
+# 苏格拉底模式问答（AI 引导思考，不直接给答案）
+curl -s -X POST http://localhost:8002/api/curiosity/ask-socratic \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"raw_text": "为什么树叶会变色？"}'
+
+# 孩子回答苏格拉底追问
+curl -s -X POST http://localhost:8002/api/curiosity/socratic-answer \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"event_id": 1, "child_response": "因为秋天到了"}'
+
+# 创建孩子自建理论
+curl -s -X POST http://localhost:8002/api/theory \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"title": "树叶变色的秘密", "content": "树叶变色是因为秋天天气变冷了...", "linked_curiosity_event_id": 1}'
+
+# 查看孩子的理论列表
+curl -s http://localhost:8002/api/theory -H "X-Student-ID: 1"
 ```
 
 ### 其他
@@ -337,3 +372,5 @@ curl -s http://localhost:8002/api/stats/overview -H "X-Student-ID: 1"
 - `students/` 和 `tts/` 领域较薄——只有 router（tts 有 service），没有 repository
 - 好奇心模块 (curiosity/) 和 TTS 模块 (tts/) 与字库系统独立，改动字库不影响它们
 - edge-tts 需 ≥7.2.8 版本（旧版令牌过期导致 403）
+- STT 语音识别依赖本地 faster-whisper 模型和 ffmpeg（非 WAV 格式需 ffmpeg 转码为 16kHz 单声道 PCM）
+- 前端语音输入使用 MediaRecorder（非 Web Speech API，国内 Google 服务不可用）
