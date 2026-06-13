@@ -1,4 +1,5 @@
 import asyncio
+import json
 from datetime import date, timedelta
 from sqlalchemy.orm import Session
 from .repository import PlanRepository
@@ -45,13 +46,50 @@ class PlanService:
         day.status = "reading"
         self.repo.update_day(day)
 
+        # --- 种子优先逻辑 ---
+        seed_info = self.repo.claim_pending_seed(student_id)
+        seed_id = None
+        original_guide = day.guide_text or ""
+
+        if seed_info:
+            seed_id = seed_info["id"]  # claim_pending_seed 已原子地将状态改为 growing
+            topic = seed_info["question_text"]
+            topic_category = "curiosity"
+            prompt = (
+                f'孩子曾经问过一个问题："{topic}"。\n'
+                f"请以这个问题为线索，写一篇精读短文，适合小学生阅读。\n"
+                f"要求：标题简洁、正文300-500字、分2-3个自然段、"
+                f"语气像耐心的朋友在解释，不直接灌输答案。\n"
+                f"精读焦点：{day.focus}"
+            )
+            # 将种子信息存入 guide_text JSON，同时保留导读语供前端展示
+            day.guide_text = json.dumps({
+                "source": "curiosity_seed",
+                "seed_id": seed_id,
+                "seed_question": topic,
+                "guide": original_guide,
+            }, ensure_ascii=False)
+        else:
+            topic_category = day.topic_category
+            prompt = (
+                f"请写一篇儿童短文，主题类别：{topic_category}，精读焦点：{day.focus}。"
+                f"适合小学生阅读，300-500字，使用简单易懂的汉字。"
+            )
+        # --- 种子优先逻辑结束 ---
+
         llm = Container.llm()
-        result = asyncio.run(llm.generate(
-            f"请写一篇儿童短文，主题类别：{day.topic_category}，精读焦点：{day.focus}。"
-            f"适合小学生阅读，300-500字，使用简单易懂的汉字。",
-            system="你是儿童教育作家，写生动有趣的短文。",
-            temperature=0.7, max_tokens=1000,
-        ))
+        try:
+            result = asyncio.run(llm.generate(
+                prompt,
+                system="你是儿童教育作家，写生动有趣的短文。",
+                temperature=0.7, max_tokens=1000,
+            ))
+        except Exception:
+            # LLM 失败，回退种子状态
+            if seed_id:
+                self.repo.update_seed_status(seed_id, "pending")
+            raise
+
         from ...models import DailyArticle
         article = DailyArticle(
             student_id=student_id,
@@ -61,7 +99,7 @@ class PlanService:
             character_count=len(result.content),
             source="ai",
             category="daily",
-            topic_category=day.topic_category,
+            topic_category=topic_category,
         )
         self.repo.db.add(article)
         self.repo.db.commit()
@@ -69,7 +107,12 @@ class PlanService:
 
         day.article_id = article.id
         self.repo.update_day(day)
-        return {"day_id": day.id, "article_id": article.id, "guide_text": day.guide_text, "status": day.status}
+        return {
+            "day_id": day.id,
+            "article_id": article.id,
+            "guide_text": original_guide,  # 返回纯文本导读语，前端不感知 JSON
+            "status": day.status,
+        }
 
     def complete_day(self, day_id: int, student_id: int, child_answer: str, is_correct: bool,
                      question: str, correct_answer: str) -> dict:
