@@ -86,16 +86,14 @@ def get_reading_record(article_id: int, student_id: int = Depends(get_current_st
 
     lesson = None
     main_question = None
-    if plan_day and plan_day.guide_text:
-        try:
-            data = json.loads(plan_day.guide_text)
-            if data.get("version") == "v2" and "lesson" in data:
-                lesson = data["lesson"]
-                main_question = lesson.get("main_question")
-            elif data.get("source") == "curiosity_seed":
-                main_question = data.get("seed_question")
-        except (json.JSONDecodeError, TypeError):
-            pass
+    if plan_day:
+        main_question = plan_day.seed_question
+        if plan_day.lesson_json:
+            try:
+                lesson = json.loads(plan_day.lesson_json)
+                main_question = lesson.get("main_question") or main_question
+            except (json.JSONDecodeError, TypeError):
+                pass
 
     records = db.query(ComprehensionRecord).filter(
         ComprehensionRecord.article_id == article_id,

@@ -28,19 +28,6 @@ class PlanService:
         if not plan:
             return None
         days = self.repo.get_plan_days(plan.id)
-
-        def _extract_guide_text(raw_guide: str | None) -> str:
-            """从 guide_text 中提取纯文本导读语。如果是 JSON（种子来源），解析出 guide 字段。"""
-            if not raw_guide:
-                return ""
-            try:
-                data = json.loads(raw_guide)
-                if isinstance(data, dict) and "guide" in data:
-                    return data["guide"]
-            except (json.JSONDecodeError, TypeError):
-                pass
-            return raw_guide
-
         return {
             "id": plan.id, "name": plan.name, "status": plan.status,
             "start_date": str(plan.start_date), "end_date": str(plan.end_date),
@@ -49,36 +36,19 @@ class PlanService:
                 "id": d.id, "week_number": d.week_number, "day_of_week": d.day_of_week,
                 "topic_category": d.topic_category, "focus": d.focus,
                 "article_id": d.article_id,
-                "guide_text": _extract_guide_text(d.guide_text),
+                "guide_text": d.guide_text or "",
                 "status": d.status,
             } for d in days],
         }
 
-    def start_day(self, day_id: int, student_id: int) -> dict:
-        day = self.repo.get_plan_day(day_id)
-        if not day:
-            raise ValueError("PlanDay not found")
-        day.status = "reading"
-        self.repo.update_day(day)
+    # ── start_day helpers ──────────────────────────────────────────
 
-        # --- 种子优先逻辑 ---
-        seed_info = self.repo.claim_pending_seed(student_id)
-        seed_id = None
-        original_guide = day.guide_text or ""
-
-        if seed_info:
-            seed_id = seed_info["id"]
-            topic = seed_info["question_text"]
-            topic_category = "curiosity"
-        else:
-            topic = f"{day.topic_category}·{day.focus}"
-            topic_category = day.topic_category
-
-        # --- LLM 生成完整教案 JSON ---
-        lesson_prompt = f"""你是一位儿童阅读教育专家。请为以下话题生成一篇精读教案。
+    def _build_lesson_prompt(self, topic: str, focus: str) -> str:
+        """Build the LLM prompt for generating a structured lesson plan JSON."""
+        return f"""你是一位儿童阅读教育专家。请为以下话题生成一篇精读教案。
 
 话题：{topic}
-精读焦点：{day.focus}
+精读焦点：{focus}
 
 返回严格的 JSON 格式（不要包含任何其他文字）：
 
@@ -92,7 +62,7 @@ class PlanService:
     {{
       "text": "文章第1段，150-200字",
       "clue_prompt": "这段里有解决主问题的什么线索？引导孩子找出来",
-      "clue_hint": "这段的关键线索是什么（供AI判断孩子答案时参考）"
+      "clue_hint": "这段的关键线索是什么"
     }},
     {{
       "text": "文章第2段，150-200字",
@@ -109,7 +79,7 @@ class PlanService:
     {{
       "type": "find_clue",
       "label": "找线索",
-      "question": "从文章里找到的关键信息是什么？（引导孩子回顾文中细节）",
+      "question": "从文章里找到的关键信息是什么？",
       "answer_hint": "孩子应该提到的关键点"
     }},
     {{
@@ -126,7 +96,7 @@ class PlanService:
     }}
   ],
   "extension": {{
-    "back_to_main": "现在你能回答最开始的问题了吗？（用主问题本身的表述）",
+    "back_to_main": "现在你能回答最开始的问题了吗？",
     "ai_feedback_hint": "从哪些角度评价孩子的回答"
   }}
 }}
@@ -138,14 +108,16 @@ class PlanService:
 - sub_questions 三个类型：find_clue（从文中找信息）→ infer_cause（推理因果）→ connect_life（联系生活）
 - 语言亲切、鼓励性强，像一位耐心的老师在引导"""
 
+    def _try_generate_lesson(self, topic: str, focus: str) -> dict | None:
+        """Call LLM to generate a structured lesson plan JSON.
+        Returns the parsed lesson dict, or None if JSON parsing failed."""
         llm = Container.llm()
         try:
             result = asyncio.run(llm.generate(
-                lesson_prompt,
+                self._build_lesson_prompt(topic, focus),
                 system="你是儿童阅读教育专家，擅长设计探究式精读课程。严格按照要求的 JSON 格式返回。",
                 temperature=0.7, max_tokens=2000,
             ))
-            # Clean markdown code fences if present
             content = result.content.strip()
             if content.startswith("```json"):
                 content = content[7:]
@@ -153,83 +125,85 @@ class PlanService:
                 content = content[3:]
             if content.endswith("```"):
                 content = content[:-3]
-            content = content.strip()
-            lesson_json = json.loads(content)
+            return json.loads(content.strip())
         except Exception:
-            # JSON 解析失败，回退到旧模式
-            if seed_id:
-                self.repo.update_seed_status(seed_id, "pending")
-            lesson_json = None
+            return None
 
-        if lesson_json is None:
-            # 回退：生成简单文章
-            fallback_prompt = (
-                f"请写一篇儿童短文，主题：{topic}，精读焦点：{day.focus}。"
-                f"适合小学生阅读，300-500字，使用简单易懂的汉字。"
-            )
-            try:
-                result = asyncio.run(llm.generate(
-                    fallback_prompt,
-                    system="你是儿童教育作家，写生动有趣的短文。",
-                    temperature=0.7, max_tokens=1000,
-                ))
-            except Exception:
-                if seed_id:
-                    self.repo.update_seed_status(seed_id, "pending")
-                raise
-            article_content = result.content
-            guide_text_json = original_guide
-        else:
-            article_content = "\n\n".join(p["text"] for p in lesson_json["paragraphs"])
-            guide_data = {
-                "version": "v2",
-                "main_question": lesson_json["main_question"],
-                "lesson": lesson_json,
-            }
-            # Carry forward seed info if present
-            if seed_id:
-                guide_data["source"] = "curiosity_seed"
-                guide_data["seed_id"] = seed_id
-                guide_data["seed_question"] = topic
-            guide_text_json = json.dumps(guide_data, ensure_ascii=False)
+    def _generate_fallback_article(self, topic: str, focus: str) -> str:
+        """Generate a simple article when lesson JSON generation fails."""
+        llm = Container.llm()
+        result = asyncio.run(llm.generate(
+            f"请写一篇儿童短文，主题：{topic}，精读焦点：{focus}。"
+            f"适合小学生阅读，300-500字，使用简单易懂的汉字。",
+            system="你是儿童教育作家，写生动有趣的短文。",
+            temperature=0.7, max_tokens=1000,
+        ))
+        return result.content
 
-        # Save seed info for v1 fallback case
-        if seed_id and lesson_json is None:
-            guide_text_json = json.dumps({
-                "source": "curiosity_seed",
-                "seed_id": seed_id,
-                "seed_question": topic,
-                "guide": original_guide,
-            }, ensure_ascii=False)
-
-        day.guide_text = guide_text_json
-
+    def _create_article(self, student_id: int, content: str, focus: str,
+                        topic_category: str) -> int:
+        """Create a DailyArticle record. Flushes to get ID but does NOT commit.
+        Caller is responsible for the final commit."""
         from ...models import DailyArticle
         article = DailyArticle(
             student_id=student_id,
             record_date=date.today(),
-            topic=f"精读·{day.focus}",
-            content=article_content,
-            character_count=len(article_content),
+            topic=f"精读·{focus}",
+            content=content,
+            character_count=len(content),
             source="ai",
             category="daily",
             topic_category=topic_category,
         )
         self.repo.db.add(article)
-        self.repo.db.commit()
-        self.repo.db.refresh(article)
+        self.repo.db.flush()
+        return article.id
 
-        day.article_id = article.id
-        self.repo.update_day(day)
+    # ── core methods ───────────────────────────────────────────────
 
-        return_guide = original_guide
+    def start_day(self, day_id: int, student_id: int) -> dict:
+        day = self.repo.get_plan_day(day_id)
+        if not day:
+            raise ValueError("PlanDay not found")
+
+        # Step 1: claim seed (commits internally, do before modifying day)
+        seed_info = self.repo.claim_pending_seed(student_id)
+        if seed_info:
+            topic = seed_info["question_text"]
+            topic_category = "curiosity"
+        else:
+            topic = f"{day.topic_category}·{day.focus}"
+            topic_category = day.topic_category
+
+        # Step 2: generate lesson/article
+        lesson_json = self._try_generate_lesson(topic, day.focus)
         if lesson_json:
-            return_guide = lesson_json["pre_reading"]["hook"]
+            article_content = "\n\n".join(p["text"] for p in lesson_json["paragraphs"])
+        else:
+            if seed_info:
+                self.repo.update_seed_status(seed_info["id"], "pending")
+            article_content = self._generate_fallback_article(topic, day.focus)
+
+        # Step 3: create article (flush only, no commit)
+        article_id = self._create_article(student_id, article_content, day.focus, topic_category)
+
+        # Step 4: update day — single commit for all changes
+        day.status = "reading"
+        day.article_id = article_id
+        if seed_info:
+            day.seed_id = seed_info["id"]
+            day.seed_question = topic
+        if lesson_json:
+            day.lesson_json = json.dumps(lesson_json, ensure_ascii=False)
+            day.guide_text = lesson_json["pre_reading"]["hook"]
+        elif not day.guide_text:
+            day.guide_text = ""
+        self.repo.update_day(day)
 
         return {
             "day_id": day.id,
-            "article_id": article.id,
-            "guide_text": return_guide,
+            "article_id": article_id,
+            "guide_text": day.guide_text or "",
             "lesson_json": lesson_json,
             "status": day.status,
         }
@@ -242,8 +216,8 @@ class PlanService:
         self.repo.update_day(day)
 
         records = []
-        from ...models import ComprehensionRecord
         refs = []
+        from ...models import ComprehensionRecord
         for ans in answers:
             record = ComprehensionRecord(
                 student_id=student_id, article_id=day.article_id,
@@ -258,21 +232,14 @@ class PlanService:
             self.repo.db.refresh(r)
             records.append(r.id)
 
-        # --- 种子状态联动 ---
-        if day.guide_text:
-            try:
-                data = json.loads(day.guide_text)
-                seed_id = data.get("seed_id")
-                if seed_id:
-                    self.repo.update_seed_status(
-                        seed_id, "converted",
-                        converted_article_id=day.article_id,
-                    )
-            except (json.JSONDecodeError, TypeError):
-                pass
-        # --- 种子状态联动结束 ---
+        # Seed completion
+        if day.seed_id:
+            self.repo.update_seed_status(
+                day.seed_id, "converted",
+                converted_article_id=day.article_id,
+            )
 
-        # --- 主问题回答保存为 Theory ---
+        # Save main-question answer as Theory
         main_answer = next((a for a in answers if a.question_type == "main_question"), None)
         theory_id = None
         if main_answer and main_answer.child_answer:
