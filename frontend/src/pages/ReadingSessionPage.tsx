@@ -160,7 +160,7 @@ export default function ReadingSessionPage() {
               <ArticleReader
                 article={{ ...article, content: lesson.paragraphs[currentParagraph].text }}
                 isRead={false}
-                onReadComplete={() => {
+                onReadComplete={async () => {
                   const cp = currentParagraph
                   addAnswer(
                     'find_clue',
@@ -347,7 +347,7 @@ export default function ReadingSessionPage() {
             )}
             {step === 1 && article && (
               <Card style={{ borderRadius: 16 }}>
-                <ArticleReader article={article} isRead={false} onReadComplete={() => {
+                <ArticleReader article={article} isRead={false} onReadComplete={async () => {
                   articlesApi.updateReadStatus(article.id, {
                     status: 'read', read_count: article.character_count, total_count: article.character_count,
                   })
