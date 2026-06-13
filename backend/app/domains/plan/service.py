@@ -28,6 +28,19 @@ class PlanService:
         if not plan:
             return None
         days = self.repo.get_plan_days(plan.id)
+
+        def _extract_guide_text(raw_guide: str | None) -> str:
+            """从 guide_text 中提取纯文本导读语。如果是 JSON（种子来源），解析出 guide 字段。"""
+            if not raw_guide:
+                return ""
+            try:
+                data = json.loads(raw_guide)
+                if isinstance(data, dict) and "guide" in data:
+                    return data["guide"]
+            except (json.JSONDecodeError, TypeError):
+                pass
+            return raw_guide
+
         return {
             "id": plan.id, "name": plan.name, "status": plan.status,
             "start_date": str(plan.start_date), "end_date": str(plan.end_date),
@@ -35,7 +48,9 @@ class PlanService:
             "days": [{
                 "id": d.id, "week_number": d.week_number, "day_of_week": d.day_of_week,
                 "topic_category": d.topic_category, "focus": d.focus,
-                "article_id": d.article_id, "guide_text": d.guide_text, "status": d.status,
+                "article_id": d.article_id,
+                "guide_text": _extract_guide_text(d.guide_text),
+                "status": d.status,
             } for d in days],
         }
 
