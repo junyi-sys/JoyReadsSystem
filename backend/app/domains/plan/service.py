@@ -243,6 +243,7 @@ class PlanService:
 
         records = []
         from ...models import ComprehensionRecord
+        refs = []
         for ans in answers:
             record = ComprehensionRecord(
                 student_id=student_id, article_id=day.article_id,
@@ -251,9 +252,11 @@ class PlanService:
                 child_answer=ans.child_answer, is_correct=ans.is_correct,
             )
             self.repo.db.add(record)
-            self.repo.db.commit()
-            self.repo.db.refresh(record)
-            records.append(record.id)
+            refs.append(record)
+        self.repo.db.commit()
+        for r in refs:
+            self.repo.db.refresh(r)
+            records.append(r.id)
 
         # --- 种子状态联动 ---
         if day.guide_text:

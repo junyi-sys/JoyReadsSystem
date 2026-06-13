@@ -59,11 +59,14 @@ def get_history(limit: int = 50, offset: int = 0, student_id: int = Depends(get_
 
 @router.post("/generate")
 async def generate_article(body: GenerateRequest, student_id: int = Depends(get_current_student_id), svc: ArticleService = Depends(_get_service)):
-    return await svc.generate(
-        student_id, body.topic, body.summary, body.characters,
-        body.min_chars, body.max_chars, body.category,
-        density=body.density, reinforce=body.reinforce,
-    )
+    try:
+        return await svc.generate(
+            student_id, body.topic, body.summary, body.characters,
+            body.min_chars, body.max_chars, body.category,
+            density=body.density, reinforce=body.reinforce,
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"AI生成失败: {str(e)}")
 
 
 @router.post("/compute-params")
@@ -99,19 +102,17 @@ def get_reading_record(article_id: int, student_id: int = Depends(get_current_st
         ComprehensionRecord.student_id == student_id,
     ).order_by(ComprehensionRecord.created_at.asc()).all()
 
+    hint_map = {}
+    if lesson:
+        hint_map = {sq["question"]: sq.get("answer_hint") for sq in lesson.get("sub_questions", [])}
+
     answers = []
     for r in records:
-        hint = None
-        if lesson:
-            for sq in lesson.get("sub_questions", []):
-                if sq.get("question") == r.question:
-                    hint = sq.get("answer_hint")
-                    break
         answers.append({
             "question_type": r.focus,
             "question": r.question,
             "child_answer": r.child_answer,
-            "answer_hint": hint,
+            "answer_hint": hint_map.get(r.question),
             "created_at": r.created_at.isoformat() if r.created_at else None,
         })
 
