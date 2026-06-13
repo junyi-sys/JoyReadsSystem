@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { Card, Button, Spin, Typography, Steps, Tag, Progress } from 'antd'
-import { SoundOutlined, BulbOutlined, SearchOutlined, LinkOutlined, TrophyOutlined } from '@ant-design/icons'
+import { Card, Button, Spin, Typography, Steps, Tag, Progress, Space } from 'antd'
+import { SoundOutlined, BulbOutlined, SearchOutlined, LinkOutlined, TrophyOutlined, CheckCircleOutlined } from '@ant-design/icons'
 import { motion, AnimatePresence } from 'framer-motion'
 import { planApi, articlesApi } from '../services/api'
 import ArticleReader from '../components/reader/ArticleReader'
@@ -16,7 +16,13 @@ const QUESTION_ICONS: Record<string, React.ReactNode> = {
   connect_life: <LinkOutlined />,
 }
 
-const STAGE_LABELS = ['读前热身', '读中探究', '读后思考', '回到主问题']
+const QUESTION_COLORS: Record<string, string> = {
+  find_clue: '#1677ff',
+  infer_cause: '#52c41a',
+  connect_life: '#eb2f96',
+}
+
+const STAGE_LABELS = ['导读', '读中探究', '读后思考', '回到主问题']
 
 export default function ReadingSessionPage() {
   const { dayId } = useParams<{ dayId: string }>()
@@ -26,11 +32,10 @@ export default function ReadingSessionPage() {
   const [lesson, setLesson] = useState<LessonPlan | null>(null)
   const [guideText, setGuideText] = useState('')
   const [loading, setLoading] = useState(true)
-  const [transcript, setTranscript] = useState('')
+  const [mainTranscript, setMainTranscript] = useState('')
   const [currentParagraph, setCurrentParagraph] = useState(0)
-  const [currentSubQuestion, setCurrentSubQuestion] = useState(0)
+  const [subAnswers, setSubAnswers] = useState<Record<number, string>>({})
   const [answers, setAnswers] = useState<{ question_type: string; question: string; child_answer: string; is_correct: boolean }[]>([])
-  const [clueAnswers, setClueAnswers] = useState<string[]>([])
 
   useEffect(() => {
     if (!dayId) return
@@ -78,24 +83,68 @@ export default function ReadingSessionPage() {
         items={STAGE_LABELS.map(label => ({ title: label }))} />
 
       <AnimatePresence mode="wait">
-        {/* Stage 0: Pre-reading / Warm-up */}
+        {/* Stage 0: 导读 — 主问题 + 问题清单 */}
         {step === 0 && lesson && (
           <motion.div key="pre" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-            <Card style={{ borderRadius: 16, textAlign: 'center', padding: '20px 0' }}>
-              <SoundOutlined style={{ fontSize: 48, color: '#4DABF7' }} />
-              <Title level={4} style={{ marginTop: 16 }}>你知道吗？</Title>
-              <Paragraph style={{ fontSize: 16, maxWidth: 500, margin: '0 auto' }}>
-                {lesson.pre_reading.background}
-              </Paragraph>
-              <div style={{
-                marginTop: 24, padding: '16px 24px',
-                background: '#FFF7E6', borderRadius: 12, display: 'inline-block'
-              }}>
-                <Text style={{ fontSize: 16 }}>{lesson.pre_reading.hook}</Text>
+            <Card style={{ borderRadius: 16, textAlign: 'left', padding: '24px' }}>
+              {/* 背景知识 */}
+              <div style={{ marginBottom: 24 }}>
+                <Text type="secondary" style={{ fontSize: 13 }}>📖 背景小知识</Text>
+                <Paragraph style={{ fontSize: 15, marginTop: 4, marginBottom: 0 }}>
+                  {lesson.pre_reading.background}
+                </Paragraph>
               </div>
-              <br />
-              <Button type="primary" size="large" onClick={() => setStep(1)}
-                style={{ borderRadius: 16, marginTop: 24 }}>我准备好了，开始读！</Button>
+
+              {/* 主问题 */}
+              <div style={{
+                padding: '20px 24px', marginBottom: 24,
+                background: 'linear-gradient(135deg, #FFF7E6, #FFF1CC)',
+                borderRadius: 12, border: '2px solid #FFD666'
+              }}>
+                <Text type="secondary" style={{ fontSize: 12 }}>🎯 今天要回答的问题</Text>
+                <Title level={4} style={{ margin: '8px 0 0 0', color: '#AD6800' }}>
+                  {lesson.main_question}
+                </Title>
+              </div>
+
+              {/* 子问题清单 */}
+              <div style={{ marginBottom: 24 }}>
+                <Text type="secondary" style={{ fontSize: 13 }}>
+                  📋 读完文章后，你要回答下面 {lesson.sub_questions.length + 1} 个问题：
+                </Text>
+                <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {lesson.sub_questions.map((sq, i) => (
+                    <Card key={i} size="small" style={{
+                      borderRadius: 8, background: '#FAFAFA', border: '1px solid #F0F0F0'
+                    }}>
+                      <Space>
+                        <Tag color={QUESTION_COLORS[sq.type]} style={{ marginRight: 4 }}>
+                          {QUESTION_ICONS[sq.type]} {sq.label}
+                        </Tag>
+                        <Text style={{ fontSize: 14 }}>{sq.question}</Text>
+                      </Space>
+                    </Card>
+                  ))}
+                  <Card size="small" style={{
+                    borderRadius: 8, background: '#FFF7E6', border: '1px solid #FFD666'
+                  }}>
+                    <Space>
+                      <Tag color="gold">🏆 主问题</Tag>
+                      <Text strong style={{ fontSize: 14 }}>{lesson.main_question}</Text>
+                    </Space>
+                  </Card>
+                </div>
+              </div>
+
+              {/* Hook */}
+              <Paragraph style={{ fontSize: 15, marginBottom: 24, color: '#666', textAlign: 'center' }}>
+                {lesson.pre_reading.hook}
+              </Paragraph>
+
+              <div style={{ textAlign: 'center' }}>
+                <Button type="primary" size="large" onClick={() => setStep(1)}
+                  style={{ borderRadius: 16 }}>我准备好了，开始读！</Button>
+              </div>
             </Card>
           </motion.div>
         )}
@@ -116,7 +165,7 @@ export default function ReadingSessionPage() {
                   addAnswer(
                     'find_clue',
                     lesson.paragraphs[cp].clue_prompt,
-                    clueAnswers[cp] || '继续阅读',
+                    '已阅读',
                   )
                   if (cp < lesson.paragraphs.length - 1) {
                     setCurrentParagraph(cp + 1)
@@ -135,85 +184,142 @@ export default function ReadingSessionPage() {
           </motion.div>
         )}
 
-        {/* Stage 2: Post-reading — sub-question chain */}
+        {/* Stage 2: 读后思考 — 子问题表单（全部展示） */}
         {step === 2 && lesson && (
           <motion.div key="post" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-            <Card style={{ borderRadius: 16, textAlign: 'center', padding: '20px 0' }}>
-              <Progress percent={Math.round(((currentSubQuestion) / lesson.sub_questions.length) * 100)}
-                size="small" style={{ marginBottom: 16 }}
-                format={() => `子问题 ${currentSubQuestion + 1}/${lesson.sub_questions.length}`} />
+            <Card style={{ borderRadius: 16, padding: '24px' }}>
+              <Title level={4} style={{ marginBottom: 4 }}>📝 回答问题</Title>
+              <Paragraph type="secondary" style={{ marginBottom: 20 }}>
+                读完文章了，现在来回答这些问题。每个问题都可以用语音回答哦！
+              </Paragraph>
 
-              <Tag color="blue" style={{ marginBottom: 12, fontSize: 13 }}>
-                {QUESTION_ICONS[lesson.sub_questions[currentSubQuestion].type]}
-                {' '}{lesson.sub_questions[currentSubQuestion].label}
-              </Tag>
+              {lesson.sub_questions.map((sq, i) => (
+                <Card key={i} size="small" style={{
+                  marginBottom: 16, borderRadius: 10,
+                  border: subAnswers[i]
+                    ? `1px solid ${QUESTION_COLORS[sq.type]}`
+                    : '1px solid #F0F0F0'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                    <div style={{ flexShrink: 0, marginTop: 2 }}>
+                      <Tag color={QUESTION_COLORS[sq.type]}>
+                        {QUESTION_ICONS[sq.type]} {sq.label} · {i + 1}
+                      </Tag>
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <Text strong style={{ fontSize: 14 }}>{sq.question}</Text>
 
-              <Title level={4}>{lesson.sub_questions[currentSubQuestion].question}</Title>
+                      <div style={{ marginTop: 12 }}>
+                        {subAnswers[i] ? (
+                          <div>
+                            <Tag color="green" style={{ marginBottom: 8, maxWidth: '100%', whiteSpace: 'normal', lineHeight: '1.5', padding: '4px 8px' }}>
+                              {subAnswers[i]}
+                            </Tag>
+                            <br />
+                            <Button size="small" onClick={() => setSubAnswers(prev => {
+                              const next = { ...prev }; delete next[i]; return next;
+                            })} type="link" style={{ padding: 0 }}>重新回答</Button>
+                          </div>
+                        ) : (
+                          <VoiceInputButton onResult={(text) => {
+                            setSubAnswers(prev => ({ ...prev, [i]: text }))
+                          }} />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </Card>
+              ))}
 
-              <VoiceInputButton onResult={(text) => setTranscript(text)} />
-
-              {transcript && (
-                <div style={{ marginTop: 16 }}>
-                  <Tag color="green">你说的：{transcript}</Tag>
-                  <br />
-                  <Button type="primary" size="large" onClick={() => {
+              <div style={{ textAlign: 'center', marginTop: 8 }}>
+                <Button type="primary" size="large" onClick={() => {
+                  for (const i in subAnswers) {
                     addAnswer(
-                      lesson.sub_questions[currentSubQuestion].type,
-                      lesson.sub_questions[currentSubQuestion].question,
-                      transcript,
+                      lesson.sub_questions[Number(i)].type,
+                      lesson.sub_questions[Number(i)].question,
+                      subAnswers[i],
                       true,
                     )
-                    setTranscript('')
-                    if (currentSubQuestion < lesson.sub_questions.length - 1) {
-                      setCurrentSubQuestion(prev => prev + 1)
-                    } else {
-                      setStep(3)
+                  }
+                  // Fill any unanswered with skip
+                  lesson.sub_questions.forEach((sq, i) => {
+                    if (!subAnswers[i]) {
+                      addAnswer(sq.type, sq.question, '跳过', true)
                     }
-                  }} style={{ borderRadius: 16, marginTop: 16 }}>下一题</Button>
-                </div>
-              )}
-              <Button onClick={() => {
-                addAnswer(
-                  lesson.sub_questions[currentSubQuestion].type,
-                  lesson.sub_questions[currentSubQuestion].question,
-                  '跳过此题',
-                  true,
-                )
-                setTranscript('')
-                if (currentSubQuestion < lesson.sub_questions.length - 1) {
-                  setCurrentSubQuestion(prev => prev + 1)
-                } else {
+                  })
                   setStep(3)
-                }
-              }} type="text" style={{ marginTop: 8 }}>跳过，直接下一题</Button>
+                }} style={{ borderRadius: 16 }}>提交所有答案，进入下一题</Button>
+              </div>
             </Card>
           </motion.div>
         )}
 
-        {/* Stage 3: Back to main question */}
+        {/* Stage 3: 回到主问题 — 汇总所有子问题答案 */}
         {step === 3 && lesson && (
           <motion.div key="main" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-            <Card style={{ borderRadius: 16, textAlign: 'center', padding: '20px 0' }}>
-              <TrophyOutlined style={{ fontSize: 48, color: '#FFD666' }} />
-              <Title level={4} style={{ marginTop: 16 }}>回到最开始的问题</Title>
-              <Paragraph type="secondary" style={{ fontSize: 16 }}>
-                {lesson.extension.back_to_main}
-              </Paragraph>
-              <VoiceInputButton onResult={(text) => setTranscript(text)} />
-              {transcript && (
-                <div style={{ marginTop: 16 }}>
-                  <Tag color="blue">你的回答：{transcript}</Tag>
+            <Card style={{ borderRadius: 16, padding: '24px' }}>
+              {/* 已回答的子问题一览 */}
+              <Text type="secondary" style={{ fontSize: 13 }}>✅ 你已经回答了下面这些问题：</Text>
+              <div style={{ marginTop: 8, marginBottom: 24, display: 'flex', flexDirection: 'column', gap: 8 }}>
+                {lesson.sub_questions.map((sq, i) => (
+                  <Card key={i} size="small" style={{ borderRadius: 8, background: '#FAFAFA' }}>
+                    <Space>
+                      <Tag color={QUESTION_COLORS[sq.type]}>
+                        {QUESTION_ICONS[sq.type]} {sq.label}
+                      </Tag>
+                      <Text style={{ fontSize: 13 }}>{sq.question}</Text>
+                      {subAnswers[i] && (
+                        <Tag color="green" style={{ maxWidth: 200, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                          {subAnswers[i].length > 20 ? subAnswers[i].slice(0, 20) + '...' : subAnswers[i]}
+                        </Tag>
+                      )}
+                    </Space>
+                  </Card>
+                ))}
+              </div>
+
+              {/* 主问题 */}
+              <div style={{
+                padding: '20px 24px', marginBottom: 20,
+                background: 'linear-gradient(135deg, #FFF7E6, #FFF1CC)',
+                borderRadius: 12, border: '2px solid #FFD666', textAlign: 'center'
+              }}>
+                <TrophyOutlined style={{ fontSize: 32, color: '#FFD666', marginBottom: 8 }} />
+                <Title level={4} style={{ margin: '0 0 8px 0', color: '#AD6800' }}>
+                  🎯 回到最开始的问题
+                </Title>
+                <Text strong style={{ fontSize: 16, color: '#AD6800' }}>
+                  {lesson.main_question}
+                </Text>
+                <Paragraph type="secondary" style={{ marginTop: 12, marginBottom: 0, fontSize: 14 }}>
+                  {lesson.extension.back_to_main}
+                </Paragraph>
+              </div>
+
+              {mainTranscript ? (
+                <div style={{ textAlign: 'center' }}>
+                  <Tag color="blue" style={{ marginBottom: 12, fontSize: 14, padding: '4px 12px' }}>
+                    {mainTranscript}
+                  </Tag>
                   <br />
-                  <Button type="primary" size="large" onClick={() => {
-                    addAnswer('main_question', lesson.main_question, transcript, true)
+                  <Space>
+                    <Button onClick={() => setMainTranscript('')} size="small" type="link">重新回答</Button>
+                    <Button type="primary" size="large" onClick={() => {
+                      addAnswer('main_question', lesson.main_question, mainTranscript, true)
+                      handleComplete()
+                    }} style={{ borderRadius: 16 }}>提交并完成！</Button>
+                  </Space>
+                </div>
+              ) : (
+                <div style={{ textAlign: 'center' }}>
+                  <VoiceInputButton onResult={(text) => setMainTranscript(text)} />
+                  <br />
+                  <Button onClick={() => {
+                    addAnswer('main_question', lesson.main_question, '已完成精读', true)
                     handleComplete()
-                  }} style={{ borderRadius: 16, marginTop: 16 }}>提交并完成！</Button>
+                  }} type="text" style={{ marginTop: 12 }}>跳过录音，直接完成</Button>
                 </div>
               )}
-              <Button onClick={() => {
-                addAnswer('main_question', lesson.main_question, '已完成精读', true)
-                handleComplete()
-              }} type="text" style={{ marginTop: 8 }}>跳过录音，直接完成</Button>
             </Card>
           </motion.div>
         )}
@@ -243,13 +349,13 @@ export default function ReadingSessionPage() {
               <Card style={{ borderRadius: 16, textAlign: 'center', padding: '20px 0' }}>
                 <Title level={4}>说说你的想法</Title>
                 <Paragraph type="secondary">这篇文章讲了什么？</Paragraph>
-                <VoiceInputButton onResult={(text) => setTranscript(text)} />
-                {transcript && (
+                <VoiceInputButton onResult={(text) => setMainTranscript(text)} />
+                {mainTranscript && (
                   <div style={{ marginTop: 16 }}>
-                    <Tag color="blue">你说的：{transcript}</Tag>
+                    <Tag color="blue">你说的：{mainTranscript}</Tag>
                     <br />
                     <Button type="primary" size="large" onClick={() => {
-                      addAnswer('main_question', '这篇文章讲了什么？', transcript || '已完成归纳', true)
+                      addAnswer('main_question', '这篇文章讲了什么？', mainTranscript || '已完成归纳', true)
                       handleComplete()
                     }} style={{ borderRadius: 16, marginTop: 16 }}>完成今天的精读！</Button>
                   </div>
