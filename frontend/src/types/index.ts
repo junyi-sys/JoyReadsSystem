@@ -217,5 +217,54 @@ export interface RadarData {
 
 export interface ParentStudentOverview {
   id: number; name: string; age: number; level: number
-  articles_read: number; last_activity: string | null; is_active: boolean
+  articles_read: number; ally_chars: number
+  last_activity: string | null; is_active: boolean
+}
+
+export interface ClueParagraph {
+  text: string
+  clue_prompt: string
+  clue_hint: string
+}
+
+export interface SubQuestion {
+  type: 'find_clue' | 'infer_cause' | 'connect_life'
+  label: string
+  question: string
+  answer_hint: string
+}
+
+export interface LessonPlan {
+  main_question: string
+  pre_reading: {
+    background: string
+    hook: string
+  }
+  paragraphs: ClueParagraph[]
+  sub_questions: SubQuestion[]
+  extension: {
+    back_to_main: string
+    ai_feedback_hint: string
+  }
+}
+
+export interface AnswerItem {
+  question_type: string
+  question: string
+  child_answer: string
+  is_correct: boolean
+}
+
+export interface StartDayResponse {
+  day_id: number
+  article_id: number
+  guide_text: string
+  lesson_json: LessonPlan | null
+  status: string
+}
+
+export interface CompleteDayResponse {
+  ok: boolean
+  record_ids: number[]
+  theory_id: number | null
 }
