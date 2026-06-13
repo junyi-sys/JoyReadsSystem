@@ -23,12 +23,21 @@ class PlanService:
         return {"id": plan.id, "name": plan.name, "start_date": str(plan.start_date),
                 "end_date": str(plan.end_date), "week_count": plan.week_count}
 
+    @staticmethod
+    def _extract_main_question(lesson_json: str | None) -> str | None:
+        if not lesson_json:
+            return None
+        try:
+            import json
+            return json.loads(lesson_json).get("main_question")
+        except (json.JSONDecodeError, TypeError):
+            return None
+
     def get_current_plan(self, student_id: int) -> dict | None:
         plan = self.repo.get_current_plan(student_id)
         if not plan:
             return None
         days = self.repo.get_plan_days(plan.id)
-        import json
         return {
             "id": plan.id, "name": plan.name, "status": plan.status,
             "start_date": str(plan.start_date), "end_date": str(plan.end_date),
@@ -39,7 +48,7 @@ class PlanService:
                 "article_id": d.article_id,
                 "guide_text": d.guide_text or "",
                 "seed_question": d.seed_question,
-                "main_question": (json.loads(d.lesson_json).get("main_question") if d.lesson_json else None),
+                "main_question": self._extract_main_question(d.lesson_json),
                 "status": d.status,
             } for d in days],
         }

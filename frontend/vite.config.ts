@@ -1,30 +1,48 @@
-import { defineConfig, loadEnv } from 'vite'
+import { defineConfig, loadEnv, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import { spawn, type ChildProcess } from 'child_process'
+import path from 'path'
 
-function autoStartBackend(): any {
+function autoStartBackend(): Plugin {
   let backend: ChildProcess | null = null
+
+  function cleanup() {
+    if (backend && !backend.killed) {
+      backend.kill()
+      backend = null
+    }
+  }
 
   return {
     name: 'auto-start-backend',
     configureServer() {
       if (backend) return
-      const python = '../backend/.venv/Scripts/python.exe'
+      const python = path.resolve('..', 'backend', '.venv', 'Scripts', 'python.exe')
       backend = spawn(python, ['-m', 'uvicorn', 'app.main:app', '--host', '0.0.0.0', '--port', '8002'], {
-        cwd: '../backend',
+        cwd: path.resolve('..', 'backend'),
         env: { ...process.env, APP_ENV: 'production' },
         stdio: 'pipe',
       })
       backend.stdout?.on('data', (d: Buffer) => process.stdout.write(`[be] ${d}`))
       backend.stderr?.on('data', (d: Buffer) => process.stderr.write(`[be] ${d}`))
-      backend.on('exit', (code) => { backend = null })
+      backend.on('error', (err) => {
+        console.error(`[vite] backend failed to start: ${err.message}`)
+        console.error('[vite] check: pip install -r ../backend/requirements.txt')
+        backend = null
+      })
+      backend.on('exit', (code) => {
+        if (code !== 0 && code !== null) {
+          console.error(`[vite] backend exited with code ${code} — check logs`)
+        }
+        backend = null
+      })
       console.log('[vite] backend auto-started on :8002')
     },
+    buildEnd() {
+      cleanup()
+    },
     closeBundle() {
-      if (backend) {
-        backend.kill()
-        backend = null
-      }
+      cleanup()
     },
   }
 }
