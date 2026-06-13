@@ -67,51 +67,150 @@ class PlanService:
         original_guide = day.guide_text or ""
 
         if seed_info:
-            seed_id = seed_info["id"]  # claim_pending_seed 已原子地将状态改为 growing
+            seed_id = seed_info["id"]
             topic = seed_info["question_text"]
             topic_category = "curiosity"
-            prompt = (
-                f'孩子曾经问过一个问题："{topic}"。\n'
-                f"请以这个问题为线索，写一篇精读短文，适合小学生阅读。\n"
-                f"要求：标题简洁、正文300-500字、分2-3个自然段、"
-                f"语气像耐心的朋友在解释，不直接灌输答案。\n"
-                f"精读焦点：{day.focus}"
+        else:
+            topic = f"{day.topic_category}·{day.focus}"
+            topic_category = day.topic_category
+
+        # --- LLM 生成完整教案 JSON ---
+        lesson_prompt = f"""你是一位儿童阅读教育专家。请为以下话题生成一篇精读教案。
+
+话题：{topic}
+精读焦点：{day.focus}
+
+返回严格的 JSON 格式（不要包含任何其他文字）：
+
+{{
+  "main_question": "这篇文章要搞懂的核心问题（一个完整的问句，适合小学生）",
+  "pre_reading": {{
+    "background": "2-3句背景小知识，关联孩子的生活经验",
+    "hook": "用孩子能懂的语言抛出主问题，告诉他答案藏在文章里"
+  }},
+  "paragraphs": [
+    {{
+      "text": "文章第1段，150-200字",
+      "clue_prompt": "这段里有解决主问题的什么线索？引导孩子找出来",
+      "clue_hint": "这段的关键线索是什么（供AI判断孩子答案时参考）"
+    }},
+    {{
+      "text": "文章第2段，150-200字",
+      "clue_prompt": "这段告诉我们什么新信息？",
+      "clue_hint": "这段的关键线索"
+    }},
+    {{
+      "text": "文章第3段，150-200字",
+      "clue_prompt": "最后这段补充了什么？",
+      "clue_hint": "这段的关键线索"
+    }}
+  ],
+  "sub_questions": [
+    {{
+      "type": "find_clue",
+      "label": "找线索",
+      "question": "从文章里找到的关键信息是什么？（引导孩子回顾文中细节）",
+      "answer_hint": "孩子应该提到的关键点"
+    }},
+    {{
+      "type": "infer_cause",
+      "label": "推因果",
+      "question": "为什么会这样？把线索串起来想一想",
+      "answer_hint": "因果推理的要点"
+    }},
+    {{
+      "type": "connect_life",
+      "label": "联生活",
+      "question": "你有没有见过或经历过类似的事？",
+      "answer_hint": "生活中类似的例子"
+    }}
+  ],
+  "extension": {{
+    "back_to_main": "现在你能回答最开始的问题了吗？（用主问题本身的表述）",
+    "ai_feedback_hint": "从哪些角度评价孩子的回答"
+  }}
+}}
+
+要求：
+- main_question 是整篇文章的灵魂，子问题都要服务于它
+- 3段文章合起来 300-500 字，适合小学生阅读
+- 每个 clue_prompt 帮助孩子从该段中找线索，逐步拼出答案
+- sub_questions 三个类型：find_clue（从文中找信息）→ infer_cause（推理因果）→ connect_life（联系生活）
+- 语言亲切、鼓励性强，像一位耐心的老师在引导"""
+
+        llm = Container.llm()
+        try:
+            result = asyncio.run(llm.generate(
+                lesson_prompt,
+                system="你是儿童阅读教育专家，擅长设计探究式精读课程。严格按照要求的 JSON 格式返回。",
+                temperature=0.7, max_tokens=2000,
+            ))
+            # Clean markdown code fences if present
+            content = result.content.strip()
+            if content.startswith("```json"):
+                content = content[7:]
+            elif content.startswith("```"):
+                content = content[3:]
+            if content.endswith("```"):
+                content = content[:-3]
+            content = content.strip()
+            lesson_json = json.loads(content)
+        except Exception:
+            # JSON 解析失败，回退到旧模式
+            if seed_id:
+                self.repo.update_seed_status(seed_id, "pending")
+            lesson_json = None
+
+        if lesson_json is None:
+            # 回退：生成简单文章
+            fallback_prompt = (
+                f"请写一篇儿童短文，主题：{topic}，精读焦点：{day.focus}。"
+                f"适合小学生阅读，300-500字，使用简单易懂的汉字。"
             )
-            # 将种子信息存入 guide_text JSON，同时保留导读语供前端展示
-            day.guide_text = json.dumps({
+            try:
+                result = asyncio.run(llm.generate(
+                    fallback_prompt,
+                    system="你是儿童教育作家，写生动有趣的短文。",
+                    temperature=0.7, max_tokens=1000,
+                ))
+            except Exception:
+                if seed_id:
+                    self.repo.update_seed_status(seed_id, "pending")
+                raise
+            article_content = result.content
+            guide_text_json = original_guide
+        else:
+            article_content = "\n\n".join(p["text"] for p in lesson_json["paragraphs"])
+            guide_data = {
+                "version": "v2",
+                "main_question": lesson_json["main_question"],
+                "lesson": lesson_json,
+            }
+            # Carry forward seed info if present
+            if seed_id:
+                guide_data["source"] = "curiosity_seed"
+                guide_data["seed_id"] = seed_id
+                guide_data["seed_question"] = topic
+            guide_text_json = json.dumps(guide_data, ensure_ascii=False)
+
+        # Save seed info for v1 fallback case
+        if seed_id and lesson_json is None:
+            guide_text_json = json.dumps({
                 "source": "curiosity_seed",
                 "seed_id": seed_id,
                 "seed_question": topic,
                 "guide": original_guide,
             }, ensure_ascii=False)
-        else:
-            topic_category = day.topic_category
-            prompt = (
-                f"请写一篇儿童短文，主题类别：{topic_category}，精读焦点：{day.focus}。"
-                f"适合小学生阅读，300-500字，使用简单易懂的汉字。"
-            )
-        # --- 种子优先逻辑结束 ---
 
-        llm = Container.llm()
-        try:
-            result = asyncio.run(llm.generate(
-                prompt,
-                system="你是儿童教育作家，写生动有趣的短文。",
-                temperature=0.7, max_tokens=1000,
-            ))
-        except Exception:
-            # LLM 失败，回退种子状态
-            if seed_id:
-                self.repo.update_seed_status(seed_id, "pending")
-            raise
+        day.guide_text = guide_text_json
 
         from ...models import DailyArticle
         article = DailyArticle(
             student_id=student_id,
             record_date=date.today(),
             topic=f"精读·{day.focus}",
-            content=result.content,
-            character_count=len(result.content),
+            content=article_content,
+            character_count=len(article_content),
             source="ai",
             category="daily",
             topic_category=topic_category,
@@ -122,10 +221,16 @@ class PlanService:
 
         day.article_id = article.id
         self.repo.update_day(day)
+
+        return_guide = original_guide
+        if lesson_json:
+            return_guide = lesson_json["pre_reading"]["hook"]
+
         return {
             "day_id": day.id,
             "article_id": article.id,
-            "guide_text": original_guide,  # 返回纯文本导读语，前端不感知 JSON
+            "guide_text": return_guide,
+            "lesson_json": lesson_json,
             "status": day.status,
         }
 
