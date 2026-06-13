@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## 项目简介
 
-俊宜阅读 — AI 驱动的儿童中文阅读应用。生成适配认知水平的短文，拼音标注、语音朗读、生字分区管理和好奇心问答引擎。
+俊宜阅读 V2.0.0 — AI 驱动的儿童中文阅读应用。好奇心种子驱动的精读计划、主问题+子问题链探究式精读、生字四区管理、知识图谱、语音输入/输出。
 
 ## 常用命令
 
@@ -134,6 +134,18 @@ backend/app/
 - **点读降级** — PinyinWord 每次点击上报 `POST /api/characters/interaction`，累计 tap_count ≥ 3 且 zone=ally → 自动降回 target
 - **自然习得晋升** — 文章标记"已读"时触发：scout 区字在 ≥3 篇已读文章中未被点读 → 自动晋升 ally；ally 区字被点读 → 降回 target
 - **文章生成联动** — 生成文章时注入字库上下文到 LLM prompt（已掌握的字放心用、学习中的字多重复、困难字重点复习）。`ARTICLE_DENSITY_TIERS` 按已知字数自动匹配文章长度和生字密度，支持 `density`（每百字新字数）和 `reinforce`（每百字复习数）参数。主题分类（天文/生物/物理/化学/地理/历史/人体/科技）由 `categories.py` 自动检测并提供图标和颜色。
+
+### 精读计划 + 好奇心种子 (V2.0 新增)
+
+精读计划 (`plan/`) 是 V2.0 核心模块，提供结构化精读体验：
+
+- **种子驱动话题来源**: `start_day` 优先从好奇心种子池 (curiosity_seed) 取 pending 问题作为精读话题，种子用完后 fallback 到 WEEKLY_THEMES 预设主题
+- **主问题+子问题链**: LLM 一次生成完整教案 JSON (`lesson_json`)，包含 `main_question`（主问题）、`pre_reading`（导读背景）、`paragraphs[]`（分段/线索提示）、`sub_questions[]`（找线索→推因果→联生活）、`extension`（回到主问题）
+- **四阶段精读流程**: 导读（展示问题清单）→ 读中探究（分段阅读+线索提示）→ 读后思考（子问题表单+参考答案对照）→ 回到主问题
+- **种子状态机**: `pending → growing（start_day）→ converted（complete_day）`
+- **精读记录**: `GET /api/articles/{id}/reading-record` 返回完整精读过程（主问题+子问题+答案+参考答案）
+- **种子池**: `seeds/` 领域提供 `SeedRepository`，`PlanRepository.claim_pending_seed()` 原子领取种子
+- **前端页面**: `PlanPage.tsx`（计划卡片+好奇心来源标记）、`ReadingSessionPage.tsx`（四阶段状态机+主问题固顶）
 
 ### 其他模式
 
