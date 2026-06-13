@@ -53,13 +53,15 @@ export default function PlanPage() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {plan.days.map((day) => (
           <Card key={day.id} size="small" style={{ borderRadius: 12 }}
-            hoverable={day.status === 'pending'}
-            onClick={() => day.status === 'pending' && navigate(`/reading/${day.id}`)}>
+            hoverable={day.status !== 'completed'}
+            onClick={() => day.status !== 'completed' && navigate(`/reading/${day.id}`)}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div>
                 <Tag color={FOCUS_COLORS[day.focus]}>{day.focus}</Tag>
                 <Typography.Text strong> {DAY_NAMES[day.day_of_week]}</Typography.Text>
-                <Typography.Text type="secondary" style={{ marginLeft: 8 }}>{day.topic_category}</Typography.Text>
+                <Typography.Text type="secondary" style={{ marginLeft: 8 }}>
+                  {day.topic_category === 'curiosity' ? '💡 来自你的问题' : day.topic_category}
+                </Typography.Text>
               </div>
               <Tag color={day.status === 'completed' ? 'green' : day.status === 'reading' ? 'blue' : 'default'}>
                 {day.status === 'completed' ? '已完成' : day.status === 'reading' ? '阅读中' : '待开始'}
