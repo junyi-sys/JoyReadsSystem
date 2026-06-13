@@ -1,4 +1,5 @@
 from datetime import date
+from sqlalchemy import update
 from sqlalchemy.orm import Session
 from ...models import ReadingPlan, PlanDay
 
@@ -67,3 +68,36 @@ class PlanRepository:
             setattr(day, k, v)
         self.db.commit()
         self.db.refresh(day)
+
+    def claim_pending_seed(self, student_id: int) -> dict | None:
+        """Atomically claim the oldest pending seed. Returns {id, question_text} or None."""
+        from ...models import CuriositySeed
+
+        seed = self.db.query(CuriositySeed).filter(
+            CuriositySeed.student_id == student_id,
+            CuriositySeed.status == "pending"
+        ).order_by(CuriositySeed.created_at.asc()).first()
+
+        if not seed:
+            return None
+
+        # 条件更新：WHERE id=? AND status='pending'，防止并发重复取
+        result = self.db.execute(
+            update(CuriositySeed)
+            .where(CuriositySeed.id == seed.id, CuriositySeed.status == "pending")
+            .values(status="growing")
+        )
+        self.db.commit()
+
+        if result.rowcount == 0:
+            # 另一个请求已抢先取走，fallback
+            return None
+
+        return {"id": seed.id, "question_text": seed.question_text}
+
+    def update_seed_status(self, seed_id: int, status: str,
+                           converted_article_id: int | None = None):
+        """Update a curiosity seed's status. Delegates to SeedRepository."""
+        from ..seeds.repository import SeedRepository
+        seed_repo = SeedRepository(self.db)
+        seed_repo.update_status(seed_id, status, converted_article_id)
