@@ -132,4 +132,19 @@ class PlanService:
         self.repo.db.add(record)
         self.repo.db.commit()
         self.repo.db.refresh(record)
+
+        # --- 种子状态联动 ---
+        if day.guide_text:
+            try:
+                data = json.loads(day.guide_text)
+                if data.get("source") == "curiosity_seed":
+                    seed_id = data["seed_id"]
+                    self.repo.update_seed_status(
+                        seed_id, "converted",
+                        converted_article_id=day.article_id,
+                    )
+            except (json.JSONDecodeError, TypeError):
+                pass  # 非 JSON 格式 = 预设主题，无需处理
+        # --- 种子状态联动结束 ---
+
         return {"ok": True, "record_id": record.id}
