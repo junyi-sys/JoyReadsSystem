@@ -107,14 +107,19 @@ backend/app/
 │                       Character, CharacterInteraction, CharacterZoneLog,
 │                       CuriosityEvent, Theory, ArticleReadStatus)
 ├── domains/         领域模块 (router → service → repository 模式)
-│   ├── articles/    文章生成/历史/系列/已读状态
+│   ├── articles/    文章生成/历史/系列/已读状态 + 精读记录(reading-record)
 │   │   └── generator.py  提取汉字 + 构建 LLM prompt（注入字库上下文）
 │   ├── characters/  生字四区 + 统计(stats_router.py) + 交互追踪 + 自动晋升引擎
 │   ├── curiosity/   好奇心问答 + 苏格拉底追问 (含 LangGraph 状态图 graph.py)
+│   ├── plan/        精读计划 (V2.0 核心): 创建/周列表/start_day/complete_day
+│   ├── seeds/       好奇心种子池: 自动收集/手动管理/种子生长
+│   ├── knowledge/   知识图谱: 概念提取/深度追踪
 │   ├── students/    学生列表 + 等级进度
 │   ├── theory/      孩子的自建理论（与好奇心事件和文章关联）
 │   ├── tts/         语音合成 (仅 router + service，无 repository)
-│   └── stt/         语音识别 (faster-whisper 本地模型，仅 router + service)
+│   ├── stt/         语音识别 (faster-whisper 本地模型，仅 router + service)
+│   ├── parent/      家长控制台: 多学生概览/PIN验证
+│   └── radar/       五维能力雷达图数据
 ├── ai/              AI 抽象接口 (LLMProvider/TTSProvider/ImageProvider) 及实现
 ├── schemas/         跨域共享 Pydantic 模型 (PaginatedRequest, MessageResponse)
 └── shared/          拼音标注、异常类、middleware(get_current_student_id)、
@@ -163,14 +168,17 @@ frontend/src/
 ├── main.tsx           入口: React.StrictMode + Antd ConfigProvider(主题+zhCN) + BrowserRouter
 ├── App.tsx            路由定义 (AppShell 布局路由 + /series/:seriesId 独立页)
 ├── pages/             页面组件 (HomePage, ArticleHistoryPage, CuriosityPage,
-│                       CharacterZonesPage, StatsPage, SeriesReaderPage)
+│                       CharacterZonesPage, StatsPage, SeriesReaderPage,
+│                       PlanPage, ReadingSessionPage, KnowledgeGraphPage,
+│                       ParentDashboardPage)
 ├── components/
-│   ├── layout/        AppShell(侧边栏+顶栏+内容区), StudentSwitcher
+│   ├── layout/        AppShell(侧边栏+顶栏+内容区), StudentSwitcher, ParentGate
 │   ├── reader/        ArticleReader, PinyinWord, audioCache (点读缓存+预加载)
 │   ├── character/     CharacterCard(含tap_count显示), ZoneBoard (四区看板)
-│   ├── curiosity/     CuriosityBubble, SeriesProgress
-│   ├── game/          ReadingBuddy, StreakBadge, AchievementModal
-│   └── ui/            CartoonButton/Card/Tag 通用组件, VoiceInputButton
+│   ├── curiosity/     CuriosityBubble, SeriesProgress, SeedPool
+│   ├── game/          ReadingBuddy, StreakBadge, AchievementModal, LevelUpModal
+│   ├── theory/        TheoryCard
+│   └── ui/            CartoonButton/Card/Tag 通用组件, VoiceInputButton, RadarChart
 ├── store/             Zustand: useAppStore(UI状态), useStudentStore(当前学生)
 ├── services/api.ts    Axios 实例 + 所有 API 封装
 ├── types/index.ts     TypeScript 类型定义
@@ -348,6 +356,56 @@ curl -s -X POST http://localhost:8002/api/theory \
 curl -s http://localhost:8002/api/theory -H "X-Student-ID: 1"
 ```
 
+### 精读计划 (V2.0)
+
+```bash
+# 创建精读计划（4周×5天）
+curl -s -X POST http://localhost:8002/api/plan/create -H "X-Student-ID: 1"
+
+# 获取当前计划（含所有天的状态）
+curl -s http://localhost:8002/api/plan/current -H "X-Student-ID: 1"
+
+# 开始某天的精读（LLM 生成教案 + 文章，种子优先）
+curl -s -X POST http://localhost:8002/api/plan/days/1/start -H "X-Student-ID: 1"
+
+# 完成某天的精读（提交 3-4 题答案数组）
+curl -s -X POST http://localhost:8002/api/plan/days/1/complete \
+  -H "X-Student-ID: 1" \
+  -H "Content-Type: application/json" \
+  -d '{"answers": [
+    {"question_type":"find_clue","question":"...","child_answer":"...","is_correct":true},
+    {"question_type":"infer_cause","question":"...","child_answer":"...","is_correct":true},
+    {"question_type":"connect_life","question":"...","child_answer":"...","is_correct":true},
+    {"question_type":"main_question","question":"...","child_answer":"...","is_correct":true}
+  ]}'
+
+# 查看文章的精读记录
+curl -s http://localhost:8002/api/articles/1/reading-record -H "X-Student-ID: 1"
+```
+
+### 种子池
+
+```bash
+# 列出所有种子
+curl -s http://localhost:8002/api/seeds -H "X-Student-ID: 1"
+
+# 筛选 pending 种子
+curl -s http://localhost:8002/api/seeds?status=pending -H "X-Student-ID: 1"
+
+# 手动触发种子生长（生成回答文章）
+curl -s -X POST http://localhost:8002/api/seeds/1/grow -H "X-Student-ID: 1"
+```
+
+### 知识图谱
+
+```bash
+# 获取知识图谱
+curl -s http://localhost:8002/api/knowledge/graph -H "X-Student-ID: 1"
+
+# 获取单个概念
+curl -s http://localhost:8002/api/knowledge/nodes/光合作用 -H "X-Student-ID: 1"
+```
+
 ### 其他
 
 ```bash
@@ -359,6 +417,12 @@ curl -s http://localhost:8002/api/students/ -H "X-Student-ID: 1"
 
 # 统计总览
 curl -s http://localhost:8002/api/stats/overview -H "X-Student-ID: 1"
+
+# 五维能力雷达
+curl -s http://localhost:8002/api/stats/radar -H "X-Student-ID: 1"
+
+# 家长控制台
+curl -s http://localhost:8002/api/parent/students -H "X-Student-ID: 1"
 ```
 
 ### 前端路由
@@ -366,9 +430,12 @@ curl -s http://localhost:8002/api/stats/overview -H "X-Student-ID: 1"
 | 路径 | 页面 | 说明 |
 |------|------|------|
 | `/` | HomePage | 首页仪表盘 |
-| `/articles` | ArticleHistoryPage | 文章历史列表 |
+| `/plan` | PlanPage | 精读计划（V2.0 核心） |
+| `/reading/:dayId` | ReadingSessionPage | 四阶段精读会话 |
+| `/articles` | ArticleHistoryPage | 文章历史（点击查看精读记录） |
 | `/curiosity` | CuriosityPage | 好奇心问答 |
 | `/characters` | CharacterZonesPage | 生字四区看板 |
+| `/knowledge` | KnowledgeGraphPage | 知识图谱（点击概念查看文章） |
 | `/stats` | StatsPage | 学习统计 |
 | `/series/:seriesId` | SeriesReaderPage | 系列文章阅读 |
 
@@ -379,6 +446,7 @@ curl -s http://localhost:8002/api/stats/overview -H "X-Student-ID: 1"
 - 端口由 `.env.dev` / `.env.prod` 和 `frontend/.env.development` / `frontend/.env.production` 统一管理，`vite.config.ts` 和 `run.py` 自动读取，不同步会请求失败
 - 生字拼音标注仅处理 CJK 统一汉字区间 `[一-鿿]`
 - `get_current_student_id` 自己打开数据库会话（非 FastAPI 依赖注入），注意调用链中不要额外开启事务
+- 中间件验证 student_id 是否存在且活跃，不存在则回退到第一个活跃学生。dev DB 默认学生可能是 id=2（不是 1），前端 localStorage 存的 studentId 可能不匹配——中间件自动容错
 - 没有测试框架和 lint 工具 —— 建议从 `pytest` + `ruff`（后端）和 `eslint` + `prettier`（前端）开始
 - 新增领域模块：创建 `router.py` / `service.py` / `repository.py` → `main.py` 中 `include_router` → 前端在 `services/api.ts` 添加 API 对象
 - `students/` 和 `tts/` 领域较薄——只有 router（tts 有 service），没有 repository
@@ -386,6 +454,13 @@ curl -s http://localhost:8002/api/stats/overview -H "X-Student-ID: 1"
 - edge-tts 需 ≥7.2.8 版本（旧版令牌过期导致 403）
 - STT 语音识别依赖本地 faster-whisper 模型和 ffmpeg（非 WAV 格式需 ffmpeg 转码为 16kHz 单声道 PCM）
 - 前端语音输入使用 MediaRecorder（非 Web Speech API，国内 Google 服务不可用）
+<<<<<<< Updated upstream
+=======
+- **数据库 schema 同步**：`Base.metadata.create_all()` 只增列不删列。修改 ORM 模型后如果 MySQL 表有孤儿列（如 `last_updated_at` vs `updated_at`），需要手动 `ALTER TABLE`。`theory` 表、`knowledge_node` 表曾因此导致 500
+- **STT `file.read()` 必须是 `await`**：`UploadFile.read()` 是 async，路由函数必须声明 `async def` 并 `await file.read()`，否则返回 coroutine 对象导致 500
+- **`file.size` 为 0 时**：Starlette `UploadFile.size` 可能为 0 或 None，0 字节文件走不到 guard 但会被 `< 100` 检查拦截返回空文本
+- **LLM JSON 解析容错**：`start_day` 用 LLM 生成教案 JSON，解析失败时自动回退到旧模式（简单文章+一道题）。不要假设 LLM 一定输出合法 JSON
+- **`asyncio.run()` 不能在已有事件循环中调用**：后端所有 LLM 调用都用 `asyncio.run()` 包装，只能在同步函数中使用
 
 ## Git 工作流
 
@@ -393,3 +468,4 @@ curl -s http://localhost:8002/api/stats/overview -H "X-Student-ID: 1"
 - 新功能/修复必须先创建 feature 分支：`git checkout -b feature/xxx`
 - 如果发现自己在 master 上，立即停止并提醒用户切分支
 - 例外：用户明确说"这是紧急修复，直接在 master 上改"（需用户主动声明）
+>>>>>>> Stashed changes
