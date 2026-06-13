@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from sqlalchemy.orm import Session
+from ...models import Theory
 from .repository import TheoryRepository
 from ...di import Container
 
