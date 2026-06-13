@@ -104,8 +104,19 @@ export const planApi = {
   create: () => api.post('/plan/create'),
   current: () => api.get('/plan/current'),
   startDay: (dayId: number) => api.post(`/plan/days/${dayId}/start`),
-  completeDay: (dayId: number, body: { child_answer: string; is_correct: boolean; question: string; correct_answer: string }) =>
+  completeDay: (dayId: number, body: { answers: { question_type: string; question: string; child_answer: string; is_correct: boolean }[] }) =>
     api.post(`/plan/days/${dayId}/complete`, body),
+}
+
+// ===== Radar =====
+export const radarApi = {
+  get: () => api.get('/stats/radar'),
+}
+
+// ===== Knowledge =====
+export const knowledgeApi = {
+  graph: () => api.get('/knowledge/graph'),
+  concept: (concept: string) => api.get(`/knowledge/nodes/${encodeURIComponent(concept)}`),
 }
 
 // ===== Seeds =====
@@ -113,4 +124,11 @@ export const seedsApi = {
   list: (status?: string) => api.get('/seeds', { params: { status } }),
   grow: (seedId: number) => api.post(`/seeds/${seedId}/grow`),
   delete: (seedId: number) => api.delete(`/seeds/${seedId}`),
+}
+
+// ===== Parent Dashboard =====
+export const parentApi = {
+  students: () => api.get('/parent/students'),
+  studentDetail: (studentId: number) => api.get(`/parent/students/${studentId}/detail`),
+  verifyPin: (studentId: number, pin: string) => api.post('/parent/verify-pin', { student_id: studentId, pin }),
 }

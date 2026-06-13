@@ -52,10 +52,12 @@ export default function ReadingSessionPage() {
   const handleComplete = async () => {
     if (!dayId) return
     await planApi.completeDay(Number(dayId), {
-      child_answer: transcript || '已完成录音归纳',
-      is_correct: true,
-      question: FOCUS_GUIDES[focus] || '这篇文章讲了什么？',
-      correct_answer: '孩子口语表达完成',
+      answers: [{
+        question_type: 'oral_summary',
+        question: FOCUS_GUIDES[focus] || '这篇文章讲了什么？',
+        child_answer: transcript || '已完成录音归纳',
+        is_correct: true,
+      }],
     })
     setStep(4)
   }
