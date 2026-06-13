@@ -234,37 +234,58 @@ class PlanService:
             "status": day.status,
         }
 
-    def complete_day(self, day_id: int, student_id: int, child_answer: str, is_correct: bool,
-                     question: str, correct_answer: str) -> dict:
+    def complete_day(self, day_id: int, student_id: int, answers: list) -> dict:
         day = self.repo.get_plan_day(day_id)
         if not day:
             raise ValueError("PlanDay not found")
         day.status = "completed"
         self.repo.update_day(day)
 
+        records = []
         from ...models import ComprehensionRecord
-        record = ComprehensionRecord(
-            student_id=student_id, article_id=day.article_id,
-            plan_day_id=day.id, focus=day.focus,
-            question=question, correct_answer=correct_answer,
-            child_answer=child_answer, is_correct=is_correct,
-        )
-        self.repo.db.add(record)
-        self.repo.db.commit()
-        self.repo.db.refresh(record)
+        for ans in answers:
+            record = ComprehensionRecord(
+                student_id=student_id, article_id=day.article_id,
+                plan_day_id=day.id, focus=ans.question_type,
+                question=ans.question, correct_answer="",
+                child_answer=ans.child_answer, is_correct=ans.is_correct,
+            )
+            self.repo.db.add(record)
+            self.repo.db.commit()
+            self.repo.db.refresh(record)
+            records.append(record.id)
 
         # --- 种子状态联动 ---
         if day.guide_text:
             try:
                 data = json.loads(day.guide_text)
-                if data.get("source") == "curiosity_seed":
-                    seed_id = data["seed_id"]
+                seed_id = data.get("seed_id")
+                if seed_id:
                     self.repo.update_seed_status(
                         seed_id, "converted",
                         converted_article_id=day.article_id,
                     )
             except (json.JSONDecodeError, TypeError):
-                pass  # 非 JSON 格式 = 预设主题，无需处理
+                pass
         # --- 种子状态联动结束 ---
 
-        return {"ok": True, "record_id": record.id}
+        # --- 主问题回答保存为 Theory ---
+        main_answer = next((a for a in answers if a.question_type == "main_question"), None)
+        theory_id = None
+        if main_answer and main_answer.child_answer:
+            try:
+                from ...models import Theory
+                theory = Theory(
+                    student_id=student_id,
+                    title=main_answer.question[:50],
+                    content=main_answer.child_answer,
+                    linked_article_id=day.article_id,
+                )
+                self.repo.db.add(theory)
+                self.repo.db.commit()
+                self.repo.db.refresh(theory)
+                theory_id = theory.id
+            except Exception:
+                pass
+
+        return {"ok": True, "record_ids": records, "theory_id": theory_id}
