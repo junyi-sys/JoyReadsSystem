@@ -72,6 +72,58 @@ def compute_article_params(body: ArticleParamsRequest, student_id: int = Depends
     return svc.calculate_article_params(student_id, body.override or {})
 
 
+# ===== Reading Record (must be before /{article_id}) =====
+
+@router.get("/{article_id}/reading-record")
+def get_reading_record(article_id: int, student_id: int = Depends(get_current_student_id), db: Session = Depends(get_db)):
+    import json
+    from ...models import PlanDay, ComprehensionRecord
+
+    plan_day = db.query(PlanDay).filter(PlanDay.article_id == article_id).first()
+
+    lesson = None
+    main_question = None
+    if plan_day and plan_day.guide_text:
+        try:
+            data = json.loads(plan_day.guide_text)
+            if data.get("version") == "v2" and "lesson" in data:
+                lesson = data["lesson"]
+                main_question = lesson.get("main_question")
+            elif data.get("source") == "curiosity_seed":
+                main_question = data.get("seed_question")
+        except (json.JSONDecodeError, TypeError):
+            pass
+
+    records = db.query(ComprehensionRecord).filter(
+        ComprehensionRecord.article_id == article_id,
+        ComprehensionRecord.student_id == student_id,
+    ).order_by(ComprehensionRecord.created_at.asc()).all()
+
+    answers = []
+    for r in records:
+        hint = None
+        if lesson:
+            for sq in lesson.get("sub_questions", []):
+                if sq.get("question") == r.question:
+                    hint = sq.get("answer_hint")
+                    break
+        answers.append({
+            "question_type": r.focus,
+            "question": r.question,
+            "child_answer": r.child_answer,
+            "answer_hint": hint,
+            "created_at": r.created_at.isoformat() if r.created_at else None,
+        })
+
+    return {
+        "article_id": article_id,
+        "main_question": main_question,
+        "lesson": lesson,
+        "answers": answers,
+        "has_record": bool(lesson or answers),
+    }
+
+
 @router.get("/{article_id}")
 def get_article(article_id: int, student_id: int = Depends(get_current_student_id), svc: ArticleService = Depends(_get_service)):
     return svc.get_article(article_id, student_id)

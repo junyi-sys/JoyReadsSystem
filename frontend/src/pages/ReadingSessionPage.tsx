@@ -213,9 +213,19 @@ export default function ReadingSessionPage() {
                         {subAnswers[i] ? (
                           <div>
                             <Tag color="green" style={{ marginBottom: 8, maxWidth: '100%', whiteSpace: 'normal', lineHeight: '1.5', padding: '4px 8px' }}>
-                              {subAnswers[i]}
+                              💬 你的回答：{subAnswers[i]}
                             </Tag>
-                            <br />
+                            {sq.answer_hint && (
+                              <Card size="small" style={{
+                                marginTop: 8, marginBottom: 8, background: '#FFFBE6', borderRadius: 8,
+                                border: '1px dashed #FFD666'
+                              }}>
+                                <Text type="secondary" style={{ fontSize: 12 }}>💡 参考答案</Text>
+                                <Paragraph style={{ margin: '4px 0 0 0', fontSize: 13, color: '#8C6D00' }}>
+                                  {sq.answer_hint}
+                                </Paragraph>
+                              </Card>
+                            )}
                             <Button size="small" onClick={() => setSubAnswers(prev => {
                               const next = { ...prev }; delete next[i]; return next;
                             })} type="link" style={{ padding: 0 }}>重新回答</Button>
