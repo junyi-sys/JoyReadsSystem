@@ -62,7 +62,7 @@ export default function ReadingSessionPage() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
       style={{ padding: '24px 32px', maxWidth: 900, margin: '0 auto' }}>
       {/* Main question fixed at top */}
-      {lesson?.main_question && (
+      {step < 4 && lesson?.main_question && (
         <Card size="small" style={{
           marginBottom: 16, borderRadius: 12, background: 'linear-gradient(135deg, #FFF7E6, #FFF1CC)',
           border: '1px solid #FFD666'
