@@ -114,12 +114,12 @@ export function useVoiceInput() {
       // Note: do NOT use Web Audio API GainNode — it distorts audio for STT.
       // Rely on autoGainControl + backend ffmpeg volume boost instead.
 
-      // Pick supported MIME type (prefer Opus, fall back to whatever works)
+      // Pick supported MIME type (prefer mp4 for Safari, fall back to whatever works)
       const mimeTypes = [
+        'audio/mp4',
         'audio/webm;codecs=opus',
         'audio/webm',
         'audio/ogg;codecs=opus',
-        'audio/mp4',
       ]
       let selectedMime = ''
       for (const mt of mimeTypes) {
@@ -229,6 +229,8 @@ export function useVoiceInput() {
         mediaRecRef.current.stop()
       }
       streamRef.current?.getTracks().forEach((t) => t.stop())
+      streamRef.current = null
+      mediaRecRef.current = null
     }
   }, [])
 

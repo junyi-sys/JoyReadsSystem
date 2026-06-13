@@ -13,11 +13,11 @@ DEBUG_DUMP_MAX = 10  # keep only latest N debug dumps
 
 
 @router.post("/transcribe")
-def transcribe(file: UploadFile = File(...)):
+async def transcribe(file: UploadFile = File(...)):
     if file.size and file.size > MAX_FILE_SIZE:
         raise HTTPException(status_code=413, detail="音频文件过大，请限制在20MB以内")
 
-    audio_bytes = file.file.read()
+    audio_bytes = await file.read()
     suffix = ".wav"
     if file.filename and "." in file.filename:
         suffix = "." + file.filename.rsplit(".", 1)[-1].lower()

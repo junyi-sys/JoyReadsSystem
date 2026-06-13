@@ -32,6 +32,7 @@ export const articlesApi = {
   computeParams: (override?: Record<string, number>) =>
     api.post('/articles/compute-params', { override: override || {} }),
   get: (id: number) => api.get(`/articles/${id}`),
+  readingRecord: (id: number) => api.get(`/articles/${id}/reading-record`),
   revise: (id: number, suggestions: string) => api.post(`/articles/${id}/revise`, { suggestions }),
   delete: (id: number) => api.delete(`/articles/${id}`),
   updateReadStatus: (id: number, body: { status: string; read_count: number; total_count: number }) =>
@@ -107,4 +108,44 @@ export const studentsApi = {
   list: () => api.get('/students/'),
   switch: (id: number) => api.post(`/students/switch/${id}`),
   levelProgress: (studentId: number) => api.get(`/students/${studentId}/level-progress`),
+  level: (studentId: number) => api.get(`/students/${studentId}/level`),
+  updateLevelConfig: (studentId: number, body: { level: number; word_threshold: number; article_threshold: number }) =>
+    api.put(`/students/${studentId}/level-config`, body),
+  featureFlags: (studentId: number) => api.get(`/students/${studentId}/feature-flags`),
+  updateFeatureFlags: (studentId: number, body: Record<string, boolean>) =>
+    api.put(`/students/${studentId}/feature-flags`, body),
+}
+
+// ===== Reading Plan =====
+export const planApi = {
+  create: () => api.post('/plan/create'),
+  current: () => api.get('/plan/current'),
+  startDay: (dayId: number) => api.post(`/plan/days/${dayId}/start`),
+  completeDay: (dayId: number, body: { answers: { question_type: string; question: string; child_answer: string; is_correct: boolean }[] }) =>
+    api.post(`/plan/days/${dayId}/complete`, body),
+}
+
+// ===== Radar =====
+export const radarApi = {
+  get: () => api.get('/stats/radar'),
+}
+
+// ===== Knowledge =====
+export const knowledgeApi = {
+  graph: () => api.get('/knowledge/graph'),
+  concept: (concept: string) => api.get(`/knowledge/nodes/${encodeURIComponent(concept)}`),
+}
+
+// ===== Seeds =====
+export const seedsApi = {
+  list: (status?: string) => api.get('/seeds', { params: { status } }),
+  grow: (seedId: number) => api.post(`/seeds/${seedId}/grow`),
+  delete: (seedId: number) => api.delete(`/seeds/${seedId}`),
+}
+
+// ===== Parent Dashboard =====
+export const parentApi = {
+  students: () => api.get('/parent/students'),
+  studentDetail: (studentId: number) => api.get(`/parent/students/${studentId}/detail`),
+  verifyPin: (studentId: number, pin: string) => api.post('/parent/verify-pin', { student_id: studentId, pin }),
 }

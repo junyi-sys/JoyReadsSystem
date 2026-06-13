@@ -48,6 +48,12 @@ def _get_model(model_size: str = "base"):
 
 class STTService:
 
+    def transcribe_bytes(self, audio_bytes: bytes, filename: str = "recording.webm") -> str | None:
+        import os
+        ext = os.path.splitext(filename)[1] or ".webm"
+        result = self.transcribe(audio_bytes, suffix=ext)
+        return result.get("text", "").strip() if result else None
+
     def transcribe(self, audio_bytes: bytes, model_size: str = "base", suffix: str = ".wav") -> dict:
         if len(audio_bytes) < 100:
             logger.warning(f"STT: audio too small ({len(audio_bytes)} bytes)")

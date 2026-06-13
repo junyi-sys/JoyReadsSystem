@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from .config import settings
 from .database import init_db
 
-app = FastAPI(title="俊宜阅读", version="0.1.0")
+app = FastAPI(title="俊宜阅读", version="2.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=settings.CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -29,7 +30,11 @@ def on_startup():
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok", "version": "0.1.0"}
+    return {"status": "ok", "version": "2.0.0"}
+
+
+from .shared.exceptions import global_exception_handler
+app.add_exception_handler(Exception, global_exception_handler)
 
 
 # Register domain routers
@@ -49,3 +54,13 @@ from .domains.stt.router import router as stt_router
 app.include_router(stt_router)
 from .domains.theory.router import router as theory_router
 app.include_router(theory_router)
+from .domains.seeds.router import router as seeds_router
+app.include_router(seeds_router)
+from .domains.plan.router import router as plan_router
+app.include_router(plan_router)
+from .domains.knowledge.router import router as knowledge_router
+app.include_router(knowledge_router)
+from .domains.radar.router import router as radar_router
+app.include_router(radar_router)
+from .domains.parent.router import router as parent_router
+app.include_router(parent_router)

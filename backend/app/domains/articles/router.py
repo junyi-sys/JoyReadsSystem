@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy.orm import Session
 
 from ...database import get_db
@@ -13,12 +13,12 @@ router = APIRouter(prefix="/api/articles", tags=["文章"])
 # ===== Request Schemas =====
 
 class GenerateRequest(BaseModel):
-    topic: str
-    summary: str = ""
-    characters: list[str] = []
+    topic: str = Field(..., max_length=200)
+    summary: str = Field(default="", max_length=500)
+    characters: list[str] = Field(default=[], max_length=50)
     min_chars: int = 100
     max_chars: int = 350
-    category: str = "daily"
+    category: str = Field(default="daily", max_length=50)
     density: int | None = None       # 每百字新字数，None=系统自动
     reinforce: int | None = None     # 每百字复习字数，None=系统自动
 
@@ -29,11 +29,11 @@ class ArticleParamsRequest(BaseModel):
 
 
 class ReviseRequest(BaseModel):
-    suggestions: str
+    suggestions: str = Field(..., max_length=1000)
 
 
 class ReadStatusRequest(BaseModel):
-    status: str  # 'reading' | 'read'
+    status: str = Field(..., max_length=20)  # 'reading' | 'read'
     read_count: int = 0
     total_count: int = 0
 
@@ -75,6 +75,56 @@ def compute_article_params(body: ArticleParamsRequest, student_id: int = Depends
     return svc.calculate_article_params(student_id, body.override or {})
 
 
+# ===== Reading Record (must be before /{article_id}) =====
+
+@router.get("/{article_id}/reading-record")
+def get_reading_record(article_id: int, student_id: int = Depends(get_current_student_id), db: Session = Depends(get_db)):
+    import json
+    from ...models import PlanDay, ComprehensionRecord
+
+    plan_day = db.query(PlanDay).filter(PlanDay.article_id == article_id).first()
+
+    lesson = None
+    main_question = None
+    if plan_day and plan_day.guide_text:
+        try:
+            data = json.loads(plan_day.guide_text)
+            if data.get("version") == "v2" and "lesson" in data:
+                lesson = data["lesson"]
+                main_question = lesson.get("main_question")
+            elif data.get("source") == "curiosity_seed":
+                main_question = data.get("seed_question")
+        except (json.JSONDecodeError, TypeError):
+            pass
+
+    records = db.query(ComprehensionRecord).filter(
+        ComprehensionRecord.article_id == article_id,
+        ComprehensionRecord.student_id == student_id,
+    ).order_by(ComprehensionRecord.created_at.asc()).all()
+
+    hint_map = {}
+    if lesson:
+        hint_map = {sq["question"]: sq.get("answer_hint") for sq in lesson.get("sub_questions", [])}
+
+    answers = []
+    for r in records:
+        answers.append({
+            "question_type": r.focus,
+            "question": r.question,
+            "child_answer": r.child_answer,
+            "answer_hint": hint_map.get(r.question),
+            "created_at": r.created_at.isoformat() if r.created_at else None,
+        })
+
+    return {
+        "article_id": article_id,
+        "main_question": main_question,
+        "lesson": lesson,
+        "answers": answers,
+        "has_record": bool(lesson or answers),
+    }
+
+
 @router.get("/{article_id}")
 def get_article(article_id: int, student_id: int = Depends(get_current_student_id), svc: ArticleService = Depends(_get_service)):
     return svc.get_article(article_id, student_id)
@@ -83,27 +133,24 @@ def get_article(article_id: int, student_id: int = Depends(get_current_student_i
 @router.post("/{article_id}/revise")
 def revise_article(article_id: int, body: ReviseRequest, student_id: int = Depends(get_current_student_id), svc: ArticleService = Depends(_get_service)):
     article = svc.get_article(article_id, student_id)
+    import asyncio
+    result = asyncio.run(Container.llm().generate(
+        f"根据以下建议修改这篇文章:\n\n原文:\n{article['content']}\n\n修改建议:\n{body.suggestions}",
+        system="你是儿童教育编辑。修改文章使其更适合儿童阅读。直接输出修改后的全文。",
+        temperature=0.5, max_tokens=1500,
+    ))
+    from ...models import DailyArticle
+    from ...database import SessionLocal
+    db = SessionLocal()
     try:
-        import asyncio
-        result = asyncio.run(Container.llm().generate(
-            f"根据以下建议修改这篇文章:\n\n原文:\n{article['content']}\n\n修改建议:\n{body.suggestions}",
-            system="你是儿童教育编辑。修改文章使其更适合儿童阅读。直接输出修改后的全文。",
-            temperature=0.5, max_tokens=1500,
-        ))
-        from ...models import DailyArticle
-        from ...database import SessionLocal
-        db = SessionLocal()
-        try:
-            a = db.query(DailyArticle).filter(DailyArticle.id == article_id).first()
-            if a:
-                a.content = result.content
-                a.character_count = len(result.content)
-                db.commit()
-        finally:
-            db.close()
-        return svc.get_article(article_id, student_id)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"修改失败: {str(e)}")
+        a = db.query(DailyArticle).filter(DailyArticle.id == article_id).first()
+        if a:
+            a.content = result.content
+            a.character_count = len(result.content)
+            db.commit()
+    finally:
+        db.close()
+    return svc.get_article(article_id, student_id)
 
 
 @router.delete("/{article_id}")

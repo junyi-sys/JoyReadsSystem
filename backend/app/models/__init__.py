@@ -6,6 +6,12 @@ from .curiosity import CuriosityEvent
 from .reading import ArticleReadStatus
 from .theory import Theory
 from .concept import AdvancedConcept
+from .plan import ReadingPlan, PlanDay
+from .seed import CuriositySeed
+from .knowledge import KnowledgeNode
+from .level_config import LevelConfig
+from .comprehension import ComprehensionRecord
+from .feature_flags import StudentFeatureFlags
 
 __all__ = [
     "Base", "TimestampMixin",
@@ -16,4 +22,10 @@ __all__ = [
     "ArticleReadStatus",
     "Theory",
     "AdvancedConcept",
+    "ReadingPlan", "PlanDay",
+    "CuriositySeed",
+    "KnowledgeNode",
+    "LevelConfig",
+    "ComprehensionRecord",
+    "StudentFeatureFlags",
 ]
