@@ -32,6 +32,7 @@ export const articlesApi = {
   computeParams: (override?: Record<string, number>) =>
     api.post('/articles/compute-params', { override: override || {} }),
   get: (id: number) => api.get(`/articles/${id}`),
+  readingRecord: (id: number) => api.get(`/articles/${id}/reading-record`),
   revise: (id: number, suggestions: string) => api.post(`/articles/${id}/revise`, { suggestions }),
   delete: (id: number) => api.delete(`/articles/${id}`),
   updateReadStatus: (id: number, body: { status: string; read_count: number; total_count: number }) =>
