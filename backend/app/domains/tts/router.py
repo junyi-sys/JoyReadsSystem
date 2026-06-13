@@ -15,6 +15,8 @@ class SynthesizeRequest(BaseModel):
 
 @router.post("/synthesize")
 async def synthesize(body: SynthesizeRequest):
+    if not body.text.strip():
+        raise HTTPException(status_code=400, detail="文本不能为空")
     try:
         svc = TTSService(Container.tts())
         audio = await svc.synthesize(body.text, body.speed)

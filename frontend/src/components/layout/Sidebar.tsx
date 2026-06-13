@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Menu, Typography, Progress, Tag } from 'antd'
-import { HomeOutlined, BulbOutlined, ReadOutlined, BookOutlined, BarChartOutlined } from '@ant-design/icons'
+import { HomeOutlined, BulbOutlined, ReadOutlined, BookOutlined, BarChartOutlined, SafetyOutlined } from '@ant-design/icons'
 import { useStudentStore } from '../../store/useStudentStore'
 import { studentsApi } from '../../services/api'
 
@@ -13,6 +13,7 @@ const items = [
   { key: '/articles', icon: <BookOutlined />, label: '文章' },
   { key: '/knowledge', icon: <BulbOutlined />, label: '知识图谱' },
   { key: '/stats', icon: <BarChartOutlined />, label: '统计' },
+  { key: '/parent', icon: <SafetyOutlined />, label: '家长' },
 ]
 
 const COGNITION_LABELS: Record<number, string> = {

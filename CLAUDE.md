@@ -277,7 +277,7 @@ curl -s http://localhost:8002/api/characters/zone/scout -H "X-Student-ID: 1"
 curl -s -X POST http://localhost:8002/api/characters/add \
   -H "X-Student-ID: 1" \
   -H "Content-Type: application/json" \
-  -d '{"character": "叶", "zone": "target"}'
+  -d '{"characters": "叶", "zone": "target"}'
 
 # 手动移动生字区域
 curl -s -X POST http://localhost:8002/api/characters/move \

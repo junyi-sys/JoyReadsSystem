@@ -80,7 +80,11 @@ def compute_article_params(body: ArticleParamsRequest, student_id: int = Depends
 @router.get("/{article_id}/reading-record")
 def get_reading_record(article_id: int, student_id: int = Depends(get_current_student_id), db: Session = Depends(get_db)):
     import json
-    from ...models import PlanDay, ComprehensionRecord
+    from ...models import PlanDay, ComprehensionRecord, DailyArticle
+
+    article = db.query(DailyArticle).filter(DailyArticle.id == article_id).first()
+    if not article:
+        raise HTTPException(status_code=404, detail="文章不存在")
 
     plan_day = db.query(PlanDay).filter(PlanDay.article_id == article_id).first()
 

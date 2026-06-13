@@ -23,6 +23,16 @@ class PlanService:
         return {"id": plan.id, "name": plan.name, "start_date": str(plan.start_date),
                 "end_date": str(plan.end_date), "week_count": plan.week_count}
 
+    @staticmethod
+    def _extract_main_question(lesson_json: str | None) -> str | None:
+        if not lesson_json:
+            return None
+        try:
+            import json
+            return json.loads(lesson_json).get("main_question")
+        except (json.JSONDecodeError, TypeError):
+            return None
+
     def get_current_plan(self, student_id: int) -> dict | None:
         plan = self.repo.get_current_plan(student_id)
         if not plan:
@@ -37,6 +47,8 @@ class PlanService:
                 "topic_category": d.topic_category, "focus": d.focus,
                 "article_id": d.article_id,
                 "guide_text": d.guide_text or "",
+                "seed_question": d.seed_question,
+                "main_question": self._extract_main_question(d.lesson_json),
                 "status": d.status,
             } for d in days],
         }
@@ -221,7 +233,7 @@ class PlanService:
         for ans in answers:
             record = ComprehensionRecord(
                 student_id=student_id, article_id=day.article_id,
-                plan_day_id=day.id, focus=ans.question_type,
+                plan_day_id=day.id, focus=day.focus or ans.question_type,
                 question=ans.question, correct_answer="",
                 child_answer=ans.child_answer, is_correct=ans.is_correct,
             )

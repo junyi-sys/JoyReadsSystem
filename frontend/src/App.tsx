@@ -8,6 +8,8 @@ import CharacterZonesPage from './pages/CharacterZonesPage'
 import StatsPage from './pages/StatsPage'
 import PlanPage from './pages/PlanPage'
 import ReadingSessionPage from './pages/ReadingSessionPage'
+import KnowledgeGraphPage from './pages/KnowledgeGraphPage'
+import ParentDashboardPage from './pages/ParentDashboardPage'
 import ReadingBuddy from './components/game/ReadingBuddy'
 
 export default function App() {
@@ -22,6 +24,8 @@ export default function App() {
           <Route path="/stats" element={<StatsPage />} />
           <Route path="/plan" element={<PlanPage />} />
           <Route path="/reading/:dayId" element={<ReadingSessionPage />} />
+          <Route path="/knowledge" element={<KnowledgeGraphPage />} />
+          <Route path="/parent" element={<ParentDashboardPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
         <Route path="/series/:seriesId" element={<SeriesReaderPage />} />
