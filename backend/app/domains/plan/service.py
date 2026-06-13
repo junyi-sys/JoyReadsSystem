@@ -28,6 +28,7 @@ class PlanService:
         if not plan:
             return None
         days = self.repo.get_plan_days(plan.id)
+        import json
         return {
             "id": plan.id, "name": plan.name, "status": plan.status,
             "start_date": str(plan.start_date), "end_date": str(plan.end_date),
@@ -37,6 +38,8 @@ class PlanService:
                 "topic_category": d.topic_category, "focus": d.focus,
                 "article_id": d.article_id,
                 "guide_text": d.guide_text or "",
+                "seed_question": d.seed_question,
+                "main_question": (json.loads(d.lesson_json).get("main_question") if d.lesson_json else None),
                 "status": d.status,
             } for d in days],
         }
@@ -221,7 +224,7 @@ class PlanService:
         for ans in answers:
             record = ComprehensionRecord(
                 student_id=student_id, article_id=day.article_id,
-                plan_day_id=day.id, focus=ans.question_type,
+                plan_day_id=day.id, focus=day.focus or ans.question_type,
                 question=ans.question, correct_answer="",
                 child_answer=ans.child_answer, is_correct=ans.is_correct,
             )
