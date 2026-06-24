@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { planApi, articlesApi } from '../services/api'
 import ArticleReader from '../components/reader/ArticleReader'
 import VoiceInputButton from '../components/ui/VoiceInputButton'
+import GuideDialogue from '../components/reader/GuideDialogue'
 import type { ArticleWithPinyin, LessonPlan } from '../types'
 
 const { Title, Paragraph, Text } = Typography
@@ -83,68 +84,15 @@ export default function ReadingSessionPage() {
         items={STAGE_LABELS.map(label => ({ title: label }))} />
 
       <AnimatePresence mode="wait">
-        {/* Stage 0: 导读 — 主问题 + 问题清单 */}
-        {step === 0 && lesson && (
+        {/* Stage 0: 导读 — 引导员语音对话 */}
+        {step === 0 && lesson && dayId && (
           <motion.div key="pre" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-            <Card style={{ borderRadius: 16, textAlign: 'left', padding: '24px' }}>
-              {/* 背景知识 */}
-              <div style={{ marginBottom: 24 }}>
-                <Text type="secondary" style={{ fontSize: 13 }}>📖 背景小知识</Text>
-                <Paragraph style={{ fontSize: 15, marginTop: 4, marginBottom: 0 }}>
-                  {lesson.pre_reading.background}
-                </Paragraph>
-              </div>
-
-              {/* 主问题 */}
-              <div style={{
-                padding: '20px 24px', marginBottom: 24,
-                background: 'linear-gradient(135deg, #FFF7E6, #FFF1CC)',
-                borderRadius: 12, border: '2px solid #FFD666'
-              }}>
-                <Text type="secondary" style={{ fontSize: 12 }}>🎯 今天要回答的问题</Text>
-                <Title level={4} style={{ margin: '8px 0 0 0', color: '#AD6800' }}>
-                  {lesson.main_question}
-                </Title>
-              </div>
-
-              {/* 子问题清单 */}
-              <div style={{ marginBottom: 24 }}>
-                <Text type="secondary" style={{ fontSize: 13 }}>
-                  📋 读完文章后，你要回答下面 {lesson.sub_questions.length + 1} 个问题：
-                </Text>
-                <div style={{ marginTop: 12, display: 'flex', flexDirection: 'column', gap: 10 }}>
-                  {lesson.sub_questions.map((sq, i) => (
-                    <Card key={i} size="small" style={{
-                      borderRadius: 8, background: '#FAFAFA', border: '1px solid #F0F0F0'
-                    }}>
-                      <Space>
-                        <Tag color={QUESTION_COLORS[sq.type]} style={{ marginRight: 4 }}>
-                          {QUESTION_ICONS[sq.type]} {sq.label}
-                        </Tag>
-                        <Text style={{ fontSize: 14 }}>{sq.question}</Text>
-                      </Space>
-                    </Card>
-                  ))}
-                  <Card size="small" style={{
-                    borderRadius: 8, background: '#FFF7E6', border: '1px solid #FFD666'
-                  }}>
-                    <Space>
-                      <Tag color="gold">🏆 主问题</Tag>
-                      <Text strong style={{ fontSize: 14 }}>{lesson.main_question}</Text>
-                    </Space>
-                  </Card>
-                </div>
-              </div>
-
-              {/* Hook */}
-              <Paragraph style={{ fontSize: 15, marginBottom: 24, color: '#666', textAlign: 'center' }}>
-                {lesson.pre_reading.hook}
-              </Paragraph>
-
-              <div style={{ textAlign: 'center' }}>
-                <Button type="primary" size="large" onClick={() => setStep(1)}
-                  style={{ borderRadius: 16 }}>我准备好了，开始读！</Button>
-              </div>
+            <Card style={{ borderRadius: 16, padding: '8px 4px' }}>
+              <GuideDialogue
+                dayId={Number(dayId)}
+                onComplete={() => setStep(1)}
+                onSkip={() => setStep(1)}
+              />
             </Card>
           </motion.div>
         )}
