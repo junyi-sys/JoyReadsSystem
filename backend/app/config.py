@@ -86,9 +86,7 @@ class Settings(BaseSettings):
 
     @property
     def CORS_ORIGINS(self) -> list[str]:
-        if self.APP_ENV == "production":
-            return ["http://localhost:3001", "http://localhost:8001"]
-        return ["http://localhost:3002", "http://localhost:8002"]
+        return ["*"]
 
     model_config = {
         "env_file": (f".env.{_APP_ENV}", ".env"),
