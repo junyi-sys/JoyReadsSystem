@@ -24,13 +24,13 @@ class CompleteDayBody(BaseModel):
 class DialogueTurnRequest(BaseModel):
     point_index: int = Field(..., ge=0)
     round_in_point: int = Field(..., ge=1, le=3)
-    child_text: str = Field("", max_length=1000)
+    child_text: str = Field("", max_length=200)
     talking_points: list[str] = Field(..., min_length=1, max_length=10)
 
 
 @router.post("/days/{day_id}/dialogue/start")
-def start_dialogue(day_id: int, student_id: int = Depends(get_current_student_id),
-                   db: Session = Depends(get_db)):
+async def start_dialogue(day_id: int, student_id: int = Depends(get_current_student_id),
+                         db: Session = Depends(get_db)):
     """Start the pre-reading dialogue. Returns talking points and first TTS text."""
     svc = PlanService(db)
     day = svc.repo.get_plan_day(day_id)
@@ -51,7 +51,7 @@ def start_dialogue(day_id: int, student_id: int = Depends(get_current_student_id
 
     from .dialogue import DialogueEngine
     engine = DialogueEngine(lesson, cognition)
-    points = engine.generate_talking_points()
+    points = await engine.generate_talking_points()
 
     first_tts = points[0] if points else "准备好了吗？我们来读一个有趣的故事！"
 
@@ -77,9 +77,9 @@ def start_dialogue(day_id: int, student_id: int = Depends(get_current_student_id
 
 
 @router.post("/days/{day_id}/dialogue/turn")
-def dialogue_turn(day_id: int, body: DialogueTurnRequest,
-                  student_id: int = Depends(get_current_student_id),
-                  db: Session = Depends(get_db)):
+async def dialogue_turn(day_id: int, body: DialogueTurnRequest,
+                        student_id: int = Depends(get_current_student_id),
+                        db: Session = Depends(get_db)):
     """Process a single dialogue turn. Returns guide's response."""
     svc = PlanService(db)
     day = svc.repo.get_plan_day(day_id)
@@ -99,7 +99,7 @@ def dialogue_turn(day_id: int, body: DialogueTurnRequest,
 
     from .dialogue import DialogueEngine
     engine = DialogueEngine(lesson, cognition)
-    result = engine.process_turn(
+    result = await engine.process_turn(
         body.point_index, body.round_in_point,
         body.child_text, body.talking_points,
     )
@@ -114,7 +114,7 @@ def dialogue_turn(day_id: int, body: DialogueTurnRequest,
         focus="dialogue_turn",
         question=current_point[:200],
         correct_answer="",
-        child_answer=body.child_text[:500],
+        child_answer=body.child_text[:200],
     )
     db.add(record)
     db.commit()

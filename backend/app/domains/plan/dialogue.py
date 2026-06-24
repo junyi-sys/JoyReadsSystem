@@ -1,5 +1,4 @@
 """导读对话引擎 — LLM-driven dialogue for pre-reading guide stage."""
-import asyncio
 import json
 import logging
 
@@ -75,7 +74,7 @@ class DialogueEngine:
         self.main_question = lesson_json.get("main_question", "")
         self.cognition_level = cognition_level
 
-    def generate_talking_points(self) -> list[str]:
+    async def generate_talking_points(self) -> list[str]:
         """Extract 2-4 talking points from pre_reading content using LLM."""
         from ...di import Container
 
@@ -91,9 +90,9 @@ class DialogueEngine:
             background=background, hook=hook, main_question=main_q,
         )
         try:
-            result = asyncio.run(llm.generate(
+            result = await llm.generate(
                 prompt, system=DIALOGUE_SYSTEM_PROMPT, temperature=0.7, max_tokens=500,
-            ))
+            )
             content = result.content.strip()
             if content.startswith("```json"):
                 content = content[7:]
@@ -114,7 +113,7 @@ class DialogueEngine:
                 points.append(f"你觉得：{main_q}")
             return points or ["准备好了吗？"]
 
-    def process_turn(
+    async def process_turn(
         self, point_index: int, round_in_point: int,
         child_text: str, talking_points: list[str],
     ) -> dict:
@@ -138,9 +137,9 @@ class DialogueEngine:
 
         llm = Container.llm()
         try:
-            result = asyncio.run(llm.generate(
+            result = await llm.generate(
                 prompt, system=DIALOGUE_SYSTEM_PROMPT, temperature=0.7, max_tokens=400,
-            ))
+            )
             content = result.content.strip()
             if content.startswith("```json"):
                 content = content[7:]
@@ -149,12 +148,17 @@ class DialogueEngine:
             if content.endswith("```"):
                 content = content[:-3]
             data = json.loads(content.strip())
+            is_last = point_index >= len(talking_points) - 1
+            next_point = data.get("next_point", True)
+            done = data.get("done", False)
+            if is_last and next_point:
+                done = True
             return {
-                "tts_text": data.get("tts_text", "有意思！我们接着往下看。"),
+                "tts_text": data.get("tts_text", "我们来看看故事里是怎么说的吧！" if done else "有意思！我们接着往下看。"),
                 "feedback_type": data.get("feedback_type", "encourage"),
                 "choices": data.get("choices"),
-                "next_point": data.get("next_point", True),
-                "done": data.get("done", False),
+                "next_point": next_point,
+                "done": done,
             }
         except Exception as e:
             logger.error(f"Dialogue turn failed: {e}")

@@ -27,6 +27,21 @@ export default function GuideDialogue({ dayId, onComplete, onSkip }: Props) {
   const { isListening, error: voiceError, start, stop, clearError } = useVoiceInput()
   const bottomRef = useRef<HTMLDivElement>(null)
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const blobUrlRef = useRef<string | null>(null)
+
+  // Cleanup audio on unmount
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause()
+        audioRef.current = null
+      }
+      if (blobUrlRef.current) {
+        URL.revokeObjectURL(blobUrlRef.current)
+        blobUrlRef.current = null
+      }
+    }
+  }, [])
 
   // Scroll to bottom when messages change
   useEffect(() => {
@@ -49,12 +64,15 @@ export default function GuideDialogue({ dayId, onComplete, onSkip }: Props) {
   const playTTS = useCallback(async (text: string) => {
     try {
       const { data } = await ttsApi.synthesize(text)
-      const blob = new Blob([data], { type: 'audio/mpeg' })
-      const url = URL.createObjectURL(blob)
+      const url = URL.createObjectURL(data)
+
+      if (blobUrlRef.current) {
+        URL.revokeObjectURL(blobUrlRef.current)
+      }
+      blobUrlRef.current = url
 
       if (audioRef.current) {
         audioRef.current.pause()
-        URL.revokeObjectURL(audioRef.current.src)
       }
 
       const audio = new Audio(url)
