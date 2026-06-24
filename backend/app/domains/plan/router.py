@@ -1,3 +1,4 @@
+import json
 from typing import List
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -18,6 +19,107 @@ class AnswerItem(BaseModel):
 
 class CompleteDayBody(BaseModel):
     answers: List[AnswerItem] = Field(..., min_length=1, max_length=10)
+
+
+class DialogueTurnRequest(BaseModel):
+    point_index: int = Field(..., ge=0)
+    round_in_point: int = Field(..., ge=1, le=3)
+    child_text: str = Field("", max_length=1000)
+    talking_points: list[str] = Field(..., min_length=1, max_length=10)
+
+
+@router.post("/days/{day_id}/dialogue/start")
+def start_dialogue(day_id: int, student_id: int = Depends(get_current_student_id),
+                   db: Session = Depends(get_db)):
+    """Start the pre-reading dialogue. Returns talking points and first TTS text."""
+    svc = PlanService(db)
+    day = svc.repo.get_plan_day(day_id)
+    if not day:
+        raise HTTPException(status_code=404, detail="PlanDay not found")
+    if not day.lesson_json:
+        raise HTTPException(status_code=400, detail="No lesson plan for this day")
+
+    try:
+        lesson = json.loads(day.lesson_json)
+    except (json.JSONDecodeError, TypeError):
+        raise HTTPException(status_code=400, detail="Invalid lesson JSON")
+
+    # Get student cognition level
+    from ...models import Student
+    student = db.query(Student).filter(Student.id == student_id).first()
+    cognition = student.cognition_level if student else 0
+
+    from .dialogue import DialogueEngine
+    engine = DialogueEngine(lesson, cognition)
+    points = engine.generate_talking_points()
+
+    first_tts = points[0] if points else "准备好了吗？我们来读一个有趣的故事！"
+
+    # Record dialogue start as a ComprehensionRecord
+    from ...models import ComprehensionRecord
+    record = ComprehensionRecord(
+        student_id=student_id,
+        article_id=day.article_id,
+        plan_day_id=day.id,
+        focus="dialogue_start",
+        question="导读对话开始",
+        correct_answer="",
+        child_answer=f"talking_points: {len(points)}",
+    )
+    db.add(record)
+    db.commit()
+
+    return {
+        "talking_points": points,
+        "first_tts": first_tts,
+        "total_points": len(points),
+    }
+
+
+@router.post("/days/{day_id}/dialogue/turn")
+def dialogue_turn(day_id: int, body: DialogueTurnRequest,
+                  student_id: int = Depends(get_current_student_id),
+                  db: Session = Depends(get_db)):
+    """Process a single dialogue turn. Returns guide's response."""
+    svc = PlanService(db)
+    day = svc.repo.get_plan_day(day_id)
+    if not day:
+        raise HTTPException(status_code=404, detail="PlanDay not found")
+    if not day.lesson_json:
+        raise HTTPException(status_code=400, detail="No lesson plan for this day")
+
+    try:
+        lesson = json.loads(day.lesson_json)
+    except (json.JSONDecodeError, TypeError):
+        raise HTTPException(status_code=400, detail="Invalid lesson JSON")
+
+    from ...models import Student
+    student = db.query(Student).filter(Student.id == student_id).first()
+    cognition = student.cognition_level if student else 0
+
+    from .dialogue import DialogueEngine
+    engine = DialogueEngine(lesson, cognition)
+    result = engine.process_turn(
+        body.point_index, body.round_in_point,
+        body.child_text, body.talking_points,
+    )
+
+    # Record the dialogue turn
+    from ...models import ComprehensionRecord
+    current_point = body.talking_points[body.point_index] if body.point_index < len(body.talking_points) else ""
+    record = ComprehensionRecord(
+        student_id=student_id,
+        article_id=day.article_id,
+        plan_day_id=day.id,
+        focus="dialogue_turn",
+        question=current_point[:200],
+        correct_answer="",
+        child_answer=body.child_text[:500],
+    )
+    db.add(record)
+    db.commit()
+
+    return result
 
 
 @router.post("/create")
