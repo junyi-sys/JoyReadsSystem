@@ -123,6 +123,10 @@ export const planApi = {
   startDay: (dayId: number) => api.post(`/plan/days/${dayId}/start`),
   completeDay: (dayId: number, body: { answers: { question_type: string; question: string; child_answer: string; is_correct: boolean }[] }) =>
     api.post(`/plan/days/${dayId}/complete`, body),
+  dialogueStart: (dayId: number) =>
+    api.post(`/plan/days/${dayId}/dialogue/start`),
+  dialogueTurn: (dayId: number, body: { point_index: number; round_in_point: number; child_text: string; talking_points: string[] }) =>
+    api.post(`/plan/days/${dayId}/dialogue/turn`, body),
 }
 
 // ===== Radar =====

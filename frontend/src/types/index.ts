@@ -268,3 +268,29 @@ export interface CompleteDayResponse {
   record_ids: number[]
   theory_id: number | null
 }
+
+export interface DialogueStartResponse {
+  talking_points: string[]
+  first_tts: string
+  total_points: number
+}
+
+export interface DialogueTurnRequest {
+  point_index: number
+  round_in_point: number
+  child_text: string
+  talking_points: string[]
+}
+
+export interface DialogueTurnResponse {
+  tts_text: string
+  feedback_type: 'encourage' | 'rephrase' | 'offer_choices' | 'move_on'
+  choices: string[] | null
+  next_point: boolean
+  done: boolean
+}
+
+export interface DialogueMessage {
+  role: 'guide' | 'child'
+  text: string
+}
