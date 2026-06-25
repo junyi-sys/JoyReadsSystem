@@ -25,7 +25,7 @@ bash "$SCRIPT_DIR/check-env.sh" production
 # 启动后端（APP_ENV 从当前 shell 继承到 Python 进程）
 echo "[start] 启动后端..."
 cd "$ROOT_DIR/backend"
-.venv/Scripts/python -m uvicorn app.main:app --host 0.0.0.0 --port 8001 &
+.venv/Scripts/python run.py &
 BEPID=$!
 echo "[start] 后端 PID=$BEPID"
 

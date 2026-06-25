@@ -25,7 +25,7 @@ bash "$SCRIPT_DIR/check-env.sh" development
 # 启动后端
 echo "[start] 启动后端..."
 cd "$ROOT_DIR/backend"
-.venv/Scripts/python -m uvicorn app.main:app --host 0.0.0.0 --port 8002 &
+.venv/Scripts/python run.py &
 BEPID=$!
 
 # 等待后端就绪
