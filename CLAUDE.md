@@ -6,6 +6,57 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 俊宜阅读 V2.0.0 — AI 驱动的儿童中文阅读应用。好奇心种子驱动的精读计划、主问题+子问题链探究式精读、生字四区管理、知识图谱、语音输入/输出。
 
+## 启动方式（重要：Windows 下优先用 .bat）
+
+```bash
+# 推荐：双击 .bat 文件（独立进程，自动重启，不会因终端关闭而崩溃）
+scripts/start-backend-prod.bat    # 正式后端 :8001
+scripts/start-backend-dev.bat     # 开发后端 :8002
+
+# 备选：bash 脚本（后端可能因 bash 会话退出而被杀）
+bash scripts/start-prod.sh
+bash scripts/start-dev.sh
+```
+
+前后端分离启动——`.bat` 启后端，前端单独 `npm run dev:prod` 或 `npm run dev`。
+**.sh 脚本目前漏掉 `run.py` 的稳定性参数**，优先用 `.bat`。
+
+## Windows 稳定性（必读）
+
+`run.py` 包含三个关键参数，直接 `python -m uvicorn` 会丢失：
+
+```python
+uvicorn.run("app.main:app", host="0.0.0.0", port=settings.APP_PORT,
+            http="h11", timeout_keep_alive=5, limit_concurrency=10)
+```
+
+- `http="h11"` — 避免 httptools C 扩展在 Windows 下并发崩溃
+- `limit_concurrency=10` — 防止线程池耗尽导致静默退出
+- `timeout_keep_alive=5` — 防止空闲连接堆积
+
+**不要删这些参数，不要裸调 `python -m uvicorn`。**
+
+### 其他稳定性修复
+
+- `middleware.py` — `get_current_student_id` 直接从 header 取值，不开 DB 会话（并发下双会话冲突导致崩溃）
+- `backend/app/ai/base.py` — LLM 调用在 async 端点中用 `await`，不要 `asyncio.run()`
+- CORS 设 `["*"]`，生产环境不使用 Vite proxy 转发 API（直连 `192.168.1.4:8001`）
+- `.bat` 文件含 auto-restart loop：Python 退出后 3 秒自动重启
+
+### 已知限制
+
+- **edge-tts 在中国大陆网络下不可用**（微软 Azure TTS 服务器被墙），`/api/tts/synthesize` 会超时
+- **Vite proxy 在 Windows 下并发请求会导致 uvicorn 退出**，换直连解决
+- **`asyncio.run()` 从同步端点调用 LLM 时，并发下会触发事件循环冲突**（部分 service 文件仍有此问题）
+
+## 验证工具
+
+```bash
+bash scripts/check-env.sh production   # 环境配置检查（CORS/端口/DB）
+bash scripts/smoke-test.sh production  # 10 个核心 API 冒烟测试（需后端已启动）
+bash scripts/install-hooks.sh          # 安装 pre-commit hook（提交前自动 check-env）
+```
+
 ## 常用命令
 
 ### 一键启动
@@ -454,18 +505,12 @@ curl -s http://localhost:8002/api/parent/students -H "X-Student-ID: 1"
 - edge-tts 需 ≥7.2.8 版本（旧版令牌过期导致 403）
 - STT 语音识别依赖本地 faster-whisper 模型和 ffmpeg（非 WAV 格式需 ffmpeg 转码为 16kHz 单声道 PCM）
 - 前端语音输入使用 MediaRecorder（非 Web Speech API，国内 Google 服务不可用）
-<<<<<<< Updated upstream
-=======
-- **数据库 schema 同步**：`Base.metadata.create_all()` 只增列不删列。修改 ORM 模型后如果 MySQL 表有孤儿列（如 `last_updated_at` vs `updated_at`），需要手动 `ALTER TABLE`。`theory` 表、`knowledge_node` 表曾因此导致 500
-- **STT `file.read()` 必须是 `await`**：`UploadFile.read()` 是 async，路由函数必须声明 `async def` 并 `await file.read()`，否则返回 coroutine 对象导致 500
-- **`file.size` 为 0 时**：Starlette `UploadFile.size` 可能为 0 或 None，0 字节文件走不到 guard 但会被 `< 100` 检查拦截返回空文本
-- **LLM JSON 解析容错**：`start_day` 用 LLM 生成教案 JSON，解析失败时自动回退到旧模式（简单文章+一道题）。不要假设 LLM 一定输出合法 JSON
-- **`asyncio.run()` 不能在已有事件循环中调用**：后端所有 LLM 调用都用 `asyncio.run()` 包装，只能在同步函数中使用
+- **数据库 schema 同步**：`Base.metadata.create_all()` 只增列不删列。修改 ORM 模型后如果 MySQL 表有孤儿列，需手动 `ALTER TABLE`
+- **LLM JSON 解析容错**：`start_day` 用 LLM 生成教案 JSON，解析失败时自动回退到旧模式
+- **`asyncio.run()` 不能在已有事件循环中调用**：同步函数中调用 LLM 时需注意，并发下会冲突
 
 ## Git 工作流
 
-- **禁止在 master/main 分支上直接修改代码或提交**
-- 新功能/修复必须先创建 feature 分支：`git checkout -b feature/xxx`
-- 如果发现自己在 master 上，立即停止并提醒用户切分支
-- 例外：用户明确说"这是紧急修复，直接在 master 上改"（需用户主动声明）
->>>>>>> Stashed changes
+- **两个分支**：master（正式）+ feature-dev（开发），不创建额外分支
+- **禁止在 master 直接提交**（pre-commit hook 会检查）
+- 实际使用中两个分支经常互相 cherry-pick
