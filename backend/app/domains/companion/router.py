@@ -87,5 +87,5 @@ def get_chat_history(
         "content": r.content,
         "emotion": r.emotion,
         "emotion_label": r.emotion_label,
-        "created_at": r.created_at.isoformat() if r.created_at else None,
+        "created_at": r.created_at.isoformat() if isinstance(r.created_at, datetime) else None,
     } for r in rows]

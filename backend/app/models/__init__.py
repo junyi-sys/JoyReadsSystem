@@ -12,6 +12,7 @@ from .knowledge import KnowledgeNode
 from .level_config import LevelConfig
 from .comprehension import ComprehensionRecord
 from .feature_flags import StudentFeatureFlags
+from .companion_chat import CompanionChat
 
 __all__ = [
     "Base", "TimestampMixin",
@@ -28,4 +29,5 @@ __all__ = [
     "LevelConfig",
     "ComprehensionRecord",
     "StudentFeatureFlags",
+    "CompanionChat",
 ]
