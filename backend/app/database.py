@@ -61,6 +61,15 @@ def sync_schema():
                     logger.error(f"[sync_schema] Failed to add {table_name}.{col.name}: {e}")
 
 
+def safe_commit(db: Session):
+    """Commit with error logging — avoids silent failures under concurrency."""
+    try:
+        db.commit()
+    except Exception:
+        db.rollback()
+        logger.exception("Database commit failed, rolled back")
+
+
 def init_db():
     """Create all tables + sync missing columns. Called on app startup."""
     from .models.base import Base

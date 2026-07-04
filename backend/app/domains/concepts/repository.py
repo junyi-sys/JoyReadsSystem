@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
-from app.models.advanced_concept import AdvancedConcept
-from app.shared.ensure_student import ensure_student
+from ...models import AdvancedConcept
+from ...shared.ensure_student import ensure_student
 
 
 class ConceptRepository:
