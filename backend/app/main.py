@@ -64,3 +64,7 @@ from .domains.radar.router import router as radar_router
 app.include_router(radar_router)
 from .domains.parent.router import router as parent_router
 app.include_router(parent_router)
+from .domains.companion.router import router as companion_router
+app.include_router(companion_router)
+from .domains.concepts.router import router as concepts_router
+app.include_router(concepts_router)

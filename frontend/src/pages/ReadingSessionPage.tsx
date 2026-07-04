@@ -7,6 +7,7 @@ import { planApi, articlesApi } from '../services/api'
 import ArticleReader from '../components/reader/ArticleReader'
 import VoiceInputButton from '../components/ui/VoiceInputButton'
 import GuideDialogue from '../components/reader/GuideDialogue'
+import CompanionFloat from '../components/companion/CompanionFloat'
 import type { ArticleWithPinyin, LessonPlan } from '../types'
 
 const { Title, Paragraph, Text } = Typography
@@ -338,6 +339,14 @@ export default function ReadingSessionPage() {
               style={{ borderRadius: 16, marginTop: 16 }}>返回计划</Button>
           </Card>
         </motion.div>
+      )}
+      {/* 小猪伴读 — 阅读和思考阶段出现 */}
+      {step >= 1 && step <= 3 && lesson && article && (
+        <CompanionFloat
+          articleId={article.id}
+          articleContext={lesson.main_question}
+          mainQuestion={lesson.main_question}
+        />
       )}
     </motion.div>
   )
