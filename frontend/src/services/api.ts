@@ -153,3 +153,31 @@ export const parentApi = {
   studentDetail: (studentId: number) => api.get(`/parent/students/${studentId}/detail`),
   verifyPin: (studentId: number, pin: string) => api.post('/parent/verify-pin', { student_id: studentId, pin }),
 }
+
+// ===== Companion =====
+export interface CompanionChatMessage {
+  role: 'child' | 'companion'
+  content: string
+  emotion?: string
+  emotion_label?: string
+}
+
+export interface CompanionChatResponse {
+  reply: string
+  emotion: string
+  emotion_label: string
+  confidence: number
+  keyword: string
+}
+
+export const companionApi = {
+  chat: (body: {
+    message: string
+    article_id: number
+    article_context?: string
+    main_question?: string
+    chat_history?: CompanionChatMessage[]
+  }) => api.post<CompanionChatResponse>('/companion/chat', body),
+  history: (articleId: number) =>
+    api.get(`/companion/history/${articleId}`),
+}
