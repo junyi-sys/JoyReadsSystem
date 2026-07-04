@@ -1,6 +1,7 @@
 import { useRef, useCallback, useEffect } from 'react'
 import { sttApi, ttsApi } from '../services/api'
 
+const hasNativeAudio = typeof (window as any).NativeAudio !== 'undefined'
 const SILENCE_TIMEOUT = 2000
 const MIN_RECORDING_TIME = 800
 const MAX_STT_RETRIES = 3
@@ -25,6 +26,58 @@ export function useCompanionVoice({ onTranscript, onTtsStop }: UseCompanionVoice
   const startRecordingRef = useRef<() => void>(() => {})
   const listeningRef = useRef(false)
   const setListeningRef = useRef<(v: boolean) => void>(() => {})
+  const nativeCallbackId = useRef(0)
+  const nativeStarted = useRef(false)
+  const nativeTimer = useRef<ReturnType<typeof setTimeout>>()
+
+  // ---- Native Android audio bridge ----
+  const processNativeBase64 = useCallback(async (b64: string) => {
+    const byteChars = atob(b64)
+    const byteNums = new Array(byteChars.length)
+    for (let i = 0; i < byteChars.length; i++) byteNums[i] = byteChars.charCodeAt(i)
+    const blob = new Blob([new Uint8Array(byteNums)], { type: 'audio/m4a' })
+    try {
+      const res = await sttApi.transcribe(blob, 'm4a')
+      const text = (res.data?.text || res.data?.transcript || '').trim()
+      if (text) {
+        sttRetryRef.current = 0
+        onTranscript(text)
+      } else {
+        processingRef.current = false
+        sttRetryRef.current += 1
+        if (!closedRef.current && sttRetryRef.current < MAX_STT_RETRIES) {
+          startRecordingRef.current()
+        }
+      }
+    } catch {
+      processingRef.current = false
+      if (!closedRef.current) {
+        sttRetryRef.current += 1
+        if (sttRetryRef.current < MAX_STT_RETRIES) startRecordingRef.current()
+      }
+    }
+  }, [onTranscript])
+
+  useEffect(() => {
+    if (!hasNativeAudio) return
+    const w = window as any
+    w._companionVoiceCallback = (id: string, type: string, payload: string) => {
+      if (id !== String(nativeCallbackId.current)) return
+      if (type === 'started') {
+        nativeStarted.current = true
+        setListeningRef.current(true)
+      } else if (type === 'data') {
+        setListeningRef.current(false)
+        nativeStarted.current = false
+        processNativeBase64(payload)
+      } else if (type === 'error') {
+        setListeningRef.current(false)
+        nativeStarted.current = false
+        processingRef.current = false
+      }
+    }
+    return () => { delete w._companionVoiceCallback }
+  }, [processNativeBase64])
 
   const stopSilenceDetection = useCallback(() => {
     if (silenceTimerRef.current) {
@@ -79,6 +132,20 @@ export function useCompanionVoice({ onTranscript, onTtsStop }: UseCompanionVoice
 
   const startRecording = useCallback(async () => {
     if (processingRef.current || closedRef.current) return
+
+    // Native Android path
+    if (hasNativeAudio) {
+      nativeCallbackId.current = Date.now()
+      ;(window as any).NativeAudio.startRecord(String(nativeCallbackId.current))
+      nativeTimer.current = setTimeout(() => {
+        if (nativeStarted.current) {
+          ;(window as any).NativeAudio.stopRecord()
+        }
+      }, 15000)
+      return
+    }
+
+    // Web MediaRecorder path
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       streamRef.current = stream
@@ -177,6 +244,11 @@ export function useCompanionVoice({ onTranscript, onTtsStop }: UseCompanionVoice
   }, [onTtsStop])
 
   const stopRecording = useCallback(() => {
+    clearTimeout(nativeTimer.current)
+    if (hasNativeAudio) {
+      ;(window as any).NativeAudio.stopRecord()
+      return
+    }
     stopSilenceDetection()
     if (mediaRef.current && mediaRef.current.state === 'recording') {
       mediaRef.current.onstop = null
@@ -191,6 +263,10 @@ export function useCompanionVoice({ onTranscript, onTtsStop }: UseCompanionVoice
 
   const cleanup = useCallback(() => {
     closedRef.current = true
+    clearTimeout(nativeTimer.current)
+    if (hasNativeAudio && nativeStarted.current) {
+      ;(window as any).NativeAudio.stopRecord()
+    }
     if (silenceTimerRef.current) clearTimeout(silenceTimerRef.current)
     if (mediaRef.current && mediaRef.current.state === 'recording') {
       mediaRef.current.onstop = null
