@@ -29,6 +29,7 @@ export default function CompanionFloat({ articleId, articleContext, mainQuestion
   const [lastEmotion, setLastEmotion] = useState<string>('')
   const [listening, setListening] = useState(false)
   const [historyLoaded, setHistoryLoaded] = useState(false)
+  const [micFailed, setMicFailed] = useState(false)
   const endRef = useRef<HTMLDivElement>(null)
   const pendingRef = useRef<string | null>(null)
   const _msgCounter = useRef(0)
@@ -151,6 +152,12 @@ export default function CompanionFloat({ articleId, articleContext, mainQuestion
   useEffect(() => {
     if (open && historyLoaded && messages.length === 0 && !listening && !loading && !voice.processingRef.current) {
       voice.startRecording()
+      // If recording doesn't start within 1s, assume mic failed
+      setTimeout(() => {
+        if (!voice.listeningRef.current && !voice.processingRef.current) {
+          setMicFailed(true)
+        }
+      }, 1000)
     }
   }, [open, historyLoaded, messages.length, listening, loading, voice])
 
@@ -267,7 +274,7 @@ export default function CompanionFloat({ articleId, articleContext, mainQuestion
           }}>
             {messages.length === 0 && (
               <div style={{ textAlign: 'center', padding: '24px 0', color: '#bbb', fontSize: 13 }}>
-                {listening ? '🎤 在听，说吧...' : '点小猪头就可以说话啦'}
+                {listening ? '🎤 在听，说吧...' : micFailed ? '💬 打字也可以和我聊天哦' : '点小猪头就可以说话啦'}
               </div>
             )}
             <ChatBubble messages={messages} onReplay={voice.playReplyVoice} />
