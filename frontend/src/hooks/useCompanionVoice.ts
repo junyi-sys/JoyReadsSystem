@@ -61,22 +61,28 @@ export function useCompanionVoice({ onTranscript, onTtsStop }: UseCompanionVoice
   useEffect(() => {
     if (!hasNativeAudio) return
     const w = window as any
-    w._companionVoiceCallback = (id: string, type: string, payload: string) => {
-      if (id !== String(nativeCallbackId.current)) return
-      if (type === 'started') {
-        nativeStarted.current = true
-        setListeningRef.current(true)
-      } else if (type === 'data') {
-        setListeningRef.current(false)
-        nativeStarted.current = false
-        processNativeBase64(payload)
-      } else if (type === 'error') {
-        setListeningRef.current(false)
-        nativeStarted.current = false
-        processingRef.current = false
+    const prev = w._nativeAudioCallback
+    w._nativeAudioCallback = (id: string, type: string, payload: string) => {
+      // Route to companion handler if callbackId matches
+      if (id === String(nativeCallbackId.current)) {
+        if (type === 'started') {
+          nativeStarted.current = true
+          setListeningRef.current(true)
+        } else if (type === 'data') {
+          setListeningRef.current(false)
+          nativeStarted.current = false
+          processNativeBase64(payload)
+        } else if (type === 'error') {
+          setListeningRef.current(false)
+          nativeStarted.current = false
+          processingRef.current = false
+        }
+        return
       }
+      // Forward to any previously registered handler (e.g. useVoiceInput)
+      if (prev) prev(id, type, payload)
     }
-    return () => { delete w._companionVoiceCallback }
+    return () => { w._nativeAudioCallback = prev }
   }, [processNativeBase64])
 
   const stopSilenceDetection = useCallback(() => {
